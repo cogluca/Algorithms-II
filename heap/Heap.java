@@ -22,7 +22,7 @@ public class Heap<T extends Comparable<T>> {
     }
 
     public void checkForExtensionOnArray() {
-        if (size == vector.length || size == 0) {
+        if (size == vector.length) {
 
             int newCapacity = vector.length * 2;
 
@@ -44,7 +44,7 @@ public class Heap<T extends Comparable<T>> {
     }
 
     public int getParentIndex(int index) {
-        return index / 2;
+        return (index) / 2;
     }
 
     public int getLeftChildIndex(int index) {
@@ -74,7 +74,10 @@ public class Heap<T extends Comparable<T>> {
 
         if (hasLeftChild(index)) {
             int smallestIndex = getLeftChildIndex(index);
-            if (returnLeftChildOfElement(index).compareTo(returnRightChildOfElement(index)) < 0)
+            T leftChild = returnLeftChildOfElement(index);
+            T rightChild = returnRightChildOfElement(index);
+            if (returnLeftChildOfElement(index).compareTo(returnRightChildOfElement(index)) > 0)
+
                 smallestIndex = getRightChildIndex(index);
 
             if (vector[index].compareTo(vector[smallestIndex]) > 0) {
@@ -94,27 +97,35 @@ public class Heap<T extends Comparable<T>> {
     }
 
     public void addElement(T element) {
+        checkForExtensionOnArray();
+        size++;
         if (size > 0) {
-            checkForExtensionOnArray();
             vector[size - 1] = element;
             heapifyUp(size - 1);
 
         } else {
-            checkForExtensionOnArray();
             vector[size] = element;
         }
-        size++;
+
     }
 
     public T extractMin() {
 
+
+
         T toReturnMin = vector[0];
+
         if (size > 0) {
             vector[0] = vector[size - 1];
         }//can throw exceptions with primitives like int
-        size--;
 
+
+        size--;
         heapifyDown(0);
+        for(T elem : this.vector) {
+            System.out.println(elem);
+        }
+        System.out.println(size);
 
         return toReturnMin;
     }
