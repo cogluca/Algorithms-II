@@ -111,8 +111,6 @@ public class Heap<T extends Comparable<T>> {
 
     public T extractMin() {
 
-
-
         T toReturnMin = vector[0];
 
         if (size > 0) {
@@ -122,10 +120,6 @@ public class Heap<T extends Comparable<T>> {
 
         size--;
         heapifyDown(0);
-        for(T elem : this.vector) {
-            System.out.println(elem);
-        }
-        System.out.println(size);
 
         return toReturnMin;
     }

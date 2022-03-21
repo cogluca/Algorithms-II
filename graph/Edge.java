@@ -1,6 +1,4 @@
-    package DjikstraOnGraph.datastructure;
-
-    public class Edge<T,L> {
+public class Edge<T,L> {
 
         private L label;
         private Node<T,L> firstNode;

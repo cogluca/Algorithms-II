@@ -1,6 +1,4 @@
-    package DjikstraOnGraph.datastructure;
-
-    import java.util.Comparator;
+import java.util.Comparator;
 
     public class Compare implements Comparator<Edge<String, Float>> {
 

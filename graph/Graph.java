@@ -1,4 +1,4 @@
-    package DjikstraOnGraph.datastructure;
+
 
     import java.util.ArrayList;
     import java.util.Collection;
@@ -6,7 +6,7 @@
 
     public class Graph <T,L> {
 
-        private HashMap<T,Node<T,L>> nodeMapping;
+        private HashMap<T, Node<T,L>> nodeMapping;
         private boolean isDirected;
 
 

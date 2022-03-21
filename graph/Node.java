@@ -1,6 +1,4 @@
-    package DjikstraOnGraph.datastructure;
-
-    import java.util.HashMap;
+import java.util.HashMap;
 
     public class Node<T,L> {
 
