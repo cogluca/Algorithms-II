@@ -1,3 +1,5 @@
+package datastructure;
+
 import org.junit.Before;
     import org.junit.Test;
 

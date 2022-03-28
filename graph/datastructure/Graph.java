@@ -1,6 +1,6 @@
+package datastructure;
 
-
-    import java.util.ArrayList;
+import java.util.ArrayList;
     import java.util.Collection;
     import java.util.HashMap;
 
@@ -23,7 +23,7 @@
 
         public void addNode(T aNode) throws Exception {
             if(aNode == null)
-                throw new Exception("Node doesn't exist");
+                throw new Exception("datastructure.Node doesn't exist");
             this.nodeMapping.putIfAbsent(aNode, new Node<>(aNode));
         }
 
@@ -149,7 +149,7 @@
 
         /**
          * Retrieves all the nodes composing a graph
-         * @return retrieves a Collection of class Node representing the graph-composing nodes
+         * @return retrieves a Collection of class datastructure.Node representing the graph-composing nodes
          */
         public Collection<Node<T,L>> getNodes() {
 

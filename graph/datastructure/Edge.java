@@ -1,3 +1,5 @@
+package datastructure;
+
 public class Edge<T,L> {
 
         private L label;

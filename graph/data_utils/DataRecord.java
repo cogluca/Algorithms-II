@@ -1,4 +1,4 @@
-    package KruskalOnGraph.utils;
+    package data_utils;
 
     public class DataRecord {
         private String cityFrom;

@@ -1,3 +1,5 @@
+package datastructure;
+
 import java.util.Comparator;
 
     public class Compare implements Comparator<Edge<String, Float>> {

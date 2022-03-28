@@ -184,16 +184,16 @@ Si implementi quindi una libreria che realizza la struttura dati `skip_list`. L'
 #define MAX_HEIGHT ....
 
 typedef struct _SkipList SkipList;
-typedef struct _Node Node;
+typedef struct _Node datastructure.Node;
 
 struct _SkipList {
-  Node *head;
+  datastructure.Node *head;
   unsigned int max_level;
   int (*compare)(void*, void*);
 };
 
 struct _Node {
-  Node **next;
+  datastructure.Node **next;
   unsigned int size;
   void *item;
 };
