@@ -153,6 +153,7 @@ static int precedes_record_float_field(void* r1_p, void* r2_p){
 Option parse_options(int argc, char const*argv[]){
     if(argc < 4 || argc > 5){
         printf("Usage: missing element for the execution of the program");
+        return(EXIT_FAILURE);
     }else{
         Option programOption;
         programOption.path = argv[2];
@@ -173,6 +174,7 @@ Option parse_options(int argc, char const*argv[]){
             programOption.fun = (func)precedes_record_float_field;
         }else{
              printf("Usage: Parameters Error");
+             return(EXIT_FAILURE);
         }
         programOption.algo = !strcmp(argv[3], "-1") ? -1 : -2;
 
