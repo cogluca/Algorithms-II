@@ -1,8 +1,10 @@
 
 
 import datastructure.Edge;
+import datastructure.Node;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -124,6 +126,25 @@ public class Heap<T extends Comparable<T>> {
         heapifyDown(0);
 
         return toReturnMin;
+    }
+
+
+    public void diminishElementValue(T element, Object value ) {
+
+        //switch enorme con casistiche di Node, Edge, Integer, Float, Double e per i tipi compositi sottocasi in cui il valore da estrarre
+        //serve al rilassamento della frontiera
+
+
+
+        if(element.getClass() == Node.class) {
+            if(value.getClass() == Integer.class) {
+
+            }
+
+        }
+
+
+
     }
 
 

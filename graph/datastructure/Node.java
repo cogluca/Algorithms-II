@@ -6,10 +6,12 @@ import java.util.HashMap;
 
         private T value;
         private HashMap<Node<T,L>, Edge<T,L>> edgeReference;
+        private Integer distance;
 
         public Node(T value) {
             this.value = value;
             this.edgeReference = new HashMap<>();
+            distance = Integer.MAX_VALUE;
         }
 
         public T getValue() {

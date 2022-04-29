@@ -13,7 +13,7 @@ public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>> {
 
 
 
-    public Graph<T,L> dijkstraAlgorithm(Graph<T,L> graphBeingAnalyzed, T entryCity) {
+    public Graph<T,L> dijkstraAlgorithm(Graph<T,L> graphBeingAnalyzed, T entryCity) throws Exception {
 
         //load the graph
         //starting point is Torino, find Torino
@@ -22,6 +22,7 @@ public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>> {
         //organize the heap
         //extract the shortest
         //rerun the process
+        //missing the frontier relaxation
         //how do the queue updates work ? When do I remove an element from the queue, for the insertion sure as hell I insert the frontier from the graph that I'm at
         //I need a removal from heap when a similar lest costly path has been taken from another node, to avoid cyclical paths
 
@@ -39,6 +40,11 @@ public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>> {
         }
 
         Edge<T,L> minPath = heapSupport.extractMin();
+
+        toReturnGraph.addNode(minPath.getSecondNode().getValue());
+        toReturnGraph.addEdge(entryPoint.getValue(), minPath.getSecondNode().getValue(),minPath.getLabel());
+
+
 
         
 
