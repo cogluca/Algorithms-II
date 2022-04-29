@@ -1,19 +1,29 @@
+
+
+import datastructure.Edge;
+
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Heap<T extends Comparable<T>> {
 
-    private T[] vector;
+    //ho bisogno di una Heap che sia di tipo Edge
+
+    private ArrayList<T> vector;
     private int size;
 
-    public Heap(Class<T> heapElemType) {
+    public Heap() {
 
-        this.vector = (T[]) Array.newInstance(heapElemType, 1);
+
+        this.vector = new ArrayList<>(1);
+        int lenght = vector.size();
+
         this.size = 0;
 
     }
 
-    public T[] getVector() {
+    public ArrayList<T> getVector() {
         return vector;
     }
 
@@ -21,26 +31,17 @@ public class Heap<T extends Comparable<T>> {
         return size;
     }
 
-    public void checkForExtensionOnArray() {
-        if (size == vector.length) {
-
-            int newCapacity = vector.length * 2;
-
-            this.vector = Arrays.copyOf(vector, newCapacity);
-
-        }
-    }
 
     public T returnParentOfElement(int index) {
-        return vector[index / 2];
+        return vector.get(index / 2);
     }
 
     public T returnLeftChildOfElement(int index) {
-        return vector[(index * 2) + 1];
+        return vector.get((index * 2)+1);
     }
 
     public T returnRightChildOfElement(int index) {
-        return vector[(index * 2) + 2];
+        return vector.get((index * 2)+2);
     }
 
     public int getParentIndex(int index) {
@@ -65,9 +66,9 @@ public class Heap<T extends Comparable<T>> {
 
 
     private void swapElements(int currentIndex, int targetIndex) {
-        T swap = vector[targetIndex];
-        vector[targetIndex] = vector[currentIndex];
-        vector[currentIndex] = swap;
+        T swap = vector.get(targetIndex);
+        vector.set(targetIndex, vector.get(currentIndex));
+        vector.set(currentIndex, swap);
     }
 
     public void heapifyDown(int index) {
@@ -80,7 +81,7 @@ public class Heap<T extends Comparable<T>> {
 
                 smallestIndex = getRightChildIndex(index);
 
-            if (vector[index].compareTo(vector[smallestIndex]) > 0) {
+            if (vector.get(index).compareTo(vector.get(smallestIndex)) > 0) {
                 swapElements(index, smallestIndex);
                 heapifyDown(smallestIndex);
             }
@@ -89,7 +90,7 @@ public class Heap<T extends Comparable<T>> {
 
     public void heapifyUp(int index) {
         if (index > 0) {
-            if (vector[index].compareTo(vector[getParentIndex(index)]) < 0) {
+            if (vector.get(index).compareTo(vector.get(getParentIndex(index))) < 0) {
                 swapElements(index, getParentIndex(index));
                 heapifyUp(getParentIndex(index));
             }
@@ -97,24 +98,25 @@ public class Heap<T extends Comparable<T>> {
     }
 
     public void addElement(T element) {
-        checkForExtensionOnArray();
-        size++;
-        if (size > 0) {
-            vector[size - 1] = element;
+
+
+        if (size > 1) {
+            vector.add(element);
             heapifyUp(size - 1);
 
         } else {
-            vector[size] = element;
+            vector.add(element);
         }
+        size++;
 
     }
 
     public T extractMin() {
 
-        T toReturnMin = vector[0];
+        T toReturnMin = vector.get(0);
 
         if (size > 0) {
-            vector[0] = vector[size - 1];
+            vector.set(0, vector.get(size-1));
         }//can throw exceptions with primitives like int
 
 

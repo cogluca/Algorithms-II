@@ -15,7 +15,7 @@ public class HeapTest {
     @Before
     public void initialize() {
 
-        toTestHeap = new Heap<>(Integer.class);
+        toTestHeap = new Heap<>();
         element1 = 5;
         element2 = 3;
         element3 = 8;

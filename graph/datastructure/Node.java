@@ -2,7 +2,7 @@ package datastructure;
 
 import java.util.HashMap;
 
-    public class Node<T,L> {
+    public class Node<T,L extends Comparable<L>> {
 
         private T value;
         private HashMap<Node<T,L>, Edge<T,L>> edgeReference;
