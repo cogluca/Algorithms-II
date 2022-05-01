@@ -1,3 +1,4 @@
+import datastructure.Node;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,7 +9,7 @@ import static org.junit.Assert.*;
 public class HeapTest {
 
 
-    private Heap<Integer> toTestHeap;
+    private Heap<Integer, Integer> toTestHeap;
     private Integer element1, element2, element3, element4;
 
 
@@ -48,6 +49,36 @@ public class HeapTest {
         //Testing reordering
         Integer secondMin = toTestHeap.extractMin();
         assertEquals((Integer) 4, secondMin);
+
+
+
+
+
+    }
+
+    @Test
+    public void testDiminishingValue() {
+
+        Heap<Node<Integer, Integer>,Integer> particularHeapToTest = new Heap<>();
+        Node<Integer, Integer> nodeOne = new Node<>(5,Integer.class);
+        Node<Integer, Integer> nodeTwo = new Node<>(7,Integer.class);
+
+        Node<Integer, Integer> nodeThree = new Node<>(2,Integer.class);
+
+
+        particularHeapToTest.addElement(nodeOne);
+        particularHeapToTest.addElement(nodeTwo);
+        particularHeapToTest.addElement(nodeThree);
+
+        Integer toRetrieve = particularHeapToTest.getKeyMap().get(nodeTwo);
+
+        particularHeapToTest.diminishElementValue(particularHeapToTest.getVector().get(toRetrieve), (Integer)3,null);
+
+        Integer toRetrieve2 = particularHeapToTest.getKeyMap().get(nodeTwo);
+
+        Node<Integer, Integer> testedNode = particularHeapToTest.getVector().get(toRetrieve2);
+        System.out.println(testedNode.getIntegerDistance());
+        System.out.println(particularHeapToTest.getSize());
 
 
 

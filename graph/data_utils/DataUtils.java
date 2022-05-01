@@ -2,6 +2,7 @@ package data_utils;
 
 import data_utils.DataRecord;
 import datastructure.Graph;
+import datastructure.Node;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -58,9 +59,9 @@ public class DataUtils {
     }
 
 
-    public static Graph<String, Float> loadGraph(Collection<DataRecord> dataToLoad) throws Exception {
+    public static Graph<String,Float> loadGraph(Collection<DataRecord> dataToLoad) throws Exception {
 
-        Graph<String, Float> loadedGraph = new Graph<>(false);
+        Graph<String,Float> loadedGraph = new Graph<>(false, Float.class);
 
         for (DataRecord record : dataToLoad) {
 

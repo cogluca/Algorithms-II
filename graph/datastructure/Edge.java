@@ -1,6 +1,6 @@
 package datastructure;
 
-public class Edge<T, L extends Comparable<L>> implements Comparable<Edge<T, L>> {
+public class Edge<T extends Comparable<T>, L extends Comparable<L>> implements Comparable<Edge<T, L>> {
 
     private L label;
     private Node<T, L> firstNode;

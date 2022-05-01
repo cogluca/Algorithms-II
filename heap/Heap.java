@@ -7,19 +7,31 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
-public class Heap<T extends Comparable<T>> {
+
+//forse il riordinamento va fatto in base al valore "distanza" che il nodo assume e non il peso dell'arco, per avere il rilassamento della frontiera
+
+public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
+
+    //L è la stringa nome del Nodo, C è il valore della distanza
+
 
     //ho bisogno di una Heap che sia di tipo Edge
 
+    //l'ultima funzione impone il vincolo che il vettore sia una hashmap
+
     private ArrayList<T> vector;
     private int size;
+
+    private HashMap<T, Integer> keyMap;
 
     public Heap() {
 
 
         this.vector = new ArrayList<>(1);
         int lenght = vector.size();
+        keyMap = new HashMap<>();
 
         this.size = 0;
 
@@ -27,6 +39,10 @@ public class Heap<T extends Comparable<T>> {
 
     public ArrayList<T> getVector() {
         return vector;
+    }
+
+    public HashMap<T, Integer> getKeyMap() {
+        return keyMap;
     }
 
     public int getSize() {
@@ -39,11 +55,11 @@ public class Heap<T extends Comparable<T>> {
     }
 
     public T returnLeftChildOfElement(int index) {
-        return vector.get((index * 2)+1);
+        return vector.get((index * 2) + 1);
     }
 
     public T returnRightChildOfElement(int index) {
-        return vector.get((index * 2)+2);
+        return vector.get((index * 2) + 2);
     }
 
     public int getParentIndex(int index) {
@@ -71,6 +87,8 @@ public class Heap<T extends Comparable<T>> {
         T swap = vector.get(targetIndex);
         vector.set(targetIndex, vector.get(currentIndex));
         vector.set(currentIndex, swap);
+        keyMap.put(vector.get(currentIndex), currentIndex);
+        keyMap.put(vector.get(targetIndex), targetIndex);
     }
 
     public void heapifyDown(int index) {
@@ -88,6 +106,7 @@ public class Heap<T extends Comparable<T>> {
                 heapifyDown(smallestIndex);
             }
         }
+        //cosa metto alle
     }
 
     public void heapifyUp(int index) {
@@ -102,14 +121,20 @@ public class Heap<T extends Comparable<T>> {
     public void addElement(T element) {
 
 
-        if (size > 1) {
+        if (size >= 1) {
             vector.add(element);
+            size++;
+            keyMap.put(vector.get(size - 1), size - 1);
             heapifyUp(size - 1);
+
+
 
         } else {
             vector.add(element);
+            keyMap.put(vector.get(0), 0);
+            size++;
         }
-        size++;
+
 
     }
 
@@ -118,9 +143,10 @@ public class Heap<T extends Comparable<T>> {
         T toReturnMin = vector.get(0);
 
         if (size > 0) {
-            vector.set(0, vector.get(size-1));
-        }//can throw exceptions with primitives like int
+            vector.set(0, vector.get(size - 1));
+            keyMap.put(vector.get(0), 0);
 
+        }//can throw exceptions with primitives like int
 
         size--;
         heapifyDown(0);
@@ -129,20 +155,29 @@ public class Heap<T extends Comparable<T>> {
     }
 
 
-    public void diminishElementValue(T element, Object value ) {
+    public void diminishElementValue(Object element, Object complexElementValueToSubstitute, T valueToSubstituteForSimpleElement) {
 
         //switch enorme con casistiche di Node, Edge, Integer, Float, Double e per i tipi compositi sottocasi in cui il valore da estrarre
         //serve al rilassamento della frontiera
 
+        //theorically
+        //squash the search time by using the heap properties
 
+        //implementation difficulties
 
-        if(element.getClass() == Node.class) {
-            if(value.getClass() == Integer.class) {
+        int indexOfDecreasedElement = keyMap.get(element);
+        keyMap.remove(element);
 
-            }
+        if (element.getClass() == Node.class) {
+            Node<?, ?> elementToDecrease = ((Node<?, ?>) element).substituteValue(complexElementValueToSubstitute);
+            T elementRecasted = (T) elementToDecrease;
+            vector.set(indexOfDecreasedElement, elementRecasted);
 
+        } else {
+            vector.set(indexOfDecreasedElement, valueToSubstituteForSimpleElement);
         }
-
+        keyMap.put(vector.get(indexOfDecreasedElement), indexOfDecreasedElement);
+        heapifyDown(indexOfDecreasedElement);
 
 
     }

@@ -1,19 +1,17 @@
-import datastructure.Edge;
 import datastructure.Graph;
 import datastructure.Node;
 
 import java.util.Collection;
-import java.util.HashMap;
 
-public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>> {
+public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>, C extends Comparable<C>> {
 
 
-    private Heap<Edge<T,L>> heapSupport;
+    private Heap<Node<T,L>, L> heapSupport;
     private Graph<T, L> resultingGraph;
 
 
 
-    public Graph<T,L> dijkstraAlgorithm(Graph<T,L> graphBeingAnalyzed, T entryCity) throws Exception {
+    public Graph<T,L> dijkstraAlgorithm(Graph<T, L> graphBeingAnalyzed, T entryCity, Class distanceType) throws Exception {
 
         //load the graph
         //starting point is Torino, find Torino
@@ -26,24 +24,28 @@ public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>> {
         //how do the queue updates work ? When do I remove an element from the queue, for the insertion sure as hell I insert the frontier from the graph that I'm at
         //I need a removal from heap when a similar lest costly path has been taken from another node, to avoid cyclical paths
 
-        Graph<T,L> toReturnGraph = new Graph<>(true);
-        Collection<Edge<T,L>> edgesOfSingleNode;
+        Graph<T,L> toReturnGraph = new Graph<>(true, distanceType );
+        Collection<Node<T,L>> unexploredNodes;
         
         
         Node<T, L> entryPoint = graphBeingAnalyzed.getSpecificNode(entryCity);
-        edgesOfSingleNode = entryPoint.getEdgeReference().values();
+        unexploredNodes = graphBeingAnalyzed.getNodes();
+        unexploredNodes.remove(entryPoint);
 
         heapSupport = new Heap<>();
 
-        for(Edge<T,L> currentEdge: edgesOfSingleNode) {
+        for(Node<T,L> currentEdge: unexploredNodes) {
             heapSupport.addElement(currentEdge);
         }
 
-        Edge<T,L> minPath = heapSupport.extractMin();
+        Node<T,L> minPath = heapSupport.extractMin();
 
+        /*
         toReturnGraph.addNode(minPath.getSecondNode().getValue());
         toReturnGraph.addEdge(entryPoint.getValue(), minPath.getSecondNode().getValue(),minPath.getLabel());
 
+
+         */
 
 
         

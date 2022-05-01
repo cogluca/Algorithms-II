@@ -26,7 +26,7 @@ import org.junit.Before;
         @Test
         public void testEmpyGraph() {
 
-            toTestGraph = new Graph<>(false);
+            toTestGraph = new Graph<>(false, Double.class);
             assertEquals(toTestGraph.graphNodeSize(),0);
             assertEquals(toTestGraph.graphEdgeSize(), 0);
             assertEquals(toTestGraph.getNodes().size(), 0);
@@ -36,7 +36,7 @@ import org.junit.Before;
 
         @Test
         public void testFilledGraph() throws Exception {
-            toTestGraph = new Graph<>(true);
+            toTestGraph = new Graph<>(true, Double.class);
 
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
@@ -53,8 +53,8 @@ import org.junit.Before;
 
         @Test
         public void testIsDirected() {
-            toTestGraph = new Graph<>(true);
-            Graph<Integer,Double> anotherGraph = new Graph<>(false);
+            toTestGraph = new Graph<>(true, Double.class);
+            Graph<Integer,Double> anotherGraph = new Graph<>(false, Integer.class);
             assertTrue(toTestGraph.isDirected());
             assertFalse(anotherGraph.isDirected());
 
@@ -62,7 +62,7 @@ import org.junit.Before;
 
         @Test
         public void containsNode() throws Exception {
-            toTestGraph = new Graph<>(true);
+            toTestGraph = new Graph<>(true, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
 
@@ -75,7 +75,7 @@ import org.junit.Before;
         @Test
         public void containsEdge() throws Exception {
 
-            toTestGraph = new Graph<>(true);
+            toTestGraph = new Graph<>(true, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
             toTestGraph.addNode(element3);
@@ -91,7 +91,7 @@ import org.junit.Before;
         @Test
         public void deleteNode() throws Exception {
 
-            toTestGraph = new Graph<>(true);
+            toTestGraph = new Graph<>(true, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
 
@@ -107,7 +107,7 @@ import org.junit.Before;
         @Test
         public void deleteArc() throws Exception {
 
-            toTestGraph = new Graph<>(true);
+            toTestGraph = new Graph<>(true, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
             toTestGraph.addNode(element3);
@@ -125,7 +125,7 @@ import org.junit.Before;
         @Test
         public void nodeSize() throws Exception {
 
-            toTestGraph = new Graph<>(true);
+            toTestGraph = new Graph<>(true, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
             toTestGraph.addNode(element3);
@@ -136,7 +136,7 @@ import org.junit.Before;
         @Test
         public void edgeSize() throws Exception {
 
-            toTestGraph = new Graph<>(false);
+            toTestGraph = new Graph<>(false, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
             toTestGraph.addNode(element3);
@@ -150,7 +150,7 @@ import org.junit.Before;
         @Test
         public void getNodes() throws Exception {
 
-            toTestGraph = new Graph<>(true);
+            toTestGraph = new Graph<>(true, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
             toTestGraph.addNode(element3);
@@ -163,7 +163,7 @@ import org.junit.Before;
         @Test
         public void getEdges() throws Exception {
 
-            toTestGraph = new Graph<>(true);
+            toTestGraph = new Graph<>(true, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
             toTestGraph.addNode(element3);
@@ -177,7 +177,7 @@ import org.junit.Before;
         @Test
         public void adjacentNodes() throws Exception {
 
-            toTestGraph = new Graph<>(false);
+            toTestGraph = new Graph<>(false, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
             toTestGraph.addNode(element3);
@@ -190,7 +190,7 @@ import org.junit.Before;
         @Test
         public void getLabelOfEdge() throws Exception {
 
-            toTestGraph = new Graph<>(false);
+            toTestGraph = new Graph<>(false, Double.class);
             toTestGraph.addNode(element1);
             toTestGraph.addNode(element2);
             toTestGraph.addNode(element3);

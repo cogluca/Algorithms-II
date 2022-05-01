@@ -5,16 +5,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class Graph<T, L extends Comparable<L>> {
+public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
 
     private HashMap<T, Node<T, L>> nodeMapping;
     private boolean isDirected;
+    Class distanceTypeOfGraph;
 
-
-    public Graph(boolean directed) {
+    public Graph(boolean directed, Class distanceType) {
 
         this.nodeMapping = new HashMap<>();
         this.isDirected = directed;
+        distanceTypeOfGraph = distanceType;
 
     }
 
@@ -25,7 +26,7 @@ public class Graph<T, L extends Comparable<L>> {
     public void addNode(T aNode) throws Exception {
         if (aNode == null)
             throw new Exception("datastructure.Node doesn't exist");
-        this.nodeMapping.putIfAbsent(aNode, new Node<>(aNode));
+        this.nodeMapping.putIfAbsent(aNode, new Node<>(aNode, distanceTypeOfGraph   ));
     }
 
     /**
