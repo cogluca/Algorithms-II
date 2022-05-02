@@ -27,7 +27,8 @@ static int precedes_record_id_field(void* r1_p, void* r2_p){
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->id_field < rec2_p->id_field){
-        printf("prova.30.sono arrivato, id1=%d, id2=%d\n", rec1_p->id_field, rec2_p->id_field);
+        return(2);
+    }else if(rec1_p->id_field > rec1_p->id_field){
         return(1);
     }
     return(0);
@@ -45,6 +46,8 @@ static int precedes_record_float_field(void* r1_p, void* r2_p){
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*) r2_p;
     if(rec1_p->float_field < rec2_p->float_field){
+        return(2);
+    }else if(rec1_p->float_field > rec2_p->float_field){
         return(1);
     }
     return(0);
@@ -62,6 +65,8 @@ static int precedes_record_integer_field(void* r1_p, void* r2_p){
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->integer_field < rec2_p->integer_field){
+        return(2);
+    }else if(rec1_p->integer_field > rec2_p->integer_field){
         return(1);
     }
     return(0);
@@ -94,7 +99,8 @@ static int precedes_record_string_field(void* r1_p, void* r2_p){
     char *strlow2 = redstr(rec2_p->string_field);
 
     if(strcmp(strlow1, strlow2) < 0){
-        printf("prova.97.sono dentro l'if del cmp con le stringhe %s, %s\n", strlow1, strlow2);
+        return(2);
+    }else if(strcmp(strlow1, strlow2) > 0){
         return(1);
     }
     return(0);
@@ -194,8 +200,8 @@ int main(){
                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
             }
 
-    quick_sort(array, 0, ar_elem-1, *precedes_record_id_field);
-
+    //quick_sort(array, 0, ar_elem-1, *precedes_record_id_field);
+    insert_sort(array, ar_elem, precedes_record_id_field);
     printf("\nelementi ordinati per id\n");
             for(char i = 0; i < ar_elem; i++){
                 r = array[i];
@@ -207,7 +213,8 @@ int main(){
                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
             }
 
-    quick_sort(array, 0, ar_elem-1, *precedes_record_string_field);
+    //quick_sort(array, 0, ar_elem-1, *precedes_record_string_field);
+    insert_sort(array, ar_elem, precedes_record_string_field);
     printf("\nelementi ordinati per string\n");
             for(char i = 0; i < ar_elem; i++){
                 r = array[i];
@@ -219,7 +226,8 @@ int main(){
                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
             }
 
-    quick_sort(array, 0, ar_elem-1, *precedes_record_integer_field);
+    //quick_sort(array, 0, ar_elem-1, *precedes_record_integer_field);
+    insert_sort(array, ar_elem, precedes_record_integer_field);
     printf("\nelementi ordinati per int\n");
             for(char i = 0; i < ar_elem; i++){
                 r = array[i];
@@ -231,7 +239,8 @@ int main(){
                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
             }
 
-    quick_sort(array, 0, ar_elem-1, *precedes_record_float_field);
+    //quick_sort(array, 0, ar_elem-1, *precedes_record_float_field);
+    insert_sort(array, ar_elem, precedes_record_float_field);
     printf("\nelementi ordinati per float\n");
             for(char i = 0; i < ar_elem; i++){
                 r = array[i];

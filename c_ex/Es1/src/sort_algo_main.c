@@ -31,16 +31,18 @@ int ar_elem = 0;
  */
 static int precedes_record_id_field(void* r1_p, void* r2_p){
     if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_id_field: the first parameter is a null pointer");
+        fprintf(stderr, "precedes_record_id_field: the first parameter is a null pointer\n");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_id_field: the second parameter is a null pointer");
+        fprintf(stderr, "precedes_record_id_field: the second parameter is a null pointer\n");
         exit(EXIT_FAILURE);
     }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->id_field < rec2_p->id_field){
+        return(2);
+    }else if(rec1_p->id_field > rec1_p->id_field){
         return(1);
     }
     return(0);
@@ -80,6 +82,8 @@ static int precedes_record_string_field_lower(void* r1_p, void* r2_p){
     char *strlow2 = redstr(rec2_p->string_field);
 
     if(strcmp(strlow1, strlow2) < 0){
+        return(2);
+    }else if(strcmp(strlow1, strlow2) > 0){
         return(1);
     }
     return(0);
@@ -97,6 +101,8 @@ static int precedes_record_string_field(void* r1_p, void* r2_p){
     Record *rec2_p = (Record*)r2_p;
 
     if(strcmp(rec1_p->string_field, rec2_p->string_field) < 0){
+        return(2);
+    }else if(strcmp(rec1_p->string_field, rec2_p->string_field) > 0){
         return(1);
     }
     return(0);
@@ -121,6 +127,8 @@ static int precedes_record_integer_field(void* r1_p, void* r2_p){
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->integer_field < rec2_p->integer_field){
+        return(2);
+    }else if(rec1_p->integer_field > rec2_p->integer_field){
         return(1);
     }
     return(0);
@@ -145,6 +153,8 @@ static int precedes_record_float_field(void* r1_p, void* r2_p){
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*) r2_p;
     if(rec1_p->float_field < rec2_p->float_field){
+        return(2);
+    }else if(rec1_p->float_field > rec2_p->float_field){
         return(1);
     }
     return(0);
@@ -180,8 +190,12 @@ Option parse_options(int argc, char const*argv[]){
     }
 }
 
-static void free_memory(void* array){
-    free(array);
+static void free_memory(void** array){
+    for(int i = 0; i < ar_elem; i++){
+        Record *rec_p = (Record *) array[i];
+        free(rec_p->string_field);
+    }
+    free(array);    
 }
 
 static void **load_array(const char* file_name){
@@ -206,23 +220,9 @@ static void **load_array(const char* file_name){
 
     while(fgets(buffer,buf_size,fp) != NULL){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
         
-        if(ar_size <= ar_elem){ // check sulla grandezza dell'array dinamico
-            
-            printf("\nelementi nell'array fino a questo punto\n");
-            for(char i = 0; i < ar_elem; i++){
-                Record* r_p = (Record *)array[i];
-                
-                printf("\nrecord[%d]: { \
-                        id = %d\
-                        string = %s\
-                        int = %d\
-                        float = %f\n",
-                        i, r_p->id_field, r_p->string_field, r_p->integer_field, r_p->float_field);
-            }
-            
+        if(ar_size <= ar_elem){ // check sulla grandezza dell'array dinamico          
             ar_size *= 2;
             array = (void **)realloc(array, sizeof(void*) * ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
-
         }
 
         read_line_p = malloc((strlen(buffer)+1)*sizeof(char));
@@ -269,6 +269,8 @@ static void test_with_quicksort_function(Option opt){
     //opt.algo == -1 ? quick_sort(array, 0, ar_elem-1, opt.fun) : binary_insertion_sort(array, 0, ar_elem-1, opt.fun);
     quick_sort(array, 0, ar_elem-1, opt.fun);
     clock_t end = clock();
+
+    free_memory(array);
     
     fprintf(stdout,"Program succesfully ended\n array sorted in: %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 }

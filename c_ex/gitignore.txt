@@ -1,3 +1,0 @@
-/Quick_Binary_Sort/build/*.*
-/Quick_Binary_Sort/bin/*.*
-/Quick_Binary_Sort/src/unity.*
