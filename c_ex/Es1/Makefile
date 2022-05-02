@@ -11,7 +11,7 @@ clean:
 	$(RM) -rf bin/*
 	$(RM) -rf build/*
 
-bin/prova: src/prova.c src/sort_library.o
+bin/prova: src/prova.c build/sort_library.o
 	$(CC) -o bin/prova src/prova.c src/sort_library.c
 
 build/sort_library.o: src/sort_library.c 
