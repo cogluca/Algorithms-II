@@ -1,6 +1,7 @@
 package datastructure;
 
-import java.util.HashMap;
+import java.util.*;
+
 
 /**
  * Node class that defines a node in a graph
@@ -14,12 +15,23 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
     private T value;
     private HashMap<Node<T, L>, Edge<T, L>> edgeReference;
 
+    private List<Node<T,L>> shortestPath;
+
+
     Class distanceTypeOfNode;
     Integer integerDistance;
     Double doubleDistance;
     Float floatDistance;
 
-    public Node(T value, Class<L> distanceType) {
+
+    public enum ComparisonType{
+        DISTANCE,
+        VALUE
+    }
+
+    ComparisonType comparisonType;
+
+    public Node(T value, Class<L> distanceType, ComparisonType definedComparisonType) {
         this.value = value;
         this.edgeReference = new HashMap<>();
         if (distanceType == Integer.class) {
@@ -34,7 +46,28 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
             doubleDistance = Double.MAX_VALUE;
             distanceTypeOfNode = Float.class;
         }
+
+        comparisonType = definedComparisonType;
+        shortestPath = new ArrayList<>();
     }
+
+    public void setDistance (Object distance) throws Exception {
+        if(distance.getClass() == Integer.class) {
+            integerDistance = (Integer) distance;
+        }
+        if(distance.getClass() == Double.class) {
+            doubleDistance = (Double) distance;
+        }
+        if(distance.getClass() == Float.class) {
+            floatDistance = (Float) distance;
+        }
+        else{
+            throw new Exception("Sorry distance type isn't included");
+        }
+
+    }
+
+
 
     public T getValue() {
         return value;
@@ -57,15 +90,23 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
     }
 
 
+
     @Override
     public int compareTo(Node<T, L> o) {
-        if (distanceTypeOfNode == Integer.class) {
-            return integerDistance.compareTo(o.integerDistance);
+
+        if(comparisonType == ComparisonType.DISTANCE) {
+
+            if (distanceTypeOfNode == Integer.class) {
+                return integerDistance.compareTo(o.integerDistance);
+            }
+            if (distanceTypeOfNode == Float.class) {
+                return floatDistance.compareTo(o.floatDistance);
+            } else {
+                return doubleDistance.compareTo(o.doubleDistance);
+            }
         }
-        if (distanceTypeOfNode == Float.class) {
-            return floatDistance.compareTo(o.floatDistance);
-        } else {
-            return doubleDistance.compareTo(o.doubleDistance);
+        else {
+            return value.compareTo(o.value);
         }
     }
 
@@ -84,6 +125,17 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
         return this;
 
 
+    }
+
+    public void pruneConnections(Edge<T,L> toPreserveEdge) {
+
+        for(Map.Entry<Node<T,L>,Edge<T,L>> possiblyToPruneConnection: edgeReference.entrySet()) {
+
+            if(!possiblyToPruneConnection.equals(toPreserveEdge)){
+                edgeReference.remove(possiblyToPruneConnection.getKey());
+            }
+
+        }
     }
 
 }

@@ -1,7 +1,8 @@
+import datastructure.Edge;
 import datastructure.Graph;
 import datastructure.Node;
 
-import java.util.Collection;
+import java.util.*;
 
 public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>, C extends Comparable<C>> {
 
@@ -11,7 +12,7 @@ public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>, C extends
 
 
 
-    public Graph<T,L> dijkstraAlgorithm(Graph<T, L> graphBeingAnalyzed, T entryCity, Class distanceType) throws Exception {
+    public Graph<String,Float> dijkstraAlgorithm(Graph<String, Float> graphBeingAnalyzed, String entryCity, Class distanceType) throws Exception {
 
         //load the graph
         //starting point is Torino, find Torino
@@ -24,52 +25,50 @@ public class Dijkstra<T extends Comparable<T>,L extends Comparable<L>, C extends
         //how do the queue updates work ? When do I remove an element from the queue, for the insertion sure as hell I insert the frontier from the graph that I'm at
         //I need a removal from heap when a similar lest costly path has been taken from another node, to avoid cyclical paths
 
-        Graph<T,L> toReturnGraph = new Graph<>(true, distanceType );
-        Collection<Node<T,L>> unexploredNodes;
-        
-        
-        Node<T, L> entryPoint = graphBeingAnalyzed.getSpecificNode(entryCity);
-        unexploredNodes = graphBeingAnalyzed.getNodes();
-        unexploredNodes.remove(entryPoint);
+        Graph<String, Float> toReturnGraph = new Graph<>(false, distanceType, Node.ComparisonType.DISTANCE);
 
-        heapSupport = new Heap<>();
+        Heap<Node<String, Float>, L> unexploredNodes = new Heap<>();
+        List<Node<String, Float>> exploredNodes = new ArrayList<>();
+        Heap<Node<String,Float>,Float> frontierNodes = new Heap<>();
 
-        for(Node<T,L> currentEdge: unexploredNodes) {
-            heapSupport.addElement(currentEdge);
+
+        Node<String, Float> entryPoint = graphBeingAnalyzed.getSpecificNode(entryCity);
+        entryPoint.setDistance((Float.valueOf(0)));
+
+
+        unexploredNodes.addElement(entryPoint);
+
+
+        while (unexploredNodes.getSize() > 0) {
+
+            Node<String, Float> toExploreNode = unexploredNodes.extractMin();
+            HashMap<Node<String, Float>, Edge<String, Float>> connectionsOfNodeExplored = toExploreNode.getEdgeReference();
+
+            //calculate distances
+            for (Map.Entry<Node<String, Float>, Edge<String, Float>> singleFrontierReference : connectionsOfNodeExplored.entrySet()) {
+                Node<String,Float> frontierNode = singleFrontierReference.getKey();
+                Edge<String,Float> connectingEdge = singleFrontierReference.getValue();
+
+                if(!exploredNodes.contains(frontierNode)) {
+                    if (frontierNode.getFloatDistance() > toExploreNode.getFloatDistance() + connectingEdge.getLabel()) {
+                        frontierNode.setDistance(toExploreNode.getFloatDistance() + connectingEdge.getLabel());
+                        unexploredNodes.addElement(frontierNode);
+                    }
+                }
+
+            }
+            exploredNodes.add(toExploreNode);
+
+
+            toReturnGraph.addNode(toExploreNode.getValue());
+
         }
 
-        Node<T,L> minPath = heapSupport.extractMin();
 
-        /*
-        toReturnGraph.addNode(minPath.getSecondNode().getValue());
-        toReturnGraph.addEdge(entryPoint.getValue(), minPath.getSecondNode().getValue(),minPath.getLabel());
-
-
-         */
-
-
-        
-
-        
-        
         return toReturnGraph;
-
-
-
-
-
     }
 
 
-
-
-
-    public static void runDijkstra() {
-
-
-
-
-    }
 
 
 }

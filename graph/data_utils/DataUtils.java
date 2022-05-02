@@ -61,7 +61,9 @@ public class DataUtils {
 
     public static Graph<String,Float> loadGraph(Collection<DataRecord> dataToLoad) throws Exception {
 
-        Graph<String,Float> loadedGraph = new Graph<>(false, Float.class);
+        Node.ComparisonType comparisonType = Node.ComparisonType.DISTANCE;
+
+        Graph<String,Float> loadedGraph = new Graph<>(false, Float.class, comparisonType);
 
         for (DataRecord record : dataToLoad) {
 

@@ -26,12 +26,21 @@ public class DijkstraEntrypoint {
         beginnerCity = scanner.nextLine();
 
 
+
+
         Dijkstra<String,Float,?> dijkstra = new Dijkstra<>();
 
         try {
             dataFromFile = DataUtils.loadData(filename);
             graphFromData = DataUtils.loadGraph(dataFromFile);
+
+            System.out.println(graphFromData.graphNodeSize());
+
             returnedForest = dijkstra.dijkstraAlgorithm(graphFromData,beginnerCity, Float.class);
+
+            System.out.println(returnedForest.graphNodeSize());
+
+            //System.out.println(returnedForest.getSpecificNode("catania").getFloatDistance());
 
         }catch (Exception e){
             System.out.println(e.getMessage());

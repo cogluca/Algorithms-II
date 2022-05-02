@@ -1,9 +1,8 @@
 package datastructure;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
+import datastructure.Node;
 
 public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
 
@@ -11,11 +10,14 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
     private boolean isDirected;
     Class distanceTypeOfGraph;
 
-    public Graph(boolean directed, Class distanceType) {
+    Node.ComparisonType comparisonType;
+
+    public Graph(boolean directed, Class distanceType, Node.ComparisonType nodeComparisonType) {
 
         this.nodeMapping = new HashMap<>();
         this.isDirected = directed;
         distanceTypeOfGraph = distanceType;
+        comparisonType = nodeComparisonType;
 
     }
 
@@ -23,10 +25,10 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
         return nodeMapping;
     }
 
-    public void addNode(T aNode) throws Exception {
-        if (aNode == null)
+    public void addNode(T aNodeValue) throws Exception {
+        if (aNodeValue == null)
             throw new Exception("datastructure.Node doesn't exist");
-        this.nodeMapping.putIfAbsent(aNode, new Node<>(aNode, distanceTypeOfGraph   ));
+        this.nodeMapping.putIfAbsent(aNodeValue, new Node<>(aNodeValue, distanceTypeOfGraph, comparisonType));
     }
 
     /**
@@ -215,8 +217,33 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
     }
 
     public Node<T, L> getSpecificNode(T value) {
+        Node<T,L> stringNode = nodeMapping.get(value);
+        System.out.println(stringNode);
         return nodeMapping.get(value);
+
     }
 
+
+    public Graph<T,L> pruneUnexistingConnections(Collection<Edge<T,L>> toPreserveEdges) {
+
+        for(Map.Entry<T,Node<T,L>> node: nodeMapping.entrySet()) {
+
+            for(Map.Entry<Node<T,L>,Edge<T,L>> iteratedEdge: node.getValue().getEdgeReference().entrySet()) {
+
+                for(Edge<T,L> maybeContained: toPreserveEdges) {
+                    if (!iteratedEdge.getValue().equals(maybeContained)){
+                        node.getValue().getEdgeReference().remove(iteratedEdge.getKey());
+                    }
+                }
+
+            }
+
+        }
+
+
+        return this;
+
+
+    }
 
 }
