@@ -1,0 +1,14 @@
+*.csv
+laboratorio-algoritmi-2021-2022/*.csv
+laboratorio-algoritmi-2021-2022/*.docx
+laboratorio-algoritmi-2021-2022/*.pdf
+
+#Progetto C
+../C_resource/unity*
+./bin/*
+./build/*.o
+
+
+#Progetto Java
+#OrderedArrayExample_Turno1/OrderedArray_Java/*.jar
+#OrderedArrayExample_Turno1/OrderedArray_Java/classes/
