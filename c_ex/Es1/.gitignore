@@ -4,9 +4,10 @@ laboratorio-algoritmi-2021-2022/*.docx
 laboratorio-algoritmi-2021-2022/*.pdf
 
 #Progetto C
-laboratorio-algoritmi-2021-2022/c_ex/C_resource/unity*
-laboratorio-algoritmi-2021-2022/c_ex/Es1/bin/
-laboratorio-algoritmi-2021-2022/c_ex/Es1/build/*.o
+../C_resource/unity*
+./bin/*
+./build/*.o
+
 
 #Progetto Java
 #OrderedArrayExample_Turno1/OrderedArray_Java/*.jar
