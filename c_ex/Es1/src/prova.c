@@ -4,7 +4,6 @@
 #include <ctype.h>
 #include "sort_library.h"
 
-//ciaone
 
 typedef struct{
     char id_field;
