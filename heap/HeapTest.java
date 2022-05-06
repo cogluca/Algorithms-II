@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class HeapTest {
 
 
-    private Heap<Integer, Integer> toTestHeap;
+    private Heap<Integer> toTestHeap;
     private Integer element1, element2, element3, element4;
 
 
@@ -33,28 +33,53 @@ public class HeapTest {
         toTestHeap.addElement(1);
         toTestHeap.addElement(8);
         toTestHeap.addElement(4);
+        try {
+            Integer testMin = toTestHeap.extractMin();
+            assertEquals((Integer) 1, testMin);
 
-        Integer testMin = toTestHeap.extractMin();
-        assertEquals((Integer) 1, testMin);
-
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void testExtractMinReordering() {
 
         toTestHeap.addElement(5);
+        for (Integer intel : toTestHeap.getVector()) {
+            System.out.println("one" + intel);
+        }
         toTestHeap.addElement(1);
+        for (Integer intel : toTestHeap.getVector()) {
+            System.out.println("two" + intel);
+        }
         toTestHeap.addElement(8);
+        for (Integer intel : toTestHeap.getVector()) {
+            System.out.println("three" + intel);
+        }
         toTestHeap.addElement(4);
+        for (Integer intel : toTestHeap.getVector()) {
+            System.out.println("four" + intel);
+        }
 
 
+        try {
 
-        Integer testMin = toTestHeap.extractMin();
-        //Testing reordering
-        Integer secondMin = toTestHeap.extractMin();
-        assertEquals((Integer) 4, secondMin);
+            Integer testMin = toTestHeap.extractMin();
+            for (Integer intel : toTestHeap.getVector()) {
+                System.out.println("first extraction" + intel);
+            }
+            //Testing reordering
+            Integer secondMin = toTestHeap.extractMin();
+            assertEquals((Integer) 4, secondMin);
 
 
+            for (Integer intel : toTestHeap.getVector()) {
+                System.out.println(intel);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         /*
         Heap<Node<Integer, Integer>,Integer> particularHeapToTest = new Heap<>();
         Node<Integer, Integer> nodeOne = new Node<>(5,Integer.class);
@@ -82,14 +107,12 @@ public class HeapTest {
     @Test
     public void testDiminishingValue() {
 
-        Heap<Node<Integer, Integer>,Integer> particularHeapToTest = new Heap<>();
-        Node<Integer, Integer> nodeOne = new Node<>(5,Integer.class, Node.ComparisonType.VALUE);
-        Node<Integer, Integer> nodeTwo = new Node<>(7,Integer.class, Node.ComparisonType.VALUE);
-        Node<Integer, Integer> nodeThree = new Node<>(2,Integer.class, Node.ComparisonType.VALUE);
-        Node<Integer, Integer> nodeFour = new Node<>(6,Integer.class, Node.ComparisonType.VALUE);
-        Node<Integer, Integer> nodeFive = new Node<>(4,Integer.class, Node.ComparisonType.VALUE);
-
-
+        Heap<Node<Integer, Integer>> particularHeapToTest = new Heap<>();
+        Node<Integer, Integer> nodeOne = new Node<>(5, Integer.class, Node.ComparisonType.VALUE);
+        Node<Integer, Integer> nodeTwo = new Node<>(7, Integer.class, Node.ComparisonType.VALUE);
+        Node<Integer, Integer> nodeThree = new Node<>(2, Integer.class, Node.ComparisonType.VALUE);
+        Node<Integer, Integer> nodeFour = new Node<>(6, Integer.class, Node.ComparisonType.VALUE);
+        Node<Integer, Integer> nodeFive = new Node<>(4, Integer.class, Node.ComparisonType.VALUE);
 
 
         particularHeapToTest.addElement(nodeOne);
@@ -101,23 +124,14 @@ public class HeapTest {
 
         Integer toRetrieve = particularHeapToTest.getKeyMap().get(nodeTwo);
 
-        particularHeapToTest.diminishElementValue(particularHeapToTest.getVector().get(toRetrieve), (Integer)3,null);
+        particularHeapToTest.diminishElementValue(particularHeapToTest.getVector().get(toRetrieve), (Integer) 3, null);
 
         Integer toRetrieve2 = particularHeapToTest.getKeyMap().get(nodeTwo);
 
         Node<Integer, Integer> testedNode = particularHeapToTest.getVector().get(toRetrieve2);
 
 
-
-
-
-
-        assertEquals(Optional.of(1), particularHeapToTest.getKeyMap().get(nodeTwo) );
-
-
-
-
-
+        assertEquals((Integer) 4, particularHeapToTest.getKeyMap().get(nodeTwo));
 
 
     }

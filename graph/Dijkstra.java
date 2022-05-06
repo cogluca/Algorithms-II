@@ -18,8 +18,6 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
      * @throws Exception
      */
 
-
-
     public Graph<String, Float> dijkstraAlgorithm(Graph<String, Float> graphBeingAnalyzed, String entryCity, Class distanceType) throws Exception {
 
         //load the graph
@@ -29,23 +27,19 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
         //organize the heap
         //extract the shortest
         //rerun the process
-        //missing the frontier relaxation
+        //frontier relaxation
         //how do the queue updates work ? When do I remove an element from the queue, for the insertion sure as hell I insert the frontier from the graph that I'm at
         //I need a removal from heap when a similar lest costly path has been taken from another node, to avoid cyclical paths
 
         Graph<String, Float> toReturnGraph = new Graph<>(false, distanceType, Node.ComparisonType.DISTANCE);
 
-        Heap<Node<String, Float>, Integer> unexploredNodes = new Heap<>();
+        Heap<Node<String, Float>> unexploredNodes = new Heap<>();
         List<Node<String, Float>> exploredNodes = new ArrayList<>();
-        Heap<Node<String, Float>, Float> frontierNodes = new Heap<>();
-
-        HashMap<Node<String, Float>, Node<String, Float>> father = new HashMap<>();
-
 
         Node<String, Float> entryPoint = graphBeingAnalyzed.getSpecificNode(entryCity);
         entryPoint.setDistance((Float.valueOf(0)));
 
-
+        //Filling up the queue
         for (Node<String, Float> node : graphBeingAnalyzed.getNodes()) {
             if (!node.equals(entryPoint)) {
                 unexploredNodes.addElement(node);
@@ -55,20 +49,14 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
         Node<String, Float> frontierChange = null ;
         Node<String, Float> updateEdgeNode = null;
         Edge<String,Float> updateEdge = null;
-
-        father.put(entryPoint, entryPoint);
-
-        ArrayList<Node<String, Float>> repetitionNode = new ArrayList<>();
+        Node<String, Float> toExploreNode = null;
 
         unexploredNodes.addElement(entryPoint);
 
         System.out.println("total nodes at beginning of analysis are " + graphBeingAnalyzed.getNodes().size());
 
-        //Filling up the queue
-
+        //main part, iteration over Priority Queue elements
         while (unexploredNodes.getSize() > 0) {
-
-
 
             for(Node<String,Float> node: unexploredNodes.getVector()){
 
@@ -77,21 +65,14 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
                     node.getEdgeReference().put(updateEdgeNode, updateEdge);
                 }
 
-
             }
 
-
-            Node<String, Float> toExploreNode = unexploredNodes.extractMin();
-
+            toExploreNode = unexploredNodes.extractMin();
 
             //supposedly all nodes extracted from the unexplored node should be a "frontier node" that previously has been relaxed
 
             HashMap<Node<String, Float>, Edge<String, Float>> connectionsOfNodeExplored = toExploreNode.getEdgeReference();
             ArrayList<HashMap<Node<String, Float>, Edge<String, Float>>> listOfEdges;
-
-
-
-
             //calculate distances PROBLEM IS HERE in this internal loop up until now it all works decently, by that I mean there are high numbers in each variable.
             for (Map.Entry<Node<String, Float>, Edge<String, Float>> singleFrontierReference : connectionsOfNodeExplored.entrySet()) {
                 Node<String, Float> frontierNode = singleFrontierReference.getKey();
@@ -107,22 +88,14 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
                     frontierChange = frontierNode;
                     frontierNode.setDistance(toExploreNode.getFloatDistance() + connectingEdge.getLabel());
                     //graphBeingAnalyzed.updateDistance(frontierNode); //i update all the references to that frontier node with the newfound value
-                    unexploredNodes.removeAndChangeElement(frontierChange, frontierNode);
+                    unexploredNodes.substituteElement(frontierChange, frontierNode);
 
                     updateEdgeNode = frontierNode;
                     updateEdge = connectingEdge;
-
-
-
-
-
-                    //unexploredNodes.diminishElementValue(frontierNode, toExploreNode.getFloatDistance() + connectingEdge.getLabel(), frontierNode);
-                    father.put(frontierNode, toExploreNode);
                 }
 
             }
             exploredNodes.add(toExploreNode);
-
 
             try {
                 toReturnGraph.addSpecificNode(toExploreNode);

@@ -1,4 +1,4 @@
-# Dijkstra algorithm applied on a directed graph
+# Dijkstra algorithm applied on a nondirected graph
 
 ## Generalities
 This exercises revolves around finding the shortest path from a specific location to the other 

@@ -1,16 +1,13 @@
 
 
-import datastructure.Edge;
 import datastructure.Node;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.util.*;
 
 
 //forse il riordinamento va fatto in base al valore "distanza" che il nodo assume e non il peso dell'arco, per avere il rilassamento della frontiera
 
-public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
+public class Heap<T extends Comparable<? super T>> {
 
     //L è la stringa nome del Nodo, C è il valore della distanza
 
@@ -22,11 +19,10 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
     private ArrayList<T> vector;
     private int size;
 
-    private HashMap<T,Integer> keyMap;
+    private HashMap<T, Integer> keyMap;
 
 
-
-    Map.Entry<Integer, Integer> compareTo = new AbstractMap.SimpleEntry<Integer,Integer>(5, 5);
+    Map.Entry<Integer, Integer> compareTo = new AbstractMap.SimpleEntry<Integer, Integer>(5, 5);
 
     /*
         Constructor
@@ -45,6 +41,7 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * Returns concrete data type of heap
+     *
      * @return
      */
     public ArrayList<T> getVector() {
@@ -53,9 +50,10 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * returns reference hashmap with indexing
+     *
      * @return
      */
-    public HashMap<T,Integer>  getKeyMap() {
+    public HashMap<T, Integer> getKeyMap() {
         return keyMap;
     }
 
@@ -66,14 +64,17 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * Returns parent of element at index
+     *
      * @param index index of element in consideration
      * @return returns parent of element in consideration
      */
     public T returnParentOfElement(int index) {
         return vector.get(index / 2);
     }
+
     /**
      * returns left child of a given element
+     *
      * @param index index of element in considerations
      * @return returns left child
      */
@@ -84,6 +85,7 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * returns right child of a given element
+     *
      * @param index index of element in considerations
      * @return returns right child
      */
@@ -93,6 +95,7 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * Returns parent of element at index
+     *
      * @param index index of element in consideration
      * @return returns parent of element in consideration
      */
@@ -102,6 +105,7 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * returns left child of a given element
+     *
      * @param index index of element in considerations
      * @return returns left child
      */
@@ -111,6 +115,7 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * returns right child of a given element
+     *
      * @param index index of element in considerations
      * @return returns right child
      */
@@ -120,27 +125,30 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * Checks if an element has a right child
+     *
      * @param index index of element in considerations
      * @return true or false based on existence of right child
      */
     public boolean hasRightChild(int index) {
-        return (index * 2) + 2 < size - 1;
+        return (index * 2) + 2 <= size - 1;
     }
 
     /**
      * Checks if an element has a left child
+     *
      * @param index index of element in considerations
      * @return true or false based on existence of left child
      */
     public boolean hasLeftChild(int index) {
-        return (index * 2) + 1 < size - 1;
+        return (index * 2) + 1 <= size - 1;
     }
 
 
     /**
      * Simple method to swap two elements and sign on the key map their updated positions and values
+     *
      * @param currentIndex index of current element to be swapped
-     * @param targetIndex index of desired position that the element at currentIndex has to reach
+     * @param targetIndex  index of desired position that the element at currentIndex has to reach
      */
     private void swapElements(int currentIndex, int targetIndex) {
         T swap = vector.get(targetIndex);
@@ -152,6 +160,7 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * Once the minimum gets extracted the procedure puts on top the last element from left to right of the last level at the root and then reorganizes it with this method by dragging down
+     *
      * @param index index of the element to be dragged down
      */
     private void heapifyDown(int index) {
@@ -161,9 +170,9 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
             T leftChild = returnLeftChildOfElement(index);
             T rightChild = returnRightChildOfElement(index);
             if (returnLeftChildOfElement(index).compareTo(returnRightChildOfElement(index)) > 0)
-
-                smallestIndex = getRightChildIndex(index);
-
+                if (hasRightChild(index)) {
+                    smallestIndex = getRightChildIndex(index);
+                }
             if (vector.get(index).compareTo(vector.get(smallestIndex)) > 0) {
                 swapElements(index, smallestIndex);
                 heapifyDown(smallestIndex);
@@ -174,6 +183,7 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * Procedure to organize the heap when an element gets added, it basically drags the element upwards until no parent is smaller than him (we're in a Min Heap)
+     *
      * @param index index of element to be dragged up
      */
     private void heapifyUp(int index) {
@@ -187,6 +197,7 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     /**
      * Adds an element to the Heap and reorganizes it in logn time
+     *
      * @param element
      */
     public void addElement(T element) {
@@ -208,45 +219,58 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
     }
 
 
-    public void removeAndChangeElement(T element, T changeElement) {
+    public void substituteElement(T element, T changeElement) {
 
         int indexOfRemoval = keyMap.get(element);
+        keyMap.remove(element);
         vector.set(indexOfRemoval, changeElement);
-        if(returnParentOfElement(indexOfRemoval).compareTo(changeElement)>0){
+        keyMap.put(changeElement, indexOfRemoval);
+        if (returnParentOfElement(indexOfRemoval).compareTo(changeElement) > 0) {
             heapifyUp(indexOfRemoval);
-        }
-        else if (returnParentOfElement(indexOfRemoval).compareTo(changeElement)<0)
+        } else if (returnParentOfElement(indexOfRemoval).compareTo(changeElement) < 0)
             heapifyDown(indexOfRemoval);
 
     }
 
     /**
      * extracts the minimum element from the heap, base on first position and reorganizes the heap in logn time
+     *
      * @return returns the minimum of the entire queues
      */
-    public T extractMin() {
+    public T extractMin() throws Exception {
 
-        T toReturnMin = vector.get(0);
+        T toReturnMin = null;
+
 
         if (size > 0) {
+            toReturnMin = vector.get(0);
+
             vector.set(0, vector.get(size - 1));
+
+            keyMap.remove(vector.get(size - 1));
             keyMap.put(vector.get(0), 0);
 
+            size--;
+
+            heapifyDown(0);
+            return toReturnMin;
         }//can throw exceptions with primitives like int
+        else
+            throw new Exception("Heap is empty");
 
-        size--;
-        heapifyDown(0);
 
-        return toReturnMin;
     }
 
     /**
      * Diminishes either value of an element or the associated cost and reorganizes based on logn time
-     * @param element chosen element to be substituted
-     * @param complexElementValueToSubstitute used in case of simple types to substitute value
+     *
+     * @param element                           chosen element to be substituted
+     * @param complexElementValueToSubstitute   used in case of simple types to substitute value
      * @param valueToSubstituteForSimpleElement used in case of complex types to substitute value
      */
 
+
+    //NOT NECESSARY THERE IS THE OTHER ONE UP, BUT KEEP FOR SECURITY
     public void diminishElementValue(Object element, Object complexElementValueToSubstitute, T valueToSubstituteForSimpleElement) {
 
         //switch enorme con casistiche di Node, Edge, Integer, Float, Double e per i tipi compositi sottocasi in cui il valore da estrarre
@@ -269,13 +293,13 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
             vector.set(indexOfDecreasedElement, valueToSubstituteForSimpleElement);
         }
         keyMap.put(vector.get(indexOfDecreasedElement), indexOfDecreasedElement);
-        if(returnParentOfElement(indexOfDecreasedElement).compareTo(vector.get(indexOfDecreasedElement)) > 0 ){
+        if (returnParentOfElement(indexOfDecreasedElement).compareTo(vector.get(indexOfDecreasedElement)) > 0) {
             heapifyUp(indexOfDecreasedElement);
+        } else if (hasLeftChild(indexOfDecreasedElement)) {
+            if (returnLeftChildOfElement(indexOfDecreasedElement).compareTo(vector.get(indexOfDecreasedElement)) < 0) {
+                heapifyDown(indexOfDecreasedElement);
+            }
         }
-        else if(returnParentOfElement(indexOfDecreasedElement).compareTo(vector.get(indexOfDecreasedElement)) < 0 ) {
-            heapifyDown(indexOfDecreasedElement);
-        }
-
 
     }
 
