@@ -31,6 +31,16 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
         this.nodeMapping.putIfAbsent(aNodeValue, new Node<>(aNodeValue, distanceTypeOfGraph, comparisonType));
     }
 
+    public void addSpecificNode(Node<T,L> nodeToAdd) throws Exception {
+
+        if(nodeToAdd == null)
+            throw new Exception("datastructure doesn't exist");
+        this.nodeMapping.putIfAbsent(nodeToAdd.getValue(),nodeToAdd);
+
+    }
+
+
+
     /**
      * Adds an edge to a graph given the the values we wish to connect and a certain label for the edge
      *
@@ -218,10 +228,17 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
 
     public Node<T, L> getSpecificNode(T value) {
         Node<T,L> stringNode = nodeMapping.get(value);
-        System.out.println(stringNode);
         return nodeMapping.get(value);
 
     }
+
+
+    public Edge<T,L> getEdge(Node<T,L> firstNode, Node<T,L> secondNode) {
+
+        return firstNode.getEdgeReference().get(secondNode);
+
+    }
+
 
 
     public Graph<T,L> pruneUnexistingConnections(Collection<Edge<T,L>> toPreserveEdges) {
@@ -242,6 +259,22 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
 
 
         return this;
+
+
+    }
+
+    public void updateDistance(Node<T,L> updateNode) throws Exception {
+
+        for(Node<T,L> node: nodeMapping.values()){
+            for(Node<T,L> referenceNode: node.getEdgeReference().keySet()){
+                if(referenceNode.equals(updateNode)){
+                    referenceNode.setDistance(updateNode.getFloatDistance());
+                }
+            }
+
+
+        }
+
 
 
     }

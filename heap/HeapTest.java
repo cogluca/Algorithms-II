@@ -1,4 +1,5 @@
 import datastructure.Node;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,7 +86,7 @@ public class HeapTest {
         Node<Integer, Integer> nodeOne = new Node<>(5,Integer.class, Node.ComparisonType.VALUE);
         Node<Integer, Integer> nodeTwo = new Node<>(7,Integer.class, Node.ComparisonType.VALUE);
         Node<Integer, Integer> nodeThree = new Node<>(2,Integer.class, Node.ComparisonType.VALUE);
-        Node<Integer, Integer> nodeFour = new Node<>(3,Integer.class, Node.ComparisonType.VALUE);
+        Node<Integer, Integer> nodeFour = new Node<>(6,Integer.class, Node.ComparisonType.VALUE);
         Node<Integer, Integer> nodeFive = new Node<>(4,Integer.class, Node.ComparisonType.VALUE);
 
 
@@ -94,7 +95,8 @@ public class HeapTest {
         particularHeapToTest.addElement(nodeOne);
         particularHeapToTest.addElement(nodeTwo);
         particularHeapToTest.addElement(nodeThree);
-        particularHeapToTest.addElement(nodeFour);particularHeapToTest.addElement(nodeFive);
+        particularHeapToTest.addElement(nodeFour);
+        particularHeapToTest.addElement(nodeFive);
 
 
         Integer toRetrieve = particularHeapToTest.getKeyMap().get(nodeTwo);
@@ -104,6 +106,13 @@ public class HeapTest {
         Integer toRetrieve2 = particularHeapToTest.getKeyMap().get(nodeTwo);
 
         Node<Integer, Integer> testedNode = particularHeapToTest.getVector().get(toRetrieve2);
+
+
+
+
+
+
+        assertEquals(Optional.of(1), particularHeapToTest.getKeyMap().get(nodeTwo) );
 
 
 

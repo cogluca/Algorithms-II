@@ -3,7 +3,9 @@ import data_utils.DataUtils;
 import datastructure.Graph;
 import datastructure.Node;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 public class DijkstraEntrypoint {
@@ -20,10 +22,10 @@ public class DijkstraEntrypoint {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Would like to know which file you're trying to load");
-        filename = scanner.nextLine();
+        //filename = scanner.nextLine();
 
         System.out.println("What city would you like to make your search start from ?");
-        beginnerCity = scanner.nextLine();
+        //beginnerCity = scanner.nextLine();
 
 
 
@@ -31,14 +33,12 @@ public class DijkstraEntrypoint {
         Dijkstra<String,Float,?> dijkstra = new Dijkstra<>();
 
         try {
-            dataFromFile = DataUtils.loadData(filename);
+            dataFromFile = DataUtils.loadData("/Users/frankacarkan/Desktop/Algo/ex1_new/italian_dist_graph.csv");
             graphFromData = DataUtils.loadGraph(dataFromFile);
 
-            System.out.println(graphFromData.graphNodeSize());
+            returnedForest = dijkstra.dijkstraAlgorithm(graphFromData,"torino", Float.class);
 
-            returnedForest = dijkstra.dijkstraAlgorithm(graphFromData,beginnerCity, Float.class);
 
-            System.out.println(returnedForest.graphNodeSize());
 
             //System.out.println(returnedForest.getSpecificNode("catania").getFloatDistance());
 
@@ -50,6 +50,7 @@ public class DijkstraEntrypoint {
 
 
     }
+
 
 
 

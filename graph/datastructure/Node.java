@@ -18,6 +18,10 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
     private List<Node<T,L>> shortestPath;
 
 
+    public Class getDistanceTypeOfNode() {
+        return distanceTypeOfNode;
+    }
+
     Class distanceTypeOfNode;
     Integer integerDistance;
     Double doubleDistance;
@@ -29,21 +33,25 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
         VALUE
     }
 
+    public ComparisonType getComparisonType() {
+        return comparisonType;
+    }
+
     ComparisonType comparisonType;
 
     public Node(T value, Class<L> distanceType, ComparisonType definedComparisonType) {
         this.value = value;
         this.edgeReference = new HashMap<>();
         if (distanceType == Integer.class) {
-            integerDistance = Integer.MAX_VALUE;
+            integerDistance = Integer.MAX_VALUE -1;
             distanceTypeOfNode = Integer.class;
         }
         if (distanceType == Float.class) {
-            floatDistance = Float.MAX_VALUE;
+            floatDistance = Float.MAX_VALUE - Float.valueOf(1);
             distanceTypeOfNode = Float.class;
         }
         if (distanceType == Double.class) {
-            doubleDistance = Double.MAX_VALUE;
+            doubleDistance = Double.MAX_VALUE - Double.valueOf(1);;
             distanceTypeOfNode = Float.class;
         }
 

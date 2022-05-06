@@ -207,6 +207,19 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
 
     }
 
+
+    public void removeAndChangeElement(T element, T changeElement) {
+
+        int indexOfRemoval = keyMap.get(element);
+        vector.set(indexOfRemoval, changeElement);
+        if(returnParentOfElement(indexOfRemoval).compareTo(changeElement)>0){
+            heapifyUp(indexOfRemoval);
+        }
+        else if (returnParentOfElement(indexOfRemoval).compareTo(changeElement)<0)
+            heapifyDown(indexOfRemoval);
+
+    }
+
     /**
      * extracts the minimum element from the heap, base on first position and reorganizes the heap in logn time
      * @return returns the minimum of the entire queues
@@ -256,8 +269,21 @@ public class Heap<T extends Comparable<T>, L extends Comparable<L>> {
             vector.set(indexOfDecreasedElement, valueToSubstituteForSimpleElement);
         }
         keyMap.put(vector.get(indexOfDecreasedElement), indexOfDecreasedElement);
-        heapifyDown(indexOfDecreasedElement);
+        if(returnParentOfElement(indexOfDecreasedElement).compareTo(vector.get(indexOfDecreasedElement)) > 0 ){
+            heapifyUp(indexOfDecreasedElement);
+        }
+        else if(returnParentOfElement(indexOfDecreasedElement).compareTo(vector.get(indexOfDecreasedElement)) < 0 ) {
+            heapifyDown(indexOfDecreasedElement);
+        }
 
+
+    }
+
+    public T getSpecificElement(T element) {
+
+
+        int indexOfElement = keyMap.get(element);
+        return vector.get(indexOfElement);
 
     }
 
