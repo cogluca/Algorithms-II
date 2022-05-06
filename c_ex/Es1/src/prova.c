@@ -186,7 +186,7 @@ static void **load_array(const char* file_name){
 
 int main(){
 
-    void** array = load_array("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Quick_Binary_Sort/prova_testo.txt");
+    void** array = load_array("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/prova_testo.txt");
     Record *r;
 
    printf("\nelementi ricevuti\n");

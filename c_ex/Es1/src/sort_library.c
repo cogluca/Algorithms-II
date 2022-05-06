@@ -15,31 +15,30 @@ static void swap (void **arr, int i, int j){
 }
 
 static int binary_search(void **arr, void *elem, int  low, int high, func func){
+
     while(low <= high){
 
-        int mid = low - (high-low)/2;
-        void *rec_p = arr[mid];
-        int p = func(elem, rec_p);
+        int mid = low + (high-low)/2;
+        void *check_elem = arr[mid];
+        int result = func(elem, check_elem);
 
-        if(func(elem, rec_p) == 0){
+        if(result == 0){
             return mid + 1;
-        }else if(func(elem, rec_p) == 1){
+        }else if(result == 1){
             low = mid + 1;
-        }else if(func(elem, rec_p) == 2){
+        }else if(result == 2){
             high = mid - 1;
         }
-
-        return low;
     }
+        return low;
 }
 
 void insert_sort(void **array_to_order, int n, func func){
     int i, pos, j;
-    void *elem;
 
     for(i = 1; i < n; i++){
         j = i - 1;
-        elem = array_to_order[i];
+        void *elem = array_to_order[i];
 
         pos = binary_search(array_to_order, elem, 0, j, func);
 

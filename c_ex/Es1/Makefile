@@ -1,21 +1,15 @@
-CC=gcc
+all: bin/prova bin/sort_algo_main bin/sort_algo_test
 
-DEPS = src/*.h
+LIBS = src/sort_library.h ../C_resource/unity.h
 
-all: bin/sort_algo_main build/sort_library.o bin/prova
+bin/prova: src/prova.c src/sort_library.c $(LIBS)
+	gcc -o bin/prova src/prova.c src/sort_library.c -I src/
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $
+bin/sort_algo_main: src/sort_algo_main.c src/sort_library.c $(LIBS)
+	gcc -o bin/sort_algo_main src/sort_algo_main.c src/sort_library.c -I src/
 
-clean:
-	$(RM) -rf bin/*
-	$(RM) -rf build/*
+bin/sort_algo_test: src/sort_algo_test.c src/sort_library.c ../C_resource/unity.c $(LIBS)
+	gcc -g -o bin/sort_algo_test src/sort_algo_test.c src/sort_library.c ../C_resource/unity.c -I ../C_resource/ -I src/
 
-bin/prova: src/prova.c build/sort_library.o
-	$(CC) -o bin/prova src/prova.c src/sort_library.c
 
-build/sort_library.o: src/sort_library.c 
-	$(CC) -c src/sort_library.c -o build/sort_library.o
 
-bin/sort_algo_main: src/sort_algo_main.c build/sort_library.o 
-	$(CC) -o bin/sort_algo_main src/sort_algo_main.c src/sort_library.c
