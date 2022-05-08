@@ -33,6 +33,9 @@ public class HeapTest {
         toTestHeap.addElement(1);
         toTestHeap.addElement(8);
         toTestHeap.addElement(4);
+        toTestHeap.addElement(9);
+        toTestHeap.addElement(12);
+        toTestHeap.addElement(3);
         try {
             Integer testMin = toTestHeap.extractMin();
             assertEquals((Integer) 1, testMin);
@@ -46,37 +49,19 @@ public class HeapTest {
     public void testExtractMinReordering() {
 
         toTestHeap.addElement(5);
-        for (Integer intel : toTestHeap.getVector()) {
-            System.out.println("one" + intel);
-        }
         toTestHeap.addElement(1);
-        for (Integer intel : toTestHeap.getVector()) {
-            System.out.println("two" + intel);
-        }
         toTestHeap.addElement(8);
-        for (Integer intel : toTestHeap.getVector()) {
-            System.out.println("three" + intel);
-        }
         toTestHeap.addElement(4);
-        for (Integer intel : toTestHeap.getVector()) {
-            System.out.println("four" + intel);
-        }
 
 
         try {
 
             Integer testMin = toTestHeap.extractMin();
-            for (Integer intel : toTestHeap.getVector()) {
-                System.out.println("first extraction" + intel);
-            }
+
             //Testing reordering
             Integer secondMin = toTestHeap.extractMin();
             assertEquals((Integer) 4, secondMin);
 
-
-            for (Integer intel : toTestHeap.getVector()) {
-                System.out.println(intel);
-            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -105,7 +90,7 @@ public class HeapTest {
     }
 
     @Test
-    public void testDiminishingValue() {
+    public void testDiminishingValue() throws Exception {
 
         Heap<Node<Integer, Integer>> particularHeapToTest = new Heap<>();
         Node<Integer, Integer> nodeOne = new Node<>(5, Integer.class, Node.ComparisonType.VALUE);
@@ -123,16 +108,58 @@ public class HeapTest {
 
 
         Integer toRetrieve = particularHeapToTest.getKeyMap().get(nodeTwo);
+        Node<Integer,Integer> node = particularHeapToTest.getVector().get(toRetrieve);
+        node.setValue(3);
 
-        particularHeapToTest.diminishElementValue(particularHeapToTest.getVector().get(toRetrieve), (Integer) 3, null);
+        particularHeapToTest.substituteElement(particularHeapToTest.getVector().get(toRetrieve), node);
 
         Integer toRetrieve2 = particularHeapToTest.getKeyMap().get(nodeTwo);
 
         Node<Integer, Integer> testedNode = particularHeapToTest.getVector().get(toRetrieve2);
 
 
-        assertEquals((Integer) 4, particularHeapToTest.getKeyMap().get(nodeTwo));
 
+
+        assertEquals((Integer) 1, particularHeapToTest.getKeyMap().get(node) );
+
+
+    }
+
+
+    @Test
+    public void maxRotation() throws Exception {
+        Heap<Integer> particularHeap = new Heap<>();
+        Heap<Integer> resultHeap = new Heap<>();
+        System.out.println("MAX ROTATION STARTS HERE!!!!");
+        int i = 900;
+        for(i = 25; i >= 0 ; i--){
+            particularHeap.addElement(i);
+        }
+
+        for(Integer extracted: particularHeap.getVector()){
+            System.out.println(extracted);
+        }
+
+
+
+
+        /*
+        for(int j = 0; j <= 900; j++){
+            resultHeap.addElement(j);
+        }
+
+
+         */
+
+        System.out.println("Extraction starts here");
+        while (particularHeap.getSize() != 0){
+            Integer extracted = particularHeap.extractMin();
+            System.out.println(extracted);
+        }
+
+
+
+        //assertEquals(resultHeap, toTestHeap);
 
     }
 

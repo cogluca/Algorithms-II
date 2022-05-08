@@ -34,7 +34,6 @@ public class Heap<T extends Comparable<? super T>> {
 
         keyMap = new HashMap<>();
 
-
         this.size = 0;
 
     }
@@ -79,8 +78,12 @@ public class Heap<T extends Comparable<? super T>> {
      * @return returns left child
      */
 
-    public T returnLeftChildOfElement(int index) {
-        return vector.get((index * 2) + 1);
+    public T returnLeftChildOfElement(int index) throws Exception {
+        if (hasLeftChild(index)) {
+            return vector.get((index * 2) + 1);
+        } else {
+            throw new Exception("element has no left child");
+        }
     }
 
     /**
@@ -89,8 +92,12 @@ public class Heap<T extends Comparable<? super T>> {
      * @param index index of element in considerations
      * @return returns right child
      */
-    public T returnRightChildOfElement(int index) {
-        return vector.get((index * 2) + 2);
+    public T returnRightChildOfElement(int index) throws Exception {
+        if (hasRightChild(index)) {
+            return vector.get((index * 2) + 2);
+        } else {
+            throw new Exception("element has no right child");
+        }
     }
 
     /**
@@ -133,6 +140,11 @@ public class Heap<T extends Comparable<? super T>> {
         return (index * 2) + 2 <= size - 1;
     }
 
+    public boolean hasRightBrother(int index) {
+        return (index + 1) <= size - 1;
+
+    }
+
     /**
      * Checks if an element has a left child
      *
@@ -141,6 +153,23 @@ public class Heap<T extends Comparable<? super T>> {
      */
     public boolean hasLeftChild(int index) {
         return (index * 2) + 1 <= size - 1;
+    }
+
+    public int getBrotherIndex(int index) {
+
+        int supposedIndex = getLeftChildIndex(getParentIndex(index));
+        if (supposedIndex == index)
+            return getRightChildIndex(getParentIndex(index));
+        return supposedIndex;
+
+    }
+
+    public String whatBrotherAmI(int index) {
+        int supposedIndex = getLeftChildIndex(getParentIndex(index));
+        if (supposedIndex == index)
+            return "Left";
+        return "Right";
+
     }
 
 
@@ -163,21 +192,26 @@ public class Heap<T extends Comparable<? super T>> {
      *
      * @param index index of the element to be dragged down
      */
-    private void heapifyDown(int index) {
+    private void heapifyDown(int index) throws Exception {
 
         if (hasLeftChild(index)) {
             int smallestIndex = getLeftChildIndex(index);
             T leftChild = returnLeftChildOfElement(index);
-            T rightChild = returnRightChildOfElement(index);
-            if (returnLeftChildOfElement(index).compareTo(returnRightChildOfElement(index)) > 0)
-                if (hasRightChild(index)) {
+
+            boolean rightChildBool = hasRightChild(index);
+            if (hasRightChild(index)) {
+                if (returnLeftChildOfElement(index).compareTo(returnRightChildOfElement(index)) > 0) {
                     smallestIndex = getRightChildIndex(index);
                 }
+            }
+
             if (vector.get(index).compareTo(vector.get(smallestIndex)) > 0) {
                 swapElements(index, smallestIndex);
                 heapifyDown(smallestIndex);
             }
         }
+
+
         //cosa metto alle
     }
 
@@ -187,13 +221,71 @@ public class Heap<T extends Comparable<? super T>> {
      * @param index index of element to be dragged up
      */
     private void heapifyUp(int index) {
-        if (index > 0) {
-            if (vector.get(index).compareTo(vector.get(getParentIndex(index))) < 0) {
-                swapElements(index, getParentIndex(index));
-                heapifyUp(getParentIndex(index));
-            }
+
+        T element = vector.get(index);
+
+        while (index > 0 && element.compareTo(vector.get(index / 2)) < 0) {
+
+            vector.set(index, vector.get(index / 2));
+            keyMap.put(vector.get(index), index);
+            index = index / 2;
+
         }
+        vector.set(index, element);
+        keyMap.put(element, index);
+
+
     }
+/*
+
+        if (index > 0) {
+
+
+            if (vector.get(index).compareTo(vector.get(getParentIndex(index))) < 0) {
+
+                /*
+                String whatIndexAmI = whatBrotherAmI(index);
+                int brotherIndex = getBrotherIndex(index);
+                int smallest = 0;
+
+                if (hasRightBrother(index)) {
+                    if (vector.get(index).compareTo(vector.get(brotherIndex)) > 0)
+                        smallest = brotherIndex;
+                } else
+                    smallest = index;
+
+
+
+                System.out.println("THIS IS FATHER BEFORE SWAP " + vector.get(getParentIndex(index) )+ " AT INDEX " + getParentIndex(index));
+                System.out.println("THIS IS CHILD BEFORE SWAP " + vector.get(index)+" AT INDEX " + index);
+
+
+                swapElements(index, getParentIndex(index));
+
+                System.out.println("THIS IS FATHER AFTER SWAP " + vector.get(getParentIndex(index)) + " AT INDEX " + getParentIndex(index));
+                System.out.println("THIS IS CHILD AFTER SWAP " + vector.get(index)+ " AT INDEX " + index);
+
+                System.out.println("----SWAP FINISHED-----");
+
+
+                heapifyUp(getParentIndex(index));
+
+                 */
+
+
+
+
+                /* TENTATIVE TO HEAPIFY UP WITH BROTHER CONSIDERATIONS
+                if(hasRightBrother(index)) {
+                    if (vector.get(index).compareTo(vector.get(brotherIndex)) > 0)
+                        swapElements(brotherIndex, getParentIndex(index));
+                }
+                else {
+                    swapElements(index, getParentIndex(index));
+                }
+                heapifyUp(getParentIndex(getParentIndex(brotherIndex)));
+                 */
+
 
     /**
      * Adds an element to the Heap and reorganizes it in logn time
@@ -206,8 +298,10 @@ public class Heap<T extends Comparable<? super T>> {
         if (size >= 1) {
             vector.add(element);
             size++;
+            //culprit ?
             keyMap.put(vector.get(size - 1), size - 1);
-            heapifyUp(size - 1);
+            int indexOfAdded = keyMap.get(element);
+            heapifyUp(indexOfAdded);
 
         } else {
             vector.add(element);
@@ -219,17 +313,19 @@ public class Heap<T extends Comparable<? super T>> {
     }
 
 
-    public void substituteElement(T element, T changeElement) {
+    public void substituteElement(T element, T changeElement) throws Exception {
 
         int indexOfRemoval = keyMap.get(element);
         keyMap.remove(element);
         vector.set(indexOfRemoval, changeElement);
         keyMap.put(changeElement, indexOfRemoval);
+
         if (returnParentOfElement(indexOfRemoval).compareTo(changeElement) > 0) {
             heapifyUp(indexOfRemoval);
-        } else if (returnParentOfElement(indexOfRemoval).compareTo(changeElement) < 0)
-            heapifyDown(indexOfRemoval);
-
+        } else if (hasLeftChild(indexOfRemoval) || hasRightChild(indexOfRemoval)) {
+            if (returnLeftChildOfElement(indexOfRemoval).compareTo(changeElement) < 0)
+                heapifyDown(indexOfRemoval);
+        }
     }
 
     /**
@@ -247,8 +343,11 @@ public class Heap<T extends Comparable<? super T>> {
 
             vector.set(0, vector.get(size - 1));
 
+            T elemSet = vector.get(size - 1);
+
             keyMap.remove(vector.get(size - 1));
             keyMap.put(vector.get(0), 0);
+
 
             size--;
 
@@ -271,7 +370,7 @@ public class Heap<T extends Comparable<? super T>> {
 
 
     //NOT NECESSARY THERE IS THE OTHER ONE UP, BUT KEEP FOR SECURITY
-    public void diminishElementValue(Object element, Object complexElementValueToSubstitute, T valueToSubstituteForSimpleElement) {
+    public void diminishElementValue(Object element, Object complexElementValueToSubstitute, T valueToSubstituteForSimpleElement) throws Exception {
 
         //switch enorme con casistiche di Node, Edge, Integer, Float, Double e per i tipi compositi sottocasi in cui il valore da estrarre
         //serve al rilassamento della frontiera
