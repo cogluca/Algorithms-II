@@ -46,6 +46,7 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
             }
         }
 
+
         Node<String, Float> frontierChange = null ;
         Node<String, Float> updateEdgeNode = null;
         Edge<String,Float> updateEdge = null;
@@ -97,6 +98,8 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
             }
             exploredNodes.add(toExploreNode);
 
+
+
             try {
                 toReturnGraph.addSpecificNode(toExploreNode);
             } catch (Exception e) {
@@ -104,12 +107,20 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
             }
         }
 
+        /*
+        for(Node<String,Float> node: exploredNodes){
+            System.out.println(node.getFloatDistance());
+        }
+
+         */
+
         int i = 0;
         for(Node<String,Float> node: exploredNodes){
-            if(node.getFloatDistance() == Float.MAX_VALUE)
+            if(node.getFloatDistance().equals(Float.valueOf(4000000)) )
                 i++;
         }
         System.out.println("Not truly explored nodes are "+i);
+
 
 
         //extract the target node distance

@@ -13,8 +13,8 @@ import java.util.*;
 public class Node<T extends Comparable<T>, L extends Comparable<L>> implements Comparable<Node<T, L>> {
 
     private T value;
-    private HashMap<Node<T, L>, Edge<T, L>> edgeReference;
 
+    private HashMap<Node<T, L>, Edge<T, L>> edgeReference;
     private List<Node<T,L>> shortestPath;
 
 
@@ -23,14 +23,19 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
     }
 
     Class distanceTypeOfNode;
+
     Integer integerDistance;
     Double doubleDistance;
     Float floatDistance;
 
 
+
     public enum ComparisonType{
         DISTANCE,
-        VALUE
+        VALUE;
+    }
+    public void setValue(T value) {
+        this.value = value;
     }
 
     public ComparisonType getComparisonType() {
@@ -47,11 +52,11 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
             distanceTypeOfNode = Integer.class;
         }
         if (distanceType == Float.class) {
-            floatDistance = Float.MAX_VALUE - Float.valueOf(1);
+            floatDistance = Float.valueOf(4000000);
             distanceTypeOfNode = Float.class;
         }
         if (distanceType == Double.class) {
-            doubleDistance = Double.MAX_VALUE - Double.valueOf(1);;
+            doubleDistance = Double.MAX_VALUE;
             distanceTypeOfNode = Float.class;
         }
 
