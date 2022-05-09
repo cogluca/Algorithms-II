@@ -187,6 +187,34 @@ public class Heap<T extends Comparable<? super T>> {
         keyMap.put(vector.get(targetIndex), targetIndex);
     }
 
+    /*
+    void buildHeapifyDown(ArrayList<T> arr){
+        for(int i=arr.size()/2-1; i>=0; i--){
+            int j = i;
+            // while root is smaller than child
+            // swap root with child
+            // and then heapify down the new child
+            while( 2*j+1 < arr.size()){
+                int l=2*j+1, r=2*j+2;
+                if(r< arr.size() && arr.get(r).compareTo(arr.get(j))> 0){
+                    swapElements(r,j);
+                    j=r;
+                }
+                else if(arr.get(l).compareTo(arr.get(i))>0){
+                    swapElements(l,j);
+                    j=l;
+                }
+                else break;
+            }
+        }
+    }
+
+     */
+
+
+
+
+
     /**
      * Once the minimum gets extracted the procedure puts on top the last element from left to right of the last level at the root and then reorganizes it with this method by dragging down
      *
@@ -222,6 +250,27 @@ public class Heap<T extends Comparable<? super T>> {
      */
     private void heapifyUp(int index) {
 
+
+        T elementToMove = vector.get(index);
+        while (index > 0) {
+
+            int currentParentIndex = (index - 1) / 2;
+            T currentParent = vector.get(currentParentIndex);
+            if (elementToMove.compareTo(currentParent) >= 0)
+                break;
+            vector.set(index, currentParent);
+            keyMap.put(currentParent, index);
+            index = currentParentIndex;
+
+        }
+        vector.set(index, elementToMove);
+        keyMap.put(elementToMove, index);
+
+    }
+
+
+        /*
+
         T element = vector.get(index);
 
         while (index > 0 && element.compareTo(vector.get(index / 2)) < 0) {
@@ -234,6 +283,30 @@ public class Heap<T extends Comparable<? super T>> {
         vector.set(index, element);
         keyMap.put(element, index);
 
+    }
+
+         */
+        /*
+        String whatIndexAmI = whatBrotherAmI(index);
+        int brotherIndex = getBrotherIndex(index);
+        int smallest = 0;
+
+        if (hasRightBrother(index)) {
+            if (vector.get(index).compareTo(vector.get(brotherIndex)) > 0)
+                smallest = brotherIndex;
+        } else
+            smallest = index;
+
+        System.out.println("THIS IS FATHER BEFORE SWAP " + vector.get(getParentIndex(index) )+ " AT INDEX " + getParentIndex(index));
+        System.out.println("THIS IS CHILD BEFORE SWAP " + vector.get(index)+" AT INDEX " + index);
+
+        if(vector.get(smallest).compareTo(vector.get(getParentIndex(index))) < 0){
+            swapElements(smallest, getParentIndex(index));
+            heapifyUp(getParentIndex(smallest));
+        }
+
+        System.out.println("THIS IS FATHER AFTER SWAP " + vector.get(getParentIndex(index)) + " AT INDEX " + getParentIndex(index));
+        System.out.println("THIS IS CHILD AFTER SWAP " + vector.get(index)+ " AT INDEX " + index);
 
     }
 /*
@@ -311,6 +384,7 @@ public class Heap<T extends Comparable<? super T>> {
 
 
     }
+
 
 
     public void substituteElement(T element, T changeElement) throws Exception {
