@@ -37,16 +37,16 @@ Common usages are found in:
 
 ## Used data structures
 
-###Node element consisting of: 
+### Node element consisting of: 
 - a value
 - an HashMap referencing the adjacent nodes and the connecting edges
 
-###Edge element consisting of:
+### Edge element consisting of:
 - Edge weight
 - First node from which edge starts
 - Second node onto which edge ends
 
-###Graph itself consisting of:
+### Graph itself consisting of:
 - An HashMap with Node value as key and the node itself as value
 - The edge's are embedded into nodes to display adjacency
 
