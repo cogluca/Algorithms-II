@@ -20,17 +20,6 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
     public Graph<String, Float> dijkstraAlgorithm(Graph<String, Float> graphBeingAnalyzed, String entryCity, Class distanceType) throws Exception {
 
-        //load the graph
-        //starting point is Torino, find Torino
-        //from Torino as an entrypoint start searching for arc values on the frontier
-        //add such values to the heap
-        //organize the heap
-        //extract the shortest
-        //rerun the process
-        //frontier relaxation
-        //how do the queue updates work ? When do I remove an element from the queue, for the insertion sure as hell I insert the frontier from the graph that I'm at
-        //I need a removal from heap when a similar lest costly path has been taken from another node, to avoid cyclical paths
-
         Graph<String, Float> toReturnGraph = new Graph<>(false, distanceType, Node.ComparisonType.DISTANCE);
 
         Heap<Node<String, Float>> unexploredNodes = new Heap<>();
@@ -70,7 +59,7 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
             toExploreNode = unexploredNodes.extractMin();
 
-            //supposedly all nodes extracted from the unexplored node should be a "frontier node" that previously has been relaxed
+
 
             HashMap<Node<String, Float>, Edge<String, Float>> connectionsOfNodeExplored = toExploreNode.getEdgeReference();
             ArrayList<HashMap<Node<String, Float>, Edge<String, Float>>> listOfEdges;
@@ -97,8 +86,6 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
             }
             exploredNodes.add(toExploreNode);
-
-
 
             try {
                 toReturnGraph.addSpecificNode(toExploreNode);

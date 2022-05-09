@@ -15,7 +15,6 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
     private T value;
 
     private HashMap<Node<T, L>, Edge<T, L>> edgeReference;
-    private List<Node<T,L>> shortestPath;
 
 
     public Class getDistanceTypeOfNode() {
@@ -61,7 +60,6 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
         }
 
         comparisonType = definedComparisonType;
-        shortestPath = new ArrayList<>();
     }
 
     public void setDistance (Object distance) throws Exception {
