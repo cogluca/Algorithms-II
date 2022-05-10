@@ -14,7 +14,7 @@ static void swap (void **arr, int i, int j){
     arr[j] = tmp;
 }
 
-static int binary_search(void **arr, void *elem, int  low, int high, func func){
+static int binarySearch(void **arr, void *elem, int  low, int high, func func){
 
     while(low <= high){
 
@@ -33,14 +33,16 @@ static int binary_search(void **arr, void *elem, int  low, int high, func func){
         return low;
 }
 
-void insert_sort(void **array_to_order, int n, func func){
+void insertSort(void **array_to_order, int n, func func){
     int i, pos, j;
 
     for(i = 1; i < n; i++){
         j = i - 1;
         void *elem = array_to_order[i];
 
-        pos = binary_search(array_to_order, elem, 0, j, func);
+        pos = binarySearch(array_to_order, elem, 0, j, func);
+        
+        
 
         while(j >= pos){
             swap(array_to_order, j, j+1);
@@ -49,17 +51,17 @@ void insert_sort(void **array_to_order, int n, func func){
     }
 }
 
-void quick_sort(void **array_to_order, int first, int last, func func){
+void quickSort(void **array_to_order, int first, int last, func func){
     if(first < last){ 
         int pivot = partition(array_to_order, first, last, func);  // ordino array
         
-        quick_sort(array_to_order, first, pivot, func);    // ordino parte destra
-        quick_sort(array_to_order, pivot +1, last, func);  // ordino parte sinistra
+        quickSort(array_to_order, first, pivot, func);    // ordino parte destra
+        quickSort(array_to_order, pivot +1, last, func);  // ordino parte sinistra
     }
 }
 
 static int partition(void **array, int low, int high, func func){
-    void *piv_p = array[high]; // uso l'ultimo elemento come pivot TODO controllare se è ben definito il puntatore
+    void *piv_p = array[high];
     int i = low;
     int j = high-1;
 

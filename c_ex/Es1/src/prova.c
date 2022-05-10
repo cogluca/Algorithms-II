@@ -15,13 +15,13 @@ typedef struct{
 int ar_elem = 0;        // numero attuale di elementi nell'array
 
 
-static int precedes_record_id_field(void* r1_p, void* r2_p){
+static int precedesRecordIdField(void* r1_p, void* r2_p){
     if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_id_field: the first parameter is a null pointer\n");
+        fprintf(stderr, "precedesRecordIdField: the first parameter is a null pointer\n");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_id_field: the second parameter is a null pointer\n");
+        fprintf(stderr, "precedesRecordIdField: the second parameter is a null pointer\n");
         exit(EXIT_FAILURE);
     }
     Record *rec1_p = (Record*)r1_p;
@@ -34,13 +34,13 @@ static int precedes_record_id_field(void* r1_p, void* r2_p){
     return(0);
 }
 
-static int precedes_record_float_field(void* r1_p, void* r2_p){
+static int precedesRecordFloatField(void* r1_p, void* r2_p){
     if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_float_field: the first parameter is a null pointer");
+        fprintf(stderr, "precedesRecordFloatField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);    
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_float_field: the second parameter is a null pointer");
+        fprintf(stderr, "precedesRecordFloatField: the second parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     Record *rec1_p = (Record*)r1_p;
@@ -53,13 +53,13 @@ static int precedes_record_float_field(void* r1_p, void* r2_p){
     return(0);
 }
 
-static int precedes_record_integer_field(void* r1_p, void* r2_p){
+static int precedesRecordIntegerField(void* r1_p, void* r2_p){
     if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_integer_field: the first parameter is a null pointer");
+        fprintf(stderr, "precedesRecordIntegerField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_integer_field: the second parameter is a null pointer");
+        fprintf(stderr, "precedesRecordIntegerField: the second parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     Record *rec1_p = (Record*)r1_p;
@@ -84,13 +84,13 @@ char *redstr(char* string){
     return tmp;
 }
 
-static int precedes_record_string_field(void* r1_p, void* r2_p){
+static int precedesRecordStringField(void* r1_p, void* r2_p){
     if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_string_field: the first parameter is a null pointer\n");
+        fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer\n");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_string_field: the second parameter is a null pointer\n");
+        fprintf(stderr, "precedesRecordStringField: the second parameter is a null pointer\n");
     }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
@@ -106,7 +106,7 @@ static int precedes_record_string_field(void* r1_p, void* r2_p){
     return(0);
 }
 
-static void **load_array(const char* file_name){
+static void **loadArray(const char* file_name){
     int ar_size = 2;
     void** array = (void **)malloc(sizeof(void*) * ar_size);  // alloco memoria per un array di puntatori a struct record
     
@@ -186,7 +186,7 @@ static void **load_array(const char* file_name){
 
 int main(){
 
-    void** array = load_array("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/prova_testo.txt");
+    void** array = loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/prova_testo.txt");
     Record *r;
 
    printf("\nelementi ricevuti\n");
@@ -200,8 +200,8 @@ int main(){
                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
             }
 
-    //quick_sort(array, 0, ar_elem-1, *precedes_record_id_field);
-    insert_sort(array, ar_elem, precedes_record_id_field);
+    //quickSort(array, 0, ar_elem-1, *precedesRecordIdField);
+    insertSort(array, ar_elem, precedesRecordIdField);
     printf("\nelementi ordinati per id\n");
             for(char i = 0; i < ar_elem; i++){
                 r = array[i];
@@ -213,8 +213,8 @@ int main(){
                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
             }
 
-    //quick_sort(array, 0, ar_elem-1, *precedes_record_string_field);
-    insert_sort(array, ar_elem, precedes_record_string_field);
+    //quickSort(array, 0, ar_elem-1, *precedesRecordStringField);
+    insertSort(array, ar_elem, precedesRecordStringField);
     printf("\nelementi ordinati per string\n");
             for(char i = 0; i < ar_elem; i++){
                 r = array[i];
@@ -226,8 +226,8 @@ int main(){
                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
             }
 
-    //quick_sort(array, 0, ar_elem-1, *precedes_record_integer_field);
-    insert_sort(array, ar_elem, precedes_record_integer_field);
+    //quickSort(array, 0, ar_elem-1, *precedesRecordIntegerField);
+    insertSort(array, ar_elem, precedesRecordIntegerField);
     printf("\nelementi ordinati per int\n");
             for(char i = 0; i < ar_elem; i++){
                 r = array[i];
@@ -239,8 +239,8 @@ int main(){
                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
             }
 
-    //quick_sort(array, 0, ar_elem-1, *precedes_record_float_field);
-    insert_sort(array, ar_elem, precedes_record_float_field);
+    //quickSort(array, 0, ar_elem-1, *precedesRecordFloatField);
+    insertSort(array, ar_elem, precedesRecordFloatField);
     printf("\nelementi ordinati per float\n");
             for(char i = 0; i < ar_elem; i++){
                 r = array[i];

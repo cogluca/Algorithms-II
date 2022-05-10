@@ -23,7 +23,7 @@ static void swap (void **arr, int i, int j);
  * @param func: function to compare the element
  * @return int: position to put elem
  */
-static int binary_search(void **arr, void *elem, int  low, int high, func func);
+static int binarySearch(void **arr, void *elem, int  low, int high, func func);
 
 
 /**
@@ -33,7 +33,7 @@ static int binary_search(void **arr, void *elem, int  low, int high, func func);
  * @param n: number of element in the array;
  * @param func: pointer to a function used to sort the element in the array
  */
-void insert_sort(void **array_to_order, int n, func func);
+void insertSort(void **array_to_order, int n, func func);
 
 
 /**
@@ -44,11 +44,11 @@ void insert_sort(void **array_to_order, int n, func func);
  * @param last: position of the last element
  * @param func: pointer to a function used to sort the element in the array
  */
-void quick_sort(void **array_to_order, int first, int last, int(*order) (void*, void*));
+void quickSort(void **array_to_order, int first, int last, int(*order) (void*, void*));
 
 
 /**
- * This function support quick_sort function, it choose a pivot used to divide the array 
+ * This function support quickSort function, it choose a pivot used to divide the array 
  * 
  * @param array: array that need to be divided
  * @param low: position of the first element

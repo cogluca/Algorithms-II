@@ -29,15 +29,15 @@ int ar_elem = 0;
  * @param r2_p pointer to struct record 2
  * @return int that show which one are the successor between them
  */
-static int precedes_record_id_field(void* r1_p, void* r2_p){
-    if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_id_field: the first parameter is a null pointer\n");
+static int precedesRecordIdField(void* r1_p, void* r2_p){
+    /*if(r1_p == NULL){
+        fprintf(stderr, "precedesRecordIdField: the first parameter is a null pointer\n");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_id_field: the second parameter is a null pointer\n");
+        fprintf(stderr, "precedesRecordIdField: the second parameter is a null pointer\n");
         exit(EXIT_FAILURE);
-    }
+    }*/
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->id_field < rec2_p->id_field){
@@ -67,14 +67,14 @@ char *redstr(char* string){
  * @param r2_p pointer to struct record 2
  * @return int that show which one are the successor between them
  */
-static int precedes_record_string_field_lower(void* r1_p, void* r2_p){
-    if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_string_field: the first parameter is a null pointer");
+static int precedesRecordStringFieldLower(void* r1_p, void* r2_p){
+    /*if(r1_p == NULL){
+        fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_string_field: the second parameter is a null pointer");
-    }
+        fprintf(stderr, "precedesRecordStringField: the second parameter is a null pointer");
+    }*/
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
 
@@ -89,14 +89,14 @@ static int precedes_record_string_field_lower(void* r1_p, void* r2_p){
     return(0);
 }
 
-static int precedes_record_string_field(void* r1_p, void* r2_p){
-    if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_string_field: the first parameter is a null pointer");
+static int precedesRecordStringField(void* r1_p, void* r2_p){
+    /*if(r1_p == NULL){
+        fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_string_field: the second parameter is a null pointer");
-    }
+        fprintf(stderr, "precedesRecordStringField: the second parameter is a null pointer");
+    }*/
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
 
@@ -115,15 +115,15 @@ static int precedes_record_string_field(void* r1_p, void* r2_p){
  * @param r2_p pointer to struct record 2
  * @return int that show which one are the successor between them
  */
-static int precedes_record_integer_field(void* r1_p, void* r2_p){
-    if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_integer_field: the first parameter is a null pointer");
+static int precedesRecordIntegerField(void* r1_p, void* r2_p){
+    /*if(r1_p == NULL){
+        fprintf(stderr, "precedesRecordIntegerField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_integer_field: the second parameter is a null pointer");
+        fprintf(stderr, "precedesRecordIntegerField: the second parameter is a null pointer");
         exit(EXIT_FAILURE);
-    }
+    }*/
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->integer_field < rec2_p->integer_field){
@@ -141,15 +141,15 @@ static int precedes_record_integer_field(void* r1_p, void* r2_p){
  * @param r2_p pointer to struct record 2
  * @return int that show which one are the successor between them
  */
-static int precedes_record_float_field(void* r1_p, void* r2_p){
-    if(r1_p == NULL){
-        fprintf(stderr, "precedes_record_float_field: the first parameter is a null pointer");
+static int precedesRecordFloatField(void* r1_p, void* r2_p){
+    /*if(r1_p == NULL){
+        fprintf(stderr, "precedesRecordFloatField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);    
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedes_record_float_field: the second parameter is a null pointer");
+        fprintf(stderr, "precedesRecordFloatField: the second parameter is a null pointer");
         exit(EXIT_FAILURE);
-    }
+    }*/
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*) r2_p;
     if(rec1_p->float_field < rec2_p->float_field){
@@ -160,9 +160,12 @@ static int precedes_record_float_field(void* r1_p, void* r2_p){
     return(0);
 }
 
-Option parse_options(int argc, char const*argv[]){
+//./a.out <-1/-2/-3/-4> <path_file> <-1/-2> <y/n>
+//./a.out <select how to order the records> <path to file that contains record> <sort algo chosen> <case sensitive>
+
+Option parseOptions(int argc, char const*argv[]){
     if(argc < 4 || argc > 5){
-        printf("Usage: missing element for the execution of the program");
+        printf("Usage: check the element for the execution of the program");
     }else{
         Option programOption;
         programOption.path = argv[2];
@@ -170,17 +173,17 @@ Option parse_options(int argc, char const*argv[]){
         programOption.caseSensitive = (argc == 5 && !strcmp(argv[4], "n"))? 0 : 1;
 
         if(!strcmp(argv[1], "-1")){
-            programOption.fun = (func)precedes_record_id_field;
+            programOption.fun = (func)precedesRecordIdField;
         }else if(!strcmp(argv[1], "-2")){
             if(programOption.caseSensitive){
-                programOption.fun = (func)precedes_record_string_field;
+                programOption.fun = (func)precedesRecordStringFieldLower;
             }else{
-                programOption.fun = (func)precedes_record_string_field_lower;
+                programOption.fun = (func)precedesRecordStringField;
             }
         }else if(!strcmp(argv[1], "-3")){
-            programOption.fun = (func)precedes_record_integer_field;
+            programOption.fun = (func)precedesRecordIntegerField;
         }else if(!strcmp(argv[1], "-4")){
-            programOption.fun = (func)precedes_record_float_field;
+            programOption.fun = (func)precedesRecordFloatField;
         }else{
              printf("Usage: Parameters Error");
         }
@@ -190,7 +193,7 @@ Option parse_options(int argc, char const*argv[]){
     }
 }
 
-static void free_memory(void** array){
+static void freeMemory(void** array){
     for(int i = 0; i < ar_elem; i++){
         Record *rec_p = (Record *) array[i];
         free(rec_p->string_field);
@@ -198,7 +201,7 @@ static void free_memory(void** array){
     free(array);    
 }
 
-static void **load_array(const char* file_name){
+static void **loadArray(const char* file_name){
     int ar_size = 2;
     void** array = (void **)malloc(sizeof(void*) * ar_size);  // alloco memoria per un array di puntatori a struct record
     
@@ -256,21 +259,37 @@ static void **load_array(const char* file_name){
         free(read_line_p);  // pulisco il buffer che legge la stringa per riempirlo con la prossima riga
     }
 
+    if(ar_size > ar_elem){ // check sulla grandezza dell'array dinamico
+            array = (void **)realloc(array, sizeof(void*) * ar_elem);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+        }
+
     fclose(fp); // chiudo la lettura del file
     printf("\nData loaded\n");
 
     return(array);
 }
 
-static void test_with_quicksort_function(Option opt){
-    void** array = load_array(opt.path);
-    
+static void testFunction(Option opt){
+    void** array = loadArray(opt.path);
+
+    Record *r;
+
+    printf("\nelementi ricevuti\n");
+    for (char i = 0; i < 30; i++){
+        r = array[i];
+        printf("\nrecord[%d]: { \
+                        id = %d\
+                        string = %s\
+                        int = %d\
+                        float = %f\n",
+               i, r->id_field, r->string_field, r->integer_field, r->float_field);
+    }
+
     clock_t start = clock();
-    //opt.algo == -1 ? quick_sort(array, 0, ar_elem-1, opt.fun) : binary_insertion_sort(array, 0, ar_elem-1, opt.fun);
-    quick_sort(array, 0, ar_elem-1, opt.fun);
+    opt.algo == -1 ? quickSort(array, 0, ar_elem-1, opt.fun) : insertSort(array, ar_elem-1, opt.fun);
     clock_t end = clock();
 
-    free_memory(array);
+    freeMemory(array);
     
     fprintf(stdout,"Program succesfully ended\n array sorted in: %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 }
@@ -284,7 +303,7 @@ static void test_with_quicksort_function(Option opt){
  */
 
 int main(int argc, char const *argv[]){
-    test_with_quicksort_function(parse_options(argc, argv));
+    testFunction(parseOptions(argc, argv));
 
     return(EXIT_SUCCESS);
 }
