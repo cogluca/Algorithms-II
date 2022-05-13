@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
 #include "sort_library.h"
 
 
@@ -28,7 +29,7 @@ static int precedesRecordIdField(void* r1_p, void* r2_p){
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->id_field < rec2_p->id_field){
         return(2);
-    }else if(rec1_p->id_field > rec1_p->id_field){
+    }else if(rec1_p->id_field > rec2_p->id_field){
         return(1);
     }
     return(0);
@@ -106,9 +107,10 @@ static int precedesRecordStringField(void* r1_p, void* r2_p){
     return(0);
 }
 
-static void **loadArray(const char* file_name){
+static void **loadArray(const char* file_name, int k){
     int ar_size = 2;
     void** array = (void **)malloc(sizeof(void*) * ar_size);  // alloco memoria per un array di puntatori a struct record
+    int j = 0;
     
     if(array == NULL){
         fprintf(stderr,"main: unable to allocate memory for the read record\n");
@@ -126,11 +128,11 @@ static void **loadArray(const char* file_name){
         exit(EXIT_FAILURE);
     }
 
-    while(fgets(buffer,buf_size,fp) != NULL){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
+    while(fgets(buffer,buf_size,fp) != NULL && j < k){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
         
         if(ar_size <= ar_elem){ // check sulla grandezza dell'array dinamico
             
-            printf("\nelementi nell'array fino a questo punto\n");
+            /*printf("\nelementi nell'array fino a questo punto\n");
             for(char i = 0; i < ar_elem; i++){
                 Record* r_p = (Record *)array[i];
                 
@@ -140,7 +142,7 @@ static void **loadArray(const char* file_name){
                         int = %d\
                         float = %f\n",
                         i, r_p->id_field, r_p->string_field, r_p->integer_field, r_p->float_field);
-            }
+            }*/
             
             ar_size *= 2;
             array = (void **)realloc(array, sizeof(void*) * ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
@@ -176,6 +178,7 @@ static void **loadArray(const char* file_name){
         ar_elem += 1;
         
         free(read_line_p);  // pulisco il buffer che legge la stringa per riempirlo con la prossima riga
+        j++;
     }
 
     fclose(fp); // chiudo la lettura del file
@@ -186,73 +189,76 @@ static void **loadArray(const char* file_name){
 
 int main(){
 
-    void** array = loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/prova_testo.txt");
+    char buf[100];
+    printf("inserire numero di elementi da scannerizzare\n");
+    fgets(buf, 100, stdin);
+
+    int k = atoi(buf);
+
+    void** array = loadArray("../records.csv", k); //loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/prova_testo.txt");
     Record *r;
+    clock_t start, end;
 
-   printf("\nelementi ricevuti\n");
-            for(char i = 0; i < ar_elem; i++){
-                r = array[i];
-                printf("\nrecord[%d]: { \
-                        id = %d\
-                        string = %s\
-                        int = %d\
-                        float = %f\n",
-                        i, r->id_field, r->string_field, r->integer_field, r->float_field);
-            }
 
-    //quickSort(array, 0, ar_elem-1, *precedesRecordIdField);
-    insertSort(array, ar_elem, precedesRecordIdField);
-    printf("\nelementi ordinati per id\n");
-            for(char i = 0; i < ar_elem; i++){
-                r = array[i];
-                printf("\nrecord[%d]: { \
-                        id = %d\
-                        string = %s\
-                        int = %d\
-                        float = %f\n",
-                        i, r->id_field, r->string_field, r->integer_field, r->float_field);
-            }
+    void** array_red = (void **) malloc(sizeof(void*) * k);
+    for(int i = 0; i < k; i++){
+        array_red[i] = array[i];
+    }
 
-    //quickSort(array, 0, ar_elem-1, *precedesRecordStringField);
+//    printf("\nelementi ricevuti\n");
+//             for(char i = 0; i < k; i++){
+//                 r = array_red[i];
+//                 printf("\nrecord[%d]: { \
+//                         id = %d\
+//                         string = %s\
+//                         int = %d\
+//                         float = %f\n",
+//                         i, r->id_field, r->string_field, r->integer_field, r->float_field);
+//             }
+
+    start= clock();
+    quickSort(array_red, 0, k-1, *precedesRecordIdField);
+    // quickSort(array_red, 0, k-1, *precedesRecordStringField);
+    // quickSort(array_red, 0, k-1, *precedesRecordIntegerField);
+    // quickSort(array_red, 0, k-1, *precedesRecordFloatField);
+    //insertSort(array, ar_elem, precedesRecordIdField);
+    end = clock();
+    
+    printf("\nelementi ordinati per id in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
+
+    /*start = clock();
+    quickSort(array_red, 0, k-1, *precedesRecordStringField);
     insertSort(array, ar_elem, precedesRecordStringField);
-    printf("\nelementi ordinati per string\n");
-            for(char i = 0; i < ar_elem; i++){
-                r = array[i];
-                printf("\nrecord[%d]: { \
-                        id = %d\
-                        string = %s\
-                        int = %d\
-                        float = %f\n",
-                        i, r->id_field, r->string_field, r->integer_field, r->float_field);
-            }
+    end = clock();
 
-    //quickSort(array, 0, ar_elem-1, *precedesRecordIntegerField);
+    printf("\nelementi ordinati per string in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
+
+    start = clock();
+    quickSort(array_red, 0, k-1, *precedesRecordIntegerField);
     insertSort(array, ar_elem, precedesRecordIntegerField);
-    printf("\nelementi ordinati per int\n");
-            for(char i = 0; i < ar_elem; i++){
-                r = array[i];
-                printf("\nrecord[%d]: { \
-                        id = %d\
-                        string = %s\
-                        int = %d\
-                        float = %f\n",
-                        i, r->id_field, r->string_field, r->integer_field, r->float_field);
-            }
+    end = clock();
 
-    //quickSort(array, 0, ar_elem-1, *precedesRecordFloatField);
+    printf("\nelementi ordinati per int in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
+
+    start = clock();
+    quickSort(array_red, 0, k-1, *precedesRecordFloatField);
     insertSort(array, ar_elem, precedesRecordFloatField);
-    printf("\nelementi ordinati per float\n");
-            for(char i = 0; i < ar_elem; i++){
-                r = array[i];
-                printf("\nrecord[%d]: { \
-                        id = %d\
-                        string = %s\
-                        int = %d\
-                        float = %f\n",
-                        i, r->id_field, r->string_field, r->integer_field, r->float_field);
-            }
+    end = clock();
+
+    printf("\nelementi ordinati per float in %f\n", (float)(end - start)/CLOCKS_PER_SEC);*/
+    //         for(char i = 0; i < k; i++){
+    //             r = array_red[i];
+    //             printf("\nrecord[%d]: { \
+    //                     id = %d\
+    //                     string = %s\
+    //                     int = %d\
+    //                     float = %f\n",
+    //                     i, r->id_field, r->string_field, r->integer_field, r->float_field);
+    //         }
 
     
     free(array);
+    free(array_red);
+
     return 0;
 }

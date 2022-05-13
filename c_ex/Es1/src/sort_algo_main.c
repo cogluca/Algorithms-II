@@ -42,7 +42,7 @@ static int precedesRecordIdField(void* r1_p, void* r2_p){
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->id_field < rec2_p->id_field){
         return(2);
-    }else if(rec1_p->id_field > rec1_p->id_field){
+    }else if(rec1_p->id_field > rec2_p->id_field){
         return(1);
     }
     return(0);
@@ -166,6 +166,7 @@ static int precedesRecordFloatField(void* r1_p, void* r2_p){
 Option parseOptions(int argc, char const*argv[]){
     if(argc < 4 || argc > 5){
         printf("Usage: check the element for the execution of the program");
+        exit(EXIT_FAILURE);
     }else{
         Option programOption;
         programOption.path = argv[2];
@@ -270,24 +271,14 @@ static void **loadArray(const char* file_name){
 }
 
 static void testFunction(Option opt){
+    clock_t start, end;
     void** array = loadArray(opt.path);
 
     Record *r;
 
-    printf("\nelementi ricevuti\n");
-    for (char i = 0; i < 30; i++){
-        r = array[i];
-        printf("\nrecord[%d]: { \
-                        id = %d\
-                        string = %s\
-                        int = %d\
-                        float = %f\n",
-               i, r->id_field, r->string_field, r->integer_field, r->float_field);
-    }
-
-    clock_t start = clock();
+    start = clock();
     opt.algo == -1 ? quickSort(array, 0, ar_elem-1, opt.fun) : insertSort(array, ar_elem-1, opt.fun);
-    clock_t end = clock();
+    end = clock();
 
     freeMemory(array);
     

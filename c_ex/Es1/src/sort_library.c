@@ -19,11 +19,11 @@ static int binarySearch(void **arr, void *elem, int  low, int high, func func){
     while(low <= high){
 
         int mid = low + (high-low)/2;
-        void *check_elem = arr[mid];
-        int result = func(elem, check_elem);
+        void *elem_to_move = arr[mid];
+        int result = func(elem, elem_to_move);
 
         if(result == 0){
-            return mid + 1;
+            return mid; //mid + 1;
         }else if(result == 1){
             low = mid + 1;
         }else if(result == 2){
@@ -36,7 +36,7 @@ static int binarySearch(void **arr, void *elem, int  low, int high, func func){
 void insertSort(void **array_to_order, int n, func func){
     int i, pos, j;
 
-    for(i = 1; i < n; i++){
+    for(i = 1; i < n; ++i){
         j = i - 1;
         void *elem = array_to_order[i];
 
@@ -61,6 +61,9 @@ void quickSort(void **array_to_order, int first, int last, func func){
 }
 
 static int partition(void **array, int low, int high, func func){
+    //int mid = (high - low) / 2;
+    //swap(array, mid, 0);
+
     void *piv_p = array[high];
     int i = low;
     int j = high-1;
