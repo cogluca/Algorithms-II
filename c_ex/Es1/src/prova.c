@@ -195,7 +195,7 @@ int main(){
 
     int k = atoi(buf);
 
-    void** array = loadArray("../records.csv", k); //loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/prova_testo.txt");
+    void** array = loadArray("/Users/frankacarkan/Desktop/Algo/ex1_new/records.csv", k); //loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/prova_testo.txt");
     Record *r;
     clock_t start, end;
 
@@ -257,7 +257,7 @@ int main(){
     //         }
 
     
-    free(array);
+
     free(array);
 
     return 0;
