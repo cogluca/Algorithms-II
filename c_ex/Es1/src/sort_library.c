@@ -23,7 +23,7 @@ static int binarySearch(void **arr, void *elem, int  low, int high, func func){
         int result = func(elem, elem_to_move);
 
         if(result == 0){
-            return mid; //mid + 1;
+            return mid;
         }else if(result == 1){
             low = mid + 1;
         }else if(result == 2){
@@ -54,6 +54,8 @@ void insertSort(void **array_to_order, int n, func func){
 void quickSort(void **array_to_order, int first, int last, func func){
     if(first < last){ 
         int pivot = partition(array_to_order, first, last, func);  // ordino array
+
+        printf("pivot trovato: first = %d, last = %d, pivot = %d\n", first, last, pivot);
         
         quickSort(array_to_order, first, pivot, func);    // ordino parte destra
         quickSort(array_to_order, pivot +1, last, func);  // ordino parte sinistra
@@ -61,13 +63,17 @@ void quickSort(void **array_to_order, int first, int last, func func){
 }
 
 static int partition(void **array, int low, int high, func func){
-    //int mid = (high - low) / 2;
-    //swap(array, mid, 0);
+
+    int mid = (high + low) / 2;
+    int median = (low + mid + high) / 3;
+
+    swap(array, high, median);
+
+    // printf("sono qua, low = %d, median = %d, high = %d, mid = %d\n", low, median, high, mid);
 
     void *piv_p = array[high];
     int i = low;
     int j = high-1;
-
     while (i <= j){
         if(func(piv_p, array[i]) < 2){
             i++;
@@ -83,6 +89,5 @@ static int partition(void **array, int low, int high, func func){
     }
     if(func(piv_p, array[i]) == 2)
         swap(array, high, i);
-        
     return j;
 }

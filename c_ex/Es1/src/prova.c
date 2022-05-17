@@ -200,14 +200,14 @@ int main(){
     clock_t start, end;
 
 
-    void** array_red = (void **) malloc(sizeof(void*) * k);
+    /*void** array = (void **) malloc(sizeof(void*) * k);
     for(int i = 0; i < k; i++){
-        array_red[i] = array[i];
-    }
+        array[i] = array[i];
+    }*/
 
 //    printf("\nelementi ricevuti\n");
 //             for(char i = 0; i < k; i++){
-//                 r = array_red[i];
+//                 r = array[i];
 //                 printf("\nrecord[%d]: { \
 //                         id = %d\
 //                         string = %s\
@@ -217,37 +217,37 @@ int main(){
 //             }
 
     start= clock();
-    quickSort(array_red, 0, k-1, *precedesRecordIdField);
-    // quickSort(array_red, 0, k-1, *precedesRecordStringField);
-    // quickSort(array_red, 0, k-1, *precedesRecordIntegerField);
-    // quickSort(array_red, 0, k-1, *precedesRecordFloatField);
+    quickSort(array, 0, k-1, *precedesRecordIdField);
+    // quickSort(array, 0, k-1, *precedesRecordStringField);
+    // quickSort(array, 0, k-1, *precedesRecordIntegerField);
+    // quickSort(array, 0, k-1, *precedesRecordFloatField);
     //insertSort(array, ar_elem, precedesRecordIdField);
     end = clock();
     
     printf("\nelementi ordinati per id in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 
     /*start = clock();
-    quickSort(array_red, 0, k-1, *precedesRecordStringField);
+    quickSort(array, 0, k-1, *precedesRecordStringField);
     insertSort(array, ar_elem, precedesRecordStringField);
     end = clock();
 
     printf("\nelementi ordinati per string in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 
     start = clock();
-    quickSort(array_red, 0, k-1, *precedesRecordIntegerField);
+    quickSort(array, 0, k-1, *precedesRecordIntegerField);
     insertSort(array, ar_elem, precedesRecordIntegerField);
     end = clock();
 
     printf("\nelementi ordinati per int in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 
     start = clock();
-    quickSort(array_red, 0, k-1, *precedesRecordFloatField);
+    quickSort(array, 0, k-1, *precedesRecordFloatField);
     insertSort(array, ar_elem, precedesRecordFloatField);
     end = clock();
 
     printf("\nelementi ordinati per float in %f\n", (float)(end - start)/CLOCKS_PER_SEC);*/
     //         for(char i = 0; i < k; i++){
-    //             r = array_red[i];
+    //             r = array[i];
     //             printf("\nrecord[%d]: { \
     //                     id = %d\
     //                     string = %s\
@@ -258,7 +258,7 @@ int main(){
 
     
     free(array);
-    free(array_red);
+    free(array);
 
     return 0;
 }
