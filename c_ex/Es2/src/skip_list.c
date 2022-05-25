@@ -63,22 +63,35 @@ insertSkipList(SkipList *list, void *item){
     if(list->max_level < newNode->size)
         list->max_level = newNode->size;
     
-    Node *x = list->head;
+    Node *list_head = list->head;
     for(int k = list->max_level; k <= 1; k--){
-        if(x->next[k] == NULL || item < x->next[k]->item){      //se trovo posto giusto entro qua dentro per inserire il nodo
-            if(k < newNode->size){                              //se entro perché x->next[k] == NULL, allora posso collegarlo 
-                newNode->next[k] = x->next[k];
-                x->next[k] = newNode;
+        if(list_head->next[k] == NULL || list->compare(item, list_head->next[k]->item) == 2){      //se trovo posto giusto entro qua dentro per inserire il nodo
+            if(k < newNode->size){                              //se entro perché head->next[k] == NULL, allora posso collegarlo 
+                newNode->next[k] = list_head->next[k];
+                list_head->next[k] = newNode;
             }
         } else{                                                 //altrimenti scorro sempre sulla stessa coda di lista fino a trovare il NULL
-            x = x->next[k];
+            list_head = list_head->next[k];
             k++;
         }
     }
 }
 
-searchSkipList(SkipList *list, void *item){
-    
+void *searchSkipList(SkipList *list, void *item){
+    Node *list_head = list->head;
+
+    for(int i = list->max_level; i <= 1; i--){
+        while(list->compare(item,list_head->next[i]->item) == 1){
+            list_head = list_head->next[i];
+        }
+    }
+
+    list_head = list_head->next[1];
+    if (list->compare(item, list_head->item) == 0){
+        return list_head->item;
+    } else{
+        return NULL;
+    }
 }
 
 void FreeSkipList(SkipList *list){
