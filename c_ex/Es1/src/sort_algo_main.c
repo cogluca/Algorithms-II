@@ -30,14 +30,14 @@ int ar_elem = 0;
  * @return int that show which one are the successor between them
  */
 static int precedesRecordIdField(void* r1_p, void* r2_p){
-    /*if(r1_p == NULL){
+    if(r1_p == NULL){
         fprintf(stderr, "precedesRecordIdField: the first parameter is a null pointer\n");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
         fprintf(stderr, "precedesRecordIdField: the second parameter is a null pointer\n");
         exit(EXIT_FAILURE);
-    }*/
+    }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->id_field < rec2_p->id_field){
@@ -68,13 +68,13 @@ char *redstr(char* string){
  * @return int that show which one are the successor between them
  */
 static int precedesRecordStringFieldLower(void* r1_p, void* r2_p){
-    /*if(r1_p == NULL){
+    if(r1_p == NULL){
         fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
         fprintf(stderr, "precedesRecordStringField: the second parameter is a null pointer");
-    }*/
+    }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
 
@@ -90,13 +90,13 @@ static int precedesRecordStringFieldLower(void* r1_p, void* r2_p){
 }
 
 static int precedesRecordStringField(void* r1_p, void* r2_p){
-    /*if(r1_p == NULL){
+    if(r1_p == NULL){
         fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
         fprintf(stderr, "precedesRecordStringField: the second parameter is a null pointer");
-    }*/
+    }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
 
@@ -116,14 +116,14 @@ static int precedesRecordStringField(void* r1_p, void* r2_p){
  * @return int that show which one are the successor between them
  */
 static int precedesRecordIntegerField(void* r1_p, void* r2_p){
-    /*if(r1_p == NULL){
+    if(r1_p == NULL){
         fprintf(stderr, "precedesRecordIntegerField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
         fprintf(stderr, "precedesRecordIntegerField: the second parameter is a null pointer");
         exit(EXIT_FAILURE);
-    }*/
+    }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->integer_field < rec2_p->integer_field){
@@ -142,14 +142,14 @@ static int precedesRecordIntegerField(void* r1_p, void* r2_p){
  * @return int that show which one are the successor between them
  */
 static int precedesRecordFloatField(void* r1_p, void* r2_p){
-    /*if(r1_p == NULL){
+    if(r1_p == NULL){
         fprintf(stderr, "precedesRecordFloatField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);    
     }
     if(r2_p == NULL){
         fprintf(stderr, "precedesRecordFloatField: the second parameter is a null pointer");
         exit(EXIT_FAILURE);
-    }*/
+    }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*) r2_p;
     if(rec1_p->float_field < rec2_p->float_field){

@@ -54,7 +54,7 @@ void quickSort(void **array_to_order, int first, int last, func func) {
     if (first < last) {
         int pivot = partition(array_to_order, first, last, func);  // ordino array
 
-        printf("pivot trovato: first = %d, last = %d, pivot = %d\n", first, last, pivot);
+        // printf("pivot trovato: first = %d, last = %d, pivot = %d\n", first, last, pivot);
 
         quickSort(array_to_order, first, pivot-1, func);    // ordino parte destra
         quickSort(array_to_order, pivot + 1, last, func);  // ordino parte sinistra
@@ -69,6 +69,11 @@ static int partition(void **array, int low, int high, func func) {
     swap(array, high, median);
 
     // printf("sono qua, low = %d, median = %d, high = %d, mid = %d\n", low, median, high, mid);
+
+    /*int random_pivot = (rand() % (high - low + 1)) + low;
+    swap(array, high, random_pivot);*/
+
+    //swap(array, low, high);
 
     void *piv_p = array[high];
     int i = low - 1;

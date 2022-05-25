@@ -195,10 +195,9 @@ int main(){
 
     int k = atoi(buf);
 
-    void** array = loadArray("/Users/frankacarkan/Desktop/Algo/ex1_new/records.csv", k); //loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/prova_testo.txt");
+    void** array = loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/records.csv", k); //loadArray("/Users/frankacarkan/Desktop/Algo/ex1_new/records.csv", k);
     Record *r;
     clock_t start, end;
-
 
     /*void** array = (void **) malloc(sizeof(void*) * k);
     for(int i = 0; i < k; i++){
@@ -217,11 +216,11 @@ int main(){
 //             }
 
     start= clock();
-    quickSort(array, 0, k-1, *precedesRecordIdField);
+    // quickSort(array, 0, k-1, *precedesRecordIdField);
     // quickSort(array, 0, k-1, *precedesRecordStringField);
     // quickSort(array, 0, k-1, *precedesRecordIntegerField);
-    // quickSort(array, 0, k-1, *precedesRecordFloatField);
-    //insertSort(array, ar_elem, precedesRecordIdField);
+    quickSort(array, 0, k-1, *precedesRecordFloatField);
+    // insertSort(array, ar_elem, precedesRecordIdField);
     end = clock();
     
     printf("\nelementi ordinati per id in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
