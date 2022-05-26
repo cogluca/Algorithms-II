@@ -15,3 +15,5 @@ build/%.o: ../C_resource/%.c $(COMMON_DEPS)
 bin/skip_list_test: src/skip_list_test.c build/skip_list.o build/unity.o $(LIBS)
 	gcc -g -o bin/skip_list_test src/skip_list_test.c src/skip_list.c ../C_resource/unity.c -I ../C_resource/ -I src/
 
+bin/skip_list_main_usage: src/skip_list_main.c build/skip_list.o $(LIBS)
+	gcc -g -o bin/skip_list_main_usage src/skip_list_main.c src/skip_list.c -I src/

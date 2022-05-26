@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "string.h"
 #include "skip_list.h"
-#include "/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/C_resource/unity.h"
+#include "../../C_resource//unity.h"
 
 
 int comp_int(void *a, void *b){
@@ -60,12 +60,62 @@ void test_string_insertion() {
 
 }
 
+void test_int_insertion() {
+
+    int an_int = 2;
+
+    insertSkipList(skip_list, &an_int);
+
+    int* searched_int = searchNodeElement(skip_list, &an_int);
+
+    TEST_ASSERT_EQUAL_INT(an_int, searched_int );
+
+}
+
+
+void test_double_insertion() {
+
+    double a_double = 2.45;
+
+    insertSkipList(skip_list, &a_double);
+
+    TEST_ASSERT_EQUAL_DOUBLE(a_double, searchNodeElement(skip_list, a_double));
+
+}
+
+
+void test_multiple_string_insertion() {
+
+   char* a_string = "Franco";
+   char* another_string = "va";
+   char* third_string = "da Fratimo";
+
+    insertSkipList(skip_list, a_string);
+    insertSkipList(skip_list, another_string);
+    insertSkipList(skip_list, third_string);
+
+    TEST_ASSERT_EQUAL_STRING(a_string, searchNodeElement(skip_list, a_string));
+    TEST_ASSERT_EQUAL_STRING(another_string, searchNodeElement(skip_list, another_string));
+    TEST_ASSERT_EQUAL_STRING(third_string, searchNodeElement(skip_list, third_string));
+
+}
+
+
+
+
+
 
 //executes tests
 int main() {
     UNITY_BEGIN();
 
     RUN_TEST(test_string_insertion);
+
+    RUN_TEST(test_multiple_string_insertion);
+
+    RUN_TEST(test_int_insertion);
+
+    RUN_TEST(test_double_insertion);
 
 
     return UNITY_END();

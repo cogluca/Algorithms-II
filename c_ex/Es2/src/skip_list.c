@@ -46,9 +46,11 @@ SkipList *SkipListInit(int (*compare)(void *, void *)){
 
     list->max_level = 1;
     list->compare = compare;
+
+    return list;
 }
 
-static Node *CreateNode(void *item, int level){
+static Node* CreateNode(void *item, int level){
     Node *node = (Node *) malloc(sizeof(Node));
     node->item = item;
     node->size = level;
@@ -79,7 +81,7 @@ void insertSkipList(SkipList *list, void *item){
     }
 }
 
-void *searchNodeElement(SkipList *list, void *item){
+void* searchNodeElement(SkipList *list, void *item){
     Node *list_head = list->head;
 
     for(int i = list->max_level; i >= 0; i--){
