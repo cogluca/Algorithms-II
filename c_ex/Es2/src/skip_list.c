@@ -41,7 +41,7 @@ SkipList *SkipListInit(int (*compare)(void *, void *)){
     node->next = (Node **) malloc(sizeof(Node *) * MAX_HEIGHT);
 
     for(int i = 0; i < MAX_HEIGHT; i++){
-        node->next[i] = list->head;     //TODO probabilmente tutti i puntatori all'inizio puntano a NULL e non a list->head
+        node->next[i] = NULL;     
     }
 
     list->max_level = 1;
@@ -53,20 +53,22 @@ static Node *CreateNode(void *item, int level){
     node->item = item;
     node->size = level;
     node->next = (Node **) malloc(sizeof(Node *) * level);
-
+    
     return node;
 }
 
-insertSkipList(SkipList *list, void *item){
+void insertSkipList(SkipList *list, void *item){
     Node *newNode = CreateNode(item, getNodeSize(list));
-
     if(list->max_level < newNode->size)
         list->max_level = newNode->size;
     
     Node *list_head = list->head;
-    for(int k = list->max_level; k <= 1; k--){
+
+    for(int k = list->max_level; k >= 0; k--){
+
         if(list_head->next[k] == NULL || list->compare(item, list_head->next[k]->item) == 2){      //se trovo posto giusto entro qua dentro per inserire il nodo
-            if(k < newNode->size){                              //se entro perché head->next[k] == NULL, allora posso collegarlo 
+            
+            if(k <= newNode->size){                           //se entro perché head->next[k] == NULL, allora posso collegarlo 
                 newNode->next[k] = list_head->next[k];
                 list_head->next[k] = newNode;
             }
@@ -77,10 +79,11 @@ insertSkipList(SkipList *list, void *item){
     }
 }
 
-void *searchSkipList(SkipList *list, void *item){
+void *searchNodeElement(SkipList *list, void *item){
     Node *list_head = list->head;
 
-    for(int i = list->max_level; i <= 1; i--){
+    for(int i = list->max_level; i >= 0; i--){
+
         while(list->compare(item,list_head->next[i]->item) == 1){
             list_head = list_head->next[i];
         }
@@ -96,7 +99,7 @@ void *searchSkipList(SkipList *list, void *item){
 
 void FreeSkipList(SkipList *list){
     Node *currentNode = list->head->next[1];    // prendo il primo livello perché è quello che collega tutti i nodi della lista
-    while(currentNode != NULL){   //TODO forse invese che != list->head bisogna mettere != list->head
+    while(currentNode != NULL){   
         Node *nextNode = currentNode->next[1];
         free(currentNode->next);
         free(currentNode);

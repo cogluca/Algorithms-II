@@ -9,7 +9,7 @@ typedef int (*func)(void*, void*);
  * @param j: position of the second element that need to be swapped
  * @param size: of the element swapped
  */
-static void swap (void **arr, int i, int j);
+static void swap(void **arr, int i, int j);
 
 
 /**

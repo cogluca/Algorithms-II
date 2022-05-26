@@ -29,7 +29,7 @@ static Node *CreateNode(void *item, int level);
  * @param list 
  * @param item 
  */
-insertSkipList(SkipList *list, void *item)
+void insertSkipList(SkipList *list, void *item);
 
 /**
  * @brief Construct a new search Skip List object
@@ -37,7 +37,7 @@ insertSkipList(SkipList *list, void *item)
  * @param list 
  * @param item 
  */
-searchSkipList(SkipList *list, void *item)
+void *searchNodeElement(SkipList *list, void *item);
 
 /**
  * @brief 
