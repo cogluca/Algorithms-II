@@ -40,7 +40,7 @@ int comp_string(void *a, void *b){
 
 
 int detect_words_from_file(const char* file_name, char** word_array) {
-    char buffer[6700000];
+    char buffer[BUFFER_SIZE];
     int size = 0;
     int buffer_length;
 
@@ -58,8 +58,6 @@ int detect_words_from_file(const char* file_name, char** word_array) {
     while (1) {
 
         fscanf(actual_file, "%s", buffer);
-
-        printf("%s\n",buffer);
 
         buffer_length = strlen(buffer);
 
@@ -113,18 +111,19 @@ void print_words_absent_from_dictionary(char** to_analyze_word, SkipList* prepar
         if(returned_word == NULL) {
             printf("%s", to_analyze_word[i]);
         }
-        to_analyze_word = to_analyze_word +1;
+        to_analyze_word = to_analyze_word+1;
     }
 
     FreeSkipList(prepared_dictionary);
 }
-
 
 /**
  * Contains the logic for taking a file to correct and a dictionary in input, translating such elements onto data structures (namely arrays), apply the edit distance algorithms and finally print
  * the outcomes
  */
 int main() {
+
+
 
     char** correctme;
     int correctme_size;
@@ -134,32 +133,28 @@ int main() {
     int dictionary_size;
     char dictionary_filename[BUFFER_SIZE];
 
-    SkipList* loaded_dictionary;
+    SkipList* skip_list;
 
     printf("Insert name of file in need of correction: \n");
-    scanf("%s", correctme_filename);
+    //scanf("%s", correctme_filename);
 
     printf("Insert dictionary: \n");
-    scanf("%s", dictionary_filename);
+    //scanf("%s", dictionary_filename);
+
+    skip_list = SkipListInit(comp_string);
+
+    sprintf(correctme_filename, "/Users/frankacarkan/Downloads/es2_dataset/correctme.txt");
+    sprintf(dictionary_filename,"/Users/frankacarkan/Downloads/es2_dataset/dictionary.txt");
 
     correctme = (char**) malloc(sizeof(char*) * ARRAY_SIZE);
     dictionary = (char**) malloc(sizeof(char*) * ARRAY_SIZE);
 
     correctme_size = detect_words_from_file(correctme_filename, correctme);
-    printf("correct me loaded");
-
     dictionary_size = detect_words_from_file(dictionary_filename, dictionary);
-    printf("dictionary loaded");
 
-    printf("data loaded onto arrays");
+    printf("done loading data");
 
-    loaded_dictionary = loadSkipList(dictionary);
-
-    printf("skiplist loaded");
-
-    print_words_absent_from_dictionary(correctme, loaded_dictionary, dictionary_size, correctme_size);
-
-    printf("print done");
+    print_words_absent_from_dictionary(correctme, skip_list,dictionary_size, correctme_size);
 
     free(correctme);
     free(dictionary);

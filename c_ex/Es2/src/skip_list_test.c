@@ -68,7 +68,7 @@ void test_int_insertion() {
 
     int* searched_int = searchNodeElement(skip_list, &an_int);
 
-    TEST_ASSERT_EQUAL_INT(an_int, searched_int );
+    TEST_ASSERT_EQUAL_INT(an_int, *searched_int );
 
 }
 
