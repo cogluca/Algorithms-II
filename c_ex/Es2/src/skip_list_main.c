@@ -10,7 +10,7 @@
 #include "skip_list.h"
 
 #define BUFFER_SIZE 128
-#define ARRAY_SIZE 670000
+#define ARRAY_SIZE 661562
 
 /**
  * Detects words from file and encloses them into an array
@@ -39,7 +39,7 @@ int comp_string(void *a, void *b){
  */
 
 
-int detect_words_from_file(const char* file_name, char** word_array) {
+char** detect_words_from_file(const char* file_name, char** word_array) {
     char buffer[BUFFER_SIZE];
     int size = 0;
     int buffer_length;
@@ -61,6 +61,8 @@ int detect_words_from_file(const char* file_name, char** word_array) {
 
         buffer_length = strlen(buffer);
 
+        printf("%s\n", buffer);
+
         if(feof(actual_file))
             break;
 
@@ -72,20 +74,25 @@ int detect_words_from_file(const char* file_name, char** word_array) {
             strcpy(word_array[size++], buffer);
         }
     }
-    return size;
+    return word_array;
 
 }
 
 
 SkipList* loadSkipList(char** word_array){
 
+    int word_array_length = 661652;
+
     SkipList* prepared_dictionary;
     prepared_dictionary = SkipListInit(comp_string);
 
-    while(word_array != NULL) {
+    while(word_array_length > 0) {
 
-        insertSkipList(prepared_dictionary, word_array);
+        printf("%d\n", word_array_length);
+
+        insertSkipList(prepared_dictionary, *word_array);
         word_array = word_array +1;
+        word_array_length--;
     }
 
     return prepared_dictionary;
@@ -106,7 +113,7 @@ void print_words_absent_from_dictionary(char** to_analyze_word, SkipList* prepar
 
     for(int i = 0; i < correct_me_size; i++){
 
-        returned_word = searchNodeElement(prepared_dictionary, to_analyze_word);
+        returned_word = searchNodeElement(prepared_dictionary, *to_analyze_word);
 
         if(returned_word == NULL) {
             printf("%s", to_analyze_word[i]);
@@ -141,7 +148,7 @@ int main() {
     printf("Insert dictionary: \n");
     //scanf("%s", dictionary_filename);
 
-    skip_list = SkipListInit(comp_string);
+    //skip_list = SkipListInit(comp_string);
 
     sprintf(correctme_filename, "/Users/frankacarkan/Downloads/es2_dataset/correctme.txt");
     sprintf(dictionary_filename,"/Users/frankacarkan/Downloads/es2_dataset/dictionary.txt");
@@ -149,12 +156,25 @@ int main() {
     correctme = (char**) malloc(sizeof(char*) * ARRAY_SIZE);
     dictionary = (char**) malloc(sizeof(char*) * ARRAY_SIZE);
 
-    correctme_size = detect_words_from_file(correctme_filename, correctme);
-    dictionary_size = detect_words_from_file(dictionary_filename, dictionary);
 
-    printf("done loading data");
+    char** file_to_correct = detect_words_from_file(correctme_filename, correctme);
+    char**  dictionary_file = detect_words_from_file(dictionary_filename, dictionary);
 
-    print_words_absent_from_dictionary(correctme, skip_list,dictionary_size, correctme_size);
+    /*
+     * DECOMMENT THIS TO CHECK THE ARRAY BEING FILLED CORRECTLY
+    int counter = 0;
+    while(counter < 661562){
+
+        printf("%s\n", *dictionary_file);
+        dictionary_file = dictionary_file + 1;
+        counter++;
+    }
+    printf("Manually counted dictionary: %d\n", counter);
+
+    */
+    loadSkipList(dictionary_file);
+
+    print_words_absent_from_dictionary(file_to_correct, skip_list,dictionary_size, 49);
 
     free(correctme);
     free(dictionary);
