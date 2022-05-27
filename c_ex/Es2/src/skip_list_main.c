@@ -30,6 +30,30 @@ int comp_string(void *a, void *b){
     return 0;
 }
 
+int comp_string_forQSort(const void *a, const void *b){
+     char const *char_a =  (char *) a;
+     char const *char_b =  (char *) b;
+    if(strcmp(char_a, char_b) < 0){
+        return 2;
+    }else if(strcmp(char_a, char_b) > 0){
+        return 1;
+    }
+    return 0;
+}
+
+int sortstring( const void *str1, const void *str2 )
+{
+    char *const *pp1 = str1;
+    char *const *pp2 = str2;
+    return strcmp(*pp1, *pp2);
+}
+
+
+int cmp(const void *p1, const void *p2) {
+    return strcmp(p1, p2);
+}
+
+
 
 /**
  * Detects words from the file and loads them onto two arrays
@@ -81,6 +105,8 @@ char** detect_words_from_file(const char* file_name, char** word_array) {
 
 SkipList* loadSkipList(char** word_array){
 
+    printf("sono entrato");
+
     int word_array_length = 661652;
 
     SkipList* prepared_dictionary;
@@ -88,11 +114,10 @@ SkipList* loadSkipList(char** word_array){
 
     while(word_array_length > 0) {
 
-        printf("%d\n", word_array_length);
-
         insertSkipList(prepared_dictionary, *word_array);
         word_array = word_array +1;
         word_array_length--;
+        printf("%d", word_array_length);
     }
 
     return prepared_dictionary;
@@ -160,19 +185,25 @@ int main() {
     char** file_to_correct = detect_words_from_file(correctme_filename, correctme);
     char**  dictionary_file = detect_words_from_file(dictionary_filename, dictionary);
 
-    /*
-     * DECOMMENT THIS TO CHECK THE ARRAY BEING FILLED CORRECTLY
+    /* DECOMMENT THIS TO CHECK THE ARRAY BEING FILLED CORRECTLY
     int counter = 0;
-    while(counter < 661562){
+    while(counter < 661565){
 
         printf("%s\n", *dictionary_file);
         dictionary_file = dictionary_file + 1;
         counter++;
     }
     printf("Manually counted dictionary: %d\n", counter);
+*/
 
-    */
-    loadSkipList(dictionary_file);
+    //NECESSARIO PER AVERE LE OPERAZIONI RICHIESTE NELLA SKIPLIST IN LOG N, ma va in segmentation fault, assieme al MAX HEIGHT DELLE SKIPLIST SETTATO A 10-20 secondo un ragazzo
+    //heapsort(dictionary_file, 661561, sizeof *dictionary_file,cmp);
+
+
+
+    skip_list = loadSkipList(dictionary_file);
+
+
 
     print_words_absent_from_dictionary(file_to_correct, skip_list,dictionary_size, 49);
 

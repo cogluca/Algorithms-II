@@ -44,7 +44,7 @@ SkipList *SkipListInit(int (*compare)(void *, void *)){
         node->next[i] = NULL;     
     }
 
-    list->max_level = 1;
+    list->max_level = 20;
     list->compare = compare;
 
     return list;
