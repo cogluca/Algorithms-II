@@ -204,6 +204,10 @@ int main() {
     skip_list = loadSkipList(dictionary_file);
 
 
+    printf("corbezzoli");
+
+    loadSkipList(dictionary_file);
+
 
     print_words_absent_from_dictionary(file_to_correct, skip_list,dictionary_size, 49);
 
