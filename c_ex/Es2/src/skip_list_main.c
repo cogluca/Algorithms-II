@@ -172,6 +172,9 @@ int main() {
     printf("Manually counted dictionary: %d\n", counter);
 
     */
+
+    printf("corbezzoli");
+
     loadSkipList(dictionary_file);
 
     print_words_absent_from_dictionary(file_to_correct, skip_list,dictionary_size, 49);
