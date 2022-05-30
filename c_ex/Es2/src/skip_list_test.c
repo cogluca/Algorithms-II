@@ -32,6 +32,10 @@ int comp_float(void *a, void *b){
 int comp_string(void *a, void *b){
     char *char_a = (char *) a;
     char *char_b = (char *) b;
+    if((char_a) == NULL)
+        return 2;
+    if((char_b) == NULL)
+        return 1;
     if(strcmp(char_a, char_b) < 0){
         return 2;
     }else if(strcmp(char_a, char_b) > 0){
@@ -98,8 +102,9 @@ void test_multiple_string_insertion() {
     insertSkipList(skip_list, un_osso);
     insertSkipList(skip_list, fuori_posto);
     insertSkipList(skip_list, davvero);
-    //insertSkipList(skip_list, pero_boh);
-    //insertSkipList(skip_list, che_storia);
+    insertSkipList(skip_list, pero_boh);
+    insertSkipList(skip_list, che_storia);
+    insertSkipList(skip_list,e_crasha);
 
 
     TEST_ASSERT_EQUAL_STRING(a_string, searchNodeElement(skip_list, a_string));

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "skip_list.h"
 
-#define MAX_HEIGHT 20   // numero massimo di puntatori in un nodo
+#define MAX_HEIGHT 10   // numero massimo di puntatori in un nodo
 
 
 struct _SkipList {
@@ -73,17 +73,21 @@ void insertSkipList(SkipList *list, void *item) {
 
     for (int k = list->max_level; k >= 0; k--) {
 
-        if (list_head->next[k] == NULL || list->compare(item, list_head->next[k]->item) == 2) {      //se trovo posto giusto entro qua dentro per inserire il nodo
+        if(k <= list_head->size) {
+            if (list_head->next[k] == NULL || list->compare(item, list_head->next[k]->item) ==
+                                              2) {      //se trovo posto giusto entro qua dentro per inserire il nodo
 
-            if (k <= newNode->size) {                         //se entro perché head->next[k] == NULL, allora posso collegarlo
-                newNode->next[k] = list_head->next[k];
-                list_head->next[k] = newNode;
+                if (k <=
+                    newNode->size) {                         //se entro perché head->next[k] == NULL, allora posso collegarlo
+                    newNode->next[k] = list_head->next[k];
+                    list_head->next[k] = newNode;
+                }
+            } else {
+                //altrimenti scorro sempre sulla stessa coda di lista fino a trovare il NULL
+                list_head = list_head->next[k];
+                k++;
+
             }
-        } else {
-            //altrimenti scorro sempre sulla stessa coda di lista fino a trovare il NULL
-            list_head = list_head->next[k];
-            k++;
-
         }
     }
 }
