@@ -17,9 +17,9 @@ struct _Node {
     void *item;
 };
 
-static float my_random() {
+static double my_random() {
 
-    return ((rand() % 10000) / 10000.0);
+    return (double)rand() / (double)RAND_MAX;
 
 }
 

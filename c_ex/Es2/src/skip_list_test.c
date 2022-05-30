@@ -110,6 +110,14 @@ void test_multiple_string_insertion() {
     TEST_ASSERT_EQUAL_STRING(a_string, searchNodeElement(skip_list, a_string));
     TEST_ASSERT_EQUAL_STRING(another_string, searchNodeElement(skip_list, another_string));
     TEST_ASSERT_EQUAL_STRING(third_string, searchNodeElement(skip_list, third_string));
+    TEST_ASSERT_EQUAL_STRING(fourth_string, searchNodeElement(skip_list, fourth_string));
+    TEST_ASSERT_EQUAL_STRING(trova, searchNodeElement(skip_list, trova));
+    TEST_ASSERT_EQUAL_STRING(un_osso, searchNodeElement(skip_list, un_osso));
+    TEST_ASSERT_EQUAL_STRING(fuori_posto, searchNodeElement(skip_list, fuori_posto));
+    TEST_ASSERT_EQUAL_STRING(davvero, searchNodeElement(skip_list, davvero));
+    TEST_ASSERT_EQUAL_STRING(pero_boh, searchNodeElement(skip_list, pero_boh));
+    TEST_ASSERT_EQUAL_STRING(che_storia ,searchNodeElement(skip_list, che_storia));
+    TEST_ASSERT_EQUAL_STRING(e_crasha, searchNodeElement(skip_list, e_crasha));
 
 }
 

@@ -30,24 +30,6 @@ int comp_string(void *a, void *b){
     return 0;
 }
 
-int comp_string_forQSort(const void *a, const void *b){
-     char const *char_a =  (char *) a;
-     char const *char_b =  (char *) b;
-    if(strcmp(char_a, char_b) < 0){
-        return 2;
-    }else if(strcmp(char_a, char_b) > 0){
-        return 1;
-    }
-    return 0;
-}
-
-int sortstring( const void *str1, const void *str2 )
-{
-    char *const *pp1 = str1;
-    char *const *pp2 = str2;
-    return strcmp(*pp1, *pp2);
-}
-
 
 int cmp(const void *p1, const void *p2) {
     return strcmp(p1, p2);
@@ -195,10 +177,10 @@ int main() {
     }
     printf("Manually counted dictionary: %d\n", counter);
 */
-
+    printf("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     //NECESSARIO PER AVERE LE OPERAZIONI RICHIESTE NELLA SKIPLIST IN LOG N, ma va in segmentation fault, assieme al MAX HEIGHT DELLE SKIPLIST SETTATO A 10-20 secondo un ragazzo
     //heapsort(dictionary_file, 661561, sizeof *dictionary_file,cmp);
-
+    printf("franco");
 
 
     skip_list = loadSkipList(dictionary_file);
