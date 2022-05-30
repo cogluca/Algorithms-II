@@ -3,6 +3,7 @@
 #include "string.h"
 #include "skip_list.h"
 #include "../../C_resource//unity.h"
+#define UNITY_INCLUDE_DOUBLE
 
 
 int comp_int(void *a, void *b){
@@ -73,16 +74,6 @@ void test_int_insertion() {
 }
 
 
-void test_double_insertion() {
-
-    double a_double = 2.45;
-
-    insertSkipList(skip_list, &a_double);
-
-    TEST_ASSERT_EQUAL_DOUBLE(a_double, searchNodeElement(skip_list, a_double));
-
-}
-
 
 void test_multiple_string_insertion() {
 
@@ -114,8 +105,6 @@ int main() {
     RUN_TEST(test_multiple_string_insertion);
 
     RUN_TEST(test_int_insertion);
-
-    RUN_TEST(test_double_insertion);
 
 
     return UNITY_END();

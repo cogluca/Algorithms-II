@@ -17,11 +17,16 @@ struct _Node{
     void *item;
 };
 
+static float my_random () {
+
+    return ((rand()%10000)/10000.0);
+
+}
+
 static int getNodeSize(SkipList *list){
     int lvl = 1;
-    float i = (rand()%10000)/10000.0;
 
-    while(i < 0.5 && lvl < MAX_HEIGHT){
+    while( my_random() < 0.5 && lvl < MAX_HEIGHT){
         lvl++;
     }
 
@@ -44,7 +49,7 @@ SkipList *SkipListInit(int (*compare)(void *, void *)){
         node->next[i] = NULL;     
     }
 
-    list->max_level = 20;
+    list->max_level = 1;
     list->compare = compare;
 
     return list;
@@ -76,7 +81,7 @@ void insertSkipList(SkipList *list, void *item){
             }
         } else{                                                 //altrimenti scorro sempre sulla stessa coda di lista fino a trovare il NULL
             list_head = list_head->next[k];
-            k++;
+            k--;
         }
     }
 }

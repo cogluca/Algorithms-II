@@ -117,7 +117,7 @@ SkipList* loadSkipList(char** word_array){
         insertSkipList(prepared_dictionary, *word_array);
         word_array = word_array +1;
         word_array_length--;
-        printf("%d", word_array_length);
+        printf("%d\n", word_array_length);
     }
 
     return prepared_dictionary;
