@@ -80,10 +80,27 @@ void test_multiple_string_insertion() {
    char* a_string = "Franco";
    char* another_string = "va";
    char* third_string = "da Fratimo";
+   char* fourth_string = "e";
+   char* trova = "trova";
+   char* un_osso = "un osso";
+   char* fuori_posto = "fuori posto";
+   char* davvero = "davvero";
+   char* pero_boh = "pero boh";
+   char* che_storia = "che storia";
+   char* e_crasha = "stop";
+   char* why_non_crasha= "why non crasha";
 
     insertSkipList(skip_list, a_string);
     insertSkipList(skip_list, another_string);
     insertSkipList(skip_list, third_string);
+    insertSkipList(skip_list, fourth_string);
+    insertSkipList(skip_list, trova);
+    insertSkipList(skip_list, un_osso);
+    insertSkipList(skip_list, fuori_posto);
+    insertSkipList(skip_list, davvero);
+    //insertSkipList(skip_list, pero_boh);
+    //insertSkipList(skip_list, che_storia);
+
 
     TEST_ASSERT_EQUAL_STRING(a_string, searchNodeElement(skip_list, a_string));
     TEST_ASSERT_EQUAL_STRING(another_string, searchNodeElement(skip_list, another_string));
