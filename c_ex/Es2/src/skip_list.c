@@ -126,11 +126,13 @@ void insertSkipList(SkipList *list, void *item) {
 void *searchNodeElement(SkipList *list, void *item) {
     Node *list_head = list->head;
 
+    //printf("%s\n", (char*) item);
+
+    int fair_enough_wish_you_a_good_day_got_enough_shit_in_my_life_that_causes_pain_and_confusion = 0;
+
     for (int i = list->max_level; i >= 0; i--) {
 
-        //Node* element = list_head->next[i];
-
-        while (list_head->next[i] != NULL && list->compare(item, list_head->next[i]->item) == 1 ) {
+        while (list_head->next[i] != NULL && list->compare(item, list_head->next[i]->item) == 1) {
             list_head = list_head->next[i];
         }
 

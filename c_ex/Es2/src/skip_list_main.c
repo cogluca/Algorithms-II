@@ -75,12 +75,12 @@ static char **load_file_to_correct(const char *file_name) {
 
     while (one_word != NULL){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
 
+
         if (ar_size <= word_counter ) { // check sulla grandezza dell'array dinamico
             ar_size *= 2;
             array = (char **) realloc(array, sizeof(char *) *
                                              ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
         }
-
 
 
         char *read_word = (char*) malloc((strlen(one_word) + 1) * sizeof(char));
@@ -100,6 +100,8 @@ static char **load_file_to_correct(const char *file_name) {
 
         //printf("%s\n", array[word_counter]); FUNZIONA
 
+
+
         word_counter += 1;
 
         one_word = strtok(NULL, sep);// pulisco il buffer che legge la stringa per riempirlo con la prossima riga
@@ -110,21 +112,18 @@ static char **load_file_to_correct(const char *file_name) {
 
     }
 
+/*
     for(int i = 0; i < word_counter; i++){
-
-        printf("%s\n", array[word_counter]);
-
+        printf("%s\n", *array);
+        array = array+1;
     }
-
-
+*/
+/*
     if (ar_size > ar_elem) { // check sulla grandezza dell'array dinamico
         array = (char **) realloc(array, sizeof(char **) *
                                          ar_elem);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
     }
-
-
-
-
+*/
     fclose(fp); // chiudo la lettura del file
     printf("\nData loaded\n");
 
@@ -225,14 +224,29 @@ void print_words_absent_from_dictionary(char **to_analyze_word, SkipList *prepar
 
     char *returned_word;
 
-    for (int i = 0; i < correct_me_size; i++) {
+    int yo = 0;
+    /*
+    while(yo < word_counter){
 
-        returned_word = searchNodeElement(prepared_dictionary, *to_analyze_word);
+        printf("%s\n", *to_analyze_word);
+        to_analyze_word = to_analyze_word+1;
+        yo++;
+
+    }
+*/
+    //REASON BRUDAH, REASON
+
+    int not_so_meant_to_be_let_me_know_when_you_feel_like_talking = 0;
+
+    for (int i = 0; i < word_counter; i++) {
+
+        returned_word = searchNodeElement(prepared_dictionary, &to_analyze_word);
 
         if (returned_word == NULL) {
-            printf("%s", to_analyze_word[i]);
+            printf("%s\n", to_analyze_word[i]);
         }
-        to_analyze_word = to_analyze_word + 1;
+
+        //no seriamente sono solo abbastanza bruciato da vede i vostri pattern
     }
 
     FreeSkipList(prepared_dictionary);
@@ -273,27 +287,24 @@ int main() {
 
 
     char** file_to_correct = load_file_to_correct(correctme_filename);
-    char **dictionary_file = load_dictionary(dictionary_filename);
+    char** dictionary_file = load_dictionary(dictionary_filename);
 
 
     int array_pos_48 = 0;
-    /*
-    while(array_pos_48 <= word_counter){
 
 
+    /*while(array_pos_48 <= word_counter){
 
-        printf("%s\n",file_to_correct[array_pos_48]);
+        printf("%s\n",*file_to_correct);
+        file_to_correct = file_to_correct+1;
         array_pos_48++;
 
     }
+     */
+
 
 /*
-    for(int i = 100; i> 0; i--){
-        printf("%s\n", dictionary_file[i]);
-
-    }
-    */
-    /* DECOMMENT THIS TO CHECK THE ARRAY BEING FILLED CORRECTLY
+     //DECOMMENT THIS TO CHECK THE ARRAY BEING FILLED CORRECTLY
     int counter = 0;
     while(counter < 661565){
 
@@ -308,15 +319,13 @@ int main() {
     //heapsort(dictionary_file, 661561, sizeof *dictionary_file,cmp);
     printf("prima del load nella skiplist\n");
 
-    //skip_list = loadSkipList(dictionary_file, ar_elem);
+    skip_list = loadSkipList(dictionary_file, ar_elem);
 
 
     printf("post caricamento skiplist\n");
 
-    //loadSkipList(dictionary_file);
 
-
-    //print_words_absent_from_dictionary(file_to_correct, skip_list,dictionary_size, 49);
+    print_words_absent_from_dictionary(file_to_correct, skip_list,dictionary_size, 49);
 
     free(correctme);
     free(dictionary);
