@@ -75,13 +75,10 @@ static char **load_file_to_correct(const char *file_name) {
 
     while (one_word != NULL){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
 
-
         if (ar_size <= word_counter ) { // check sulla grandezza dell'array dinamico
             ar_size *= 2;
-            array = (char **) realloc(array, sizeof(char *) *
-                                             ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+            array = (char **) realloc(array, sizeof(char *) * ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
         }
-
 
         char *read_word = (char*) malloc((strlen(one_word) + 1) * sizeof(char));
         if (read_word == NULL) {
@@ -240,11 +237,12 @@ void print_words_absent_from_dictionary(char **to_analyze_word, SkipList *prepar
 
     for (int i = 0; i < word_counter; i++) {
 
-        returned_word = searchNodeElement(prepared_dictionary, &to_analyze_word);
+        returned_word = searchNodeElement(prepared_dictionary, *to_analyze_word);
 
         if (returned_word == NULL) {
-            printf("%s\n", to_analyze_word[i]);
+            printf("%s\n", *to_analyze_word);
         }
+        to_analyze_word = to_analyze_word+1;
 
         //no seriamente sono solo abbastanza bruciato da vede i vostri pattern
     }
