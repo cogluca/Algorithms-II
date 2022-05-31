@@ -8,8 +8,9 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "skip_list.h"
+#include "time.h"
 
-#define BUFFER_SIZE 128
+#define BUFFER_SIZE 500
 #define ARRAY_SIZE 661562
 
 /**
@@ -19,12 +20,15 @@
  * @return returns size of filled array
  */
 
-int comp_string(void *a, void *b){
+int ar_elem = 0;
+int word_counter = 0;
+
+int comp_string(void *a, void *b) {
     char *char_a = (char *) a;
     char *char_b = (char *) b;
-    if(strcmp(char_a, char_b) < 0){
+    if (strcmp(char_a, char_b) < 0) {
         return 2;
-    }else if(strcmp(char_a, char_b) > 0){
+    } else if (strcmp(char_a, char_b) > 0) {
         return 1;
     }
     return 0;
@@ -36,7 +40,6 @@ int cmp(const void *p1, const void *p2) {
 }
 
 
-
 /**
  * Detects words from the file and loads them onto two arrays
  * @param file_name name of file being read
@@ -44,62 +47,165 @@ int cmp(const void *p1, const void *p2) {
  * @return size of array being returned
  */
 
+static char **load_file_to_correct(const char *file_name) {
+    int ar_size = 2;
+    char **array = (char **) malloc(
+            sizeof(char *) * ar_size);  // alloco memoria per un array di puntatori a struct record
 
-char** detect_words_from_file(const char* file_name, char** word_array) {
-    char buffer[BUFFER_SIZE];
-    int size = 0;
-    int buffer_length;
-
-    if (file_name == NULL)
-        printf("File name is null");
-
-    FILE * actual_file = fopen(file_name, "r");
-
-    if (word_array == NULL)
-        printf("Array is null");
-
-    if (actual_file == NULL)
-        printf("Unable to open file");
-
-    while (1) {
-
-        fscanf(actual_file, "%s", buffer);
-
-        buffer_length = strlen(buffer);
-
-        printf("%s\n", buffer);
-
-        if(feof(actual_file))
-            break;
-
-        if (buffer[buffer_length - 1] == ',' || buffer[buffer_length - 1] == '.' || buffer[buffer_length - 1] == ':')
-            buffer[--buffer_length] = '\0';
-
-        if(word_array != NULL) {
-            word_array[size] = (char *) malloc((buffer_length + 1) * sizeof(char));
-            strcpy(word_array[size++], buffer);
-        }
+    if (array == NULL) {
+        fprintf(stderr, "main: unable to allocate memory for the read record\n");
+        exit(EXIT_FAILURE);
     }
-    return word_array;
 
+    char buffer[1024];      // devo creare un buffer di caratteri, ogni riga di testo la carico in un buffer
+    int buf_size = 1024;    // specifico dimensione del buffer
+    FILE *fp;               // puntatore al file da leggere
+    printf("\nLoading data from file...\n");
+    fp = fopen(file_name, "r");    // apro il file in lettura ("r")
+    if (fp == NULL) {               // controllo se c'è stato qualche errore
+        fprintf(stderr, "main: unable to open the file\n");
+        exit(EXIT_FAILURE);
+    }
+
+
+    fgets(buffer, buf_size, fp);
+    char* sep = ":,.  \n";
+
+    char* one_word = strtok(buffer, sep);
+
+    while (one_word != NULL){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
+
+        if (ar_size <= word_counter ) { // check sulla grandezza dell'array dinamico
+            ar_size *= 2;
+            array = (char **) realloc(array, sizeof(char *) *
+                                             ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+        }
+
+
+
+        char *read_word = (char*) malloc((strlen(one_word) + 1) * sizeof(char));
+        if (read_word == NULL) {
+            fprintf(stderr, "main: unable to allocate memory for the read line\n");
+            exit(EXIT_FAILURE);
+        }
+
+        strcpy(read_word, one_word);
+
+        //printf("Read word is %s\n",read_word); QUESTA PRINT FUNZIONA
+
+        // strtok restituisce puntatori agli elementi trovati e separati dalla ','
+
+
+        array[word_counter] = read_word;
+
+        //printf("%s\n", array[word_counter]); FUNZIONA
+
+        word_counter += 1;
+
+        one_word = strtok(NULL, sep);// pulisco il buffer che legge la stringa per riempirlo con la prossima riga
+
+
+
+        //printf("%s\n", array[word_counter]); NORMALE CHE NON FUNZIONI è LA PAROLA DAVANTI VUOTA IN OGNI CICLO GRAZIE A WORD COUNTER ++
+
+    }
+
+    for(int i = 0; i < word_counter; i++){
+
+        printf("%s\n", array[word_counter]);
+
+    }
+
+
+    if (ar_size > ar_elem) { // check sulla grandezza dell'array dinamico
+        array = (char **) realloc(array, sizeof(char **) *
+                                         ar_elem);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+    }
+
+
+
+
+    fclose(fp); // chiudo la lettura del file
+    printf("\nData loaded\n");
+
+    return (array);
+}
+
+static char **load_dictionary(const char *file_name) {
+    int ar_size = 2;
+    char **array = (char **) malloc(
+            sizeof(char *) * ar_size);  // alloco memoria per un array di puntatori a struct record
+
+    if (array == NULL) {
+        fprintf(stderr, "main: unable to allocate memory for the read record\n");
+        exit(EXIT_FAILURE);
+    }
+
+    char *read_line_p;
+    char buffer[1024];      // devo creare un buffer di caratteri, ogni riga di testo la carico in un buffer
+    int buf_size = 1024;    // specifico dimensione del buffer
+    FILE *fp;               // puntatore al file da leggere
+    printf("\nLoading data from file...\n");
+    fp = fopen(file_name, "r");    // apro il file in lettura ("r")
+    if (fp == NULL) {               // controllo se c'è stato qualche errore
+        fprintf(stderr, "main: unable to open the file\n");
+        exit(EXIT_FAILURE);
+    }
+
+    while (fgets(buffer, buf_size, fp) !=
+           NULL) {  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
+
+        if (ar_size <= ar_elem) { // check sulla grandezza dell'array dinamico
+            ar_size *= 2;
+            array = (char **) realloc(array, sizeof(char *) *
+                                             ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+        }
+
+        read_line_p = malloc((strlen(buffer) + 1) * sizeof(char));
+        if (read_line_p == NULL) {
+            fprintf(stderr, "main: unable to allocate memory for the read line\n");
+            exit(EXIT_FAILURE);
+        }
+
+        strcpy(read_line_p, buffer);
+
+        char *elem = (char *) malloc((strlen(read_line_p) + 1) * sizeof(char));
+        strcpy(elem, read_line_p);
+        // strtok restituisce puntatori agli elementi trovati e separati dalla ','
+
+
+        array[ar_elem] = elem;
+
+
+        ar_elem += 1;
+
+        free(read_line_p);  // pulisco il buffer che legge la stringa per riempirlo con la prossima riga
+    }
+
+
+    if (ar_size > ar_elem) { // check sulla grandezza dell'array dinamico
+        array = (char **) realloc(array, sizeof(char **) *
+                                         ar_elem);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+    }
+
+
+    fclose(fp); // chiudo la lettura del file
+    printf("\nData loaded\n");
+
+    return (array);
 }
 
 
-SkipList* loadSkipList(char** word_array){
+SkipList *loadSkipList(char **word_array, int array_size) {
 
-    printf("sono entrato");
+    printf("sono entrato\n");
 
-    int word_array_length = 661652;
-
-    SkipList* prepared_dictionary;
+    SkipList *prepared_dictionary;
     prepared_dictionary = SkipListInit(comp_string);
 
-    while(word_array_length > 0) {
-
-        insertSkipList(prepared_dictionary, *word_array);
-        word_array = word_array +1;
-        word_array_length--;
-        printf("%d\n", word_array_length);
+    while (array_size > 0) {
+        array_size--;
+        insertSkipList(prepared_dictionary, word_array[array_size]);
     }
 
     return prepared_dictionary;
@@ -114,18 +220,19 @@ SkipList* loadSkipList(char** word_array){
  * @param prepared_dictionary dictionary loaded onto a skiplist structure
  * @param correct_me_size size of words being analyzed
  */
-void print_words_absent_from_dictionary(char** to_analyze_word, SkipList* prepared_dictionary , int dictionary_size, int correct_me_size) {
+void print_words_absent_from_dictionary(char **to_analyze_word, SkipList *prepared_dictionary, int dictionary_size,
+                                        int correct_me_size) {
 
-    char* returned_word;
+    char *returned_word;
 
-    for(int i = 0; i < correct_me_size; i++){
+    for (int i = 0; i < correct_me_size; i++) {
 
         returned_word = searchNodeElement(prepared_dictionary, *to_analyze_word);
 
-        if(returned_word == NULL) {
+        if (returned_word == NULL) {
             printf("%s", to_analyze_word[i]);
         }
-        to_analyze_word = to_analyze_word+1;
+        to_analyze_word = to_analyze_word + 1;
     }
 
     FreeSkipList(prepared_dictionary);
@@ -138,16 +245,17 @@ void print_words_absent_from_dictionary(char** to_analyze_word, SkipList* prepar
 int main() {
 
 
-
-    char** correctme;
+    char **correctme;
     int correctme_size;
     char correctme_filename[BUFFER_SIZE];
 
-    char** dictionary;
+    char **dictionary;
     int dictionary_size;
     char dictionary_filename[BUFFER_SIZE];
 
-    SkipList* skip_list;
+    SkipList *skip_list;
+
+    srand(time(NULL));
 
     printf("Insert name of file in need of correction: \n");
     //scanf("%s", correctme_filename);
@@ -158,15 +266,33 @@ int main() {
     //skip_list = SkipListInit(comp_string);
 
     sprintf(correctme_filename, "/Users/frankacarkan/Downloads/es2_dataset/correctme.txt");
-    sprintf(dictionary_filename,"/Users/frankacarkan/Downloads/es2_dataset/dictionary.txt");
+    sprintf(dictionary_filename, "/Users/frankacarkan/Downloads/es2_dataset/dictionary.txt");
 
-    correctme = (char**) malloc(sizeof(char*) * ARRAY_SIZE);
-    dictionary = (char**) malloc(sizeof(char*) * ARRAY_SIZE);
+    correctme = (char **) malloc(sizeof(char *) * ARRAY_SIZE);
+    dictionary = (char **) malloc(sizeof(char *) * ARRAY_SIZE);
 
 
-    char** file_to_correct = detect_words_from_file(correctme_filename, correctme);
-    char**  dictionary_file = detect_words_from_file(dictionary_filename, dictionary);
+    char** file_to_correct = load_file_to_correct(correctme_filename);
+    char **dictionary_file = load_dictionary(dictionary_filename);
 
+
+    int array_pos_48 = 0;
+    /*
+    while(array_pos_48 <= word_counter){
+
+
+
+        printf("%s\n",file_to_correct[array_pos_48]);
+        array_pos_48++;
+
+    }
+
+/*
+    for(int i = 100; i> 0; i--){
+        printf("%s\n", dictionary_file[i]);
+
+    }
+    */
     /* DECOMMENT THIS TO CHECK THE ARRAY BEING FILLED CORRECTLY
     int counter = 0;
     while(counter < 661565){
@@ -177,21 +303,20 @@ int main() {
     }
     printf("Manually counted dictionary: %d\n", counter);
 */
-    printf("YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+
     //NECESSARIO PER AVERE LE OPERAZIONI RICHIESTE NELLA SKIPLIST IN LOG N, ma va in segmentation fault, assieme al MAX HEIGHT DELLE SKIPLIST SETTATO A 10-20 secondo un ragazzo
     //heapsort(dictionary_file, 661561, sizeof *dictionary_file,cmp);
-    printf("franco");
+    printf("prima del load nella skiplist\n");
+
+    //skip_list = loadSkipList(dictionary_file, ar_elem);
 
 
-    skip_list = loadSkipList(dictionary_file);
+    printf("post caricamento skiplist\n");
+
+    //loadSkipList(dictionary_file);
 
 
-    printf("corbezzoli");
-
-    loadSkipList(dictionary_file);
-
-
-    print_words_absent_from_dictionary(file_to_correct, skip_list,dictionary_size, 49);
+    //print_words_absent_from_dictionary(file_to_correct, skip_list,dictionary_size, 49);
 
     free(correctme);
     free(dictionary);

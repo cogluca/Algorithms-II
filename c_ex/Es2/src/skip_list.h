@@ -7,7 +7,7 @@ typedef struct _Node Node;
  * @param list 
  * @return int 
  */
-static int getNodeSize(SkipList *list);
+static int getNodeSize();
 
 /**
  * @brief 
