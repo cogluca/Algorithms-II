@@ -20,12 +20,24 @@
  * @return returns size of filled array
  */
 
+
+
 int ar_elem = 0;
 int word_counter = 0;
+
+char* my_tolower(char* to_convert){
+    for(int i = 0; to_convert[i]; i++){
+        to_convert[i] = tolower(to_convert[i]);
+    }
+    return to_convert;
+}
+
+
 
 int comp_string(void *a, void *b) {
     char *char_a = (char *) a;
     char *char_b = (char *) b;
+
     if (strcmp(char_a, char_b) < 0) {
         return 2;
     } else if (strcmp(char_a, char_b) > 0) {
@@ -69,9 +81,11 @@ static char **load_file_to_correct(const char *file_name) {
 
 
     fgets(buffer, buf_size, fp);
-    char* sep = ":,.  \n";
+    char* sep = ":,.  ";
 
     char* one_word = strtok(buffer, sep);
+
+
 
     while (one_word != NULL){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
 
@@ -92,6 +106,7 @@ static char **load_file_to_correct(const char *file_name) {
 
         // strtok restituisce puntatori agli elementi trovati e separati dalla ','
 
+        read_word = my_tolower(read_word);
 
         array[word_counter] = read_word;
 
@@ -167,7 +182,9 @@ static char **load_dictionary(const char *file_name) {
 
         char *elem = (char *) malloc((strlen(read_line_p) + 1) * sizeof(char));
         strcpy(elem, read_line_p);
-        // strtok restituisce puntatori agli elementi trovati e separati dalla ','
+
+        //tutto questo casino per dare una possibilità ad uno che fa cosi
+        elem = strtok(elem, "\n");// strtok restituisce puntatori agli elementi trovati e separati dalla ','
 
 
         array[ar_elem] = elem;
@@ -239,9 +256,10 @@ void print_words_absent_from_dictionary(char **to_analyze_word, SkipList *prepar
 
         returned_word = searchNodeElement(prepared_dictionary, *to_analyze_word);
 
-        if (returned_word == NULL) {
+        if(returned_word == NULL){
             printf("%s\n", *to_analyze_word);
         }
+
         to_analyze_word = to_analyze_word+1;
 
         //no seriamente sono solo abbastanza bruciato da vede i vostri pattern
@@ -314,7 +332,7 @@ int main() {
 */
 
     //NECESSARIO PER AVERE LE OPERAZIONI RICHIESTE NELLA SKIPLIST IN LOG N, ma va in segmentation fault, assieme al MAX HEIGHT DELLE SKIPLIST SETTATO A 10-20 secondo un ragazzo
-    //heapsort(dictionary_file, 661561, sizeof *dictionary_file,cmp);
+    heapsort(dictionary_file, 661561, sizeof *dictionary_file,cmp);
     printf("prima del load nella skiplist\n");
 
     skip_list = loadSkipList(dictionary_file, ar_elem);

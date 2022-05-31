@@ -44,8 +44,6 @@ static int getNodeSize() {
         lvl++;
     }
 
-    printf("%d\n", lvl);
-
     return lvl;
 }
 
@@ -54,7 +52,7 @@ static unsigned long random_lvl() {
     unsigned long int level = 1;
 
 
-    while((rand() %2 )< 0.5 && level < MAX_HEIGHT -1 ){
+    while((rand() %2 )< 0.5 && level < MAX_HEIGHT ){
         level++;
     }
 
@@ -139,7 +137,8 @@ void *searchNodeElement(SkipList *list, void *item) {
 
     //why do I return the first on next ?
     list_head = list_head->next[0];
-    if (list_head != NULL && list->compare(item, list_head->item) == 0) {
+    //printf("%s\n", (char*) list_head->item);
+    if (list->head != NULL && list->compare(item, list_head->item) == 0) {
         return list_head->item;
     } else {
         return NULL;
