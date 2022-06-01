@@ -52,7 +52,7 @@ static unsigned long random_lvl() {
     unsigned long int level = 1;
 
 
-    while((rand() %2 )< 0.5 && level < MAX_HEIGHT ){
+    while((rand() %2 )< 0.5 && level < MAX_HEIGHT-1 ){
         level++;
     }
 
@@ -90,7 +90,7 @@ static Node *CreateNode(void *item, int level) {
     Node *node = (Node *) malloc(sizeof(Node));
     node->item = item;
     node->size = level;
-    node->next = (Node **) malloc(sizeof(Node *) * level);
+    node->next = (Node **) malloc(sizeof(Node *) * level+1);
 
     return node;
 }
@@ -100,7 +100,10 @@ void insertSkipList(SkipList *list, void *item) {
     if (list->max_level < newNode->size)
         list->max_level = newNode->size;
 
+    printf("%d\n", newNode->size);
+
     Node *list_head = list->head;
+
 
     for (int k = list->max_level; k >= 0; k--) {
 
@@ -124,8 +127,6 @@ void insertSkipList(SkipList *list, void *item) {
 void *searchNodeElement(SkipList *list, void *item) {
     Node *list_head = list->head;
 
-    int fair_enough_wish_you_a_good_day_got_enough_shit_in_my_life_that_causes_pain_and_confusion = 0;
-
     //searching through express ways
     for (int i = list->max_level; i >= 0; i--) {
 
@@ -146,9 +147,9 @@ void *searchNodeElement(SkipList *list, void *item) {
 }
 
 void FreeSkipList(SkipList *list) {
-    Node *currentNode = list->head->next[1];    // prendo il primo livello perché è quello che collega tutti i nodi della lista
+    Node *currentNode = list->head->next[0];    // prendo il primo livello perché è quello che collega tutti i nodi della lista
     while (currentNode != NULL) {
-        Node *nextNode = currentNode->next[1];
+        Node *nextNode = currentNode->next[0];
         free(currentNode->next);
         free(currentNode);
         currentNode = nextNode;

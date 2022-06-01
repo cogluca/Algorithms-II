@@ -332,7 +332,7 @@ int main() {
 */
 
     //NECESSARIO PER AVERE LE OPERAZIONI RICHIESTE NELLA SKIPLIST IN LOG N, ma va in segmentation fault, assieme al MAX HEIGHT DELLE SKIPLIST SETTATO A 10-20 secondo un ragazzo
-    heapsort(dictionary_file, 661561, sizeof *dictionary_file,cmp);
+    //heapsort(dictionary_file, 661561, sizeof *dictionary_file,cmp);
     printf("prima del load nella skiplist\n");
 
     skip_list = loadSkipList(dictionary_file, ar_elem);
@@ -345,6 +345,7 @@ int main() {
 
     free(correctme);
     free(dictionary);
+
 
     return 0;
 }
