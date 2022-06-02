@@ -51,7 +51,7 @@ public class Node<T extends Comparable<T>, L extends Comparable<L>> implements C
             distanceTypeOfNode = Integer.class;
         }
         if (distanceType == Float.class) {
-            floatDistance = Float.valueOf(4000000);
+            floatDistance = Float.MAX_VALUE-1;
             distanceTypeOfNode = Float.class;
         }
         if (distanceType == Double.class) {

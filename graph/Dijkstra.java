@@ -11,14 +11,15 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
      * optimal goal, stepwise the approach is considers a node from a priority queue containing all nodes of a certain graph, extracts the one having minimum distance, explores the adjacent nodes assigning them a value
      * composed of connecting edge plus the value of the minimum extracted and assigns this value to the frontier node, such approach is called frontier relaxation. Next element extracted comes from the frontier and is
      * the minimum value one.
+     *
      * @param graphBeingAnalyzed graph taken into consideration
-     * @param entryCity starting node from which to carry calculations
-     * @param distanceType type of quantification of distances
+     * @param entryCity          starting node from which to carry calculations
+     * @param distanceType       type of quantification of distances
      * @return returns the resulting shortest path tree
      * @throws Exception
      */
 
-    public Graph<T, L> dijkstraAlgorithm(Graph<T, L> graphBeingAnalyzed, T entryCity, Class distanceType) throws Exception {
+    public Graph<T, L> dijkstraAlgorithm(Graph<T, L> graphBeingAnalyzed, T entryCity, Class<L> distanceType) throws Exception {
 
         Graph<T, L> toReturnGraph = new Graph<>(false, distanceType, Node.ComparisonType.DISTANCE);
 
@@ -36,10 +37,11 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
         }
 
 
-        Node<T, L> frontierChange = null ;
+        Node<T, L> frontierChange = null;
         Node<T, L> updateEdgeNode = null;
-        Edge<T,L> updateEdge = null;
+        Edge<T, L> updateEdge = null;
         Node<T, L> toExploreNode = null;
+        Node<T, L> currentlyExploredNode = null;
 
         unexploredNodes.addElement(entryPoint);
 
@@ -48,9 +50,9 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
         //main part, iteration over Priority Queue elements
         while (unexploredNodes.getSize() > 0) {
 
-            for(Node<T,L> node: unexploredNodes.getVector()){
+            for (Node<T, L> node : unexploredNodes.getVector()) {
 
-                if(node.getEdgeReference().containsKey(frontierChange)){
+                if (node.getEdgeReference().containsKey(frontierChange)) {
                     node.getEdgeReference().remove(frontierChange);
                     node.getEdgeReference().put(updateEdgeNode, updateEdge);
                 }
@@ -58,7 +60,6 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
             }
 
             toExploreNode = unexploredNodes.extractMin();
-
 
 
             HashMap<Node<T, L>, Edge<T, L>> connectionsOfNodeExplored = toExploreNode.getEdgeReference();
@@ -73,7 +74,7 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
                 //maybe the fact that minimum extraction is destructive creates also problems
 
-                if (frontierNode.getFloatDistance() > toExploreNode.getFloatDistance() + (Float)connectingEdge.getLabel()) {
+                if (frontierNode.getFloatDistance() > toExploreNode.getFloatDistance() + (Float) connectingEdge.getLabel()) {
 
                     frontierChange = frontierNode;
                     frontierNode.setDistance(toExploreNode.getFloatDistance() + (Float) connectingEdge.getLabel());
@@ -82,16 +83,16 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
                     updateEdgeNode = frontierNode;
                     updateEdge = connectingEdge;
+
+                    currentlyExploredNode = constructExploredNode(distanceType, toExploreNode , frontierNode, connectingEdge);
                 }
 
             }
-            exploredNodes.add(toExploreNode);
 
-            try {
-                toReturnGraph.addSpecificNode(toExploreNode);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            if (currentlyExploredNode != null) {
+                exploredNodes.add(currentlyExploredNode);
             }
+
         }
 
         /*
@@ -102,24 +103,43 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
          */
 
         int i = 0;
-        for(Node<T,L> node: exploredNodes){
-            if(node.getFloatDistance().equals(Float.valueOf(4000000)) )
+        for (Node<T, L> node : exploredNodes) {
+            if (node.getFloatDistance().equals(Float.valueOf(Float.MAX_VALUE - 1)))
                 i++;
         }
-        System.out.println("Not truly explored nodes are "+i);
-
+        System.out.println("Not truly explored nodes are " + i);
 
 
         //extract the target node distance
-        for(Node<T,L> node: exploredNodes){
-            if(node.getValue().equals("catania"))
-                System.out.println("cost to catania is "+ node.getFloatDistance());
+        for (Node<T, L> node : exploredNodes) {
+            if (node.getValue().equals("catania"))
+                System.out.println("cost to catania is " + node.getFloatDistance());
         }
 
 
         System.out.println("explored nodes are " + exploredNodes.size());
 
         return toReturnGraph;
+    }
+
+    public Node<T, L> constructExploredNode(Class<L> distanceType, Node<T, L> toRebuildNode, Node<T, L> frontierNode, Edge<T, L> connectingEdge) throws Exception {
+
+        Class<Integer> oneType = Integer.class;
+        Class<Double> anotherType = Double.class;
+        Class<Float> thirdType = Float.class;
+
+
+        Node<T, L> toReturnNode = new Node<T, L>(toRebuildNode.getValue(), distanceType, Node.ComparisonType.DISTANCE);
+        if(distanceType.equals(thirdType))
+            toReturnNode.setDistance(toRebuildNode.getFloatDistance());
+        else if (distanceType.equals(oneType))
+            toReturnNode.setDistance(toRebuildNode.getIntegerDistance());
+        else if(distanceType.equals(anotherType))
+            toReturnNode.setDistance(toRebuildNode.getDoubleDistance());
+
+        toReturnNode.getEdgeReference().put(frontierNode, connectingEdge);
+
+        return toReturnNode;
     }
 
 
@@ -166,7 +186,6 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
 
  */
-
 
 
 }
