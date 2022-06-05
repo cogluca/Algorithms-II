@@ -47,21 +47,21 @@ int comp_string(void *a, void *b){
 SkipList *skip_list;
 
 void setUp(void) {
-    skip_list = SkipListInit(comp_string);
+    skip_list = skip_list_init(comp_string);
 }
 
 void tearDown(void) {
-    FreeSkipList(skip_list);
+    free_skiplist(skip_list);
 }
 
 //tests for strings without differences
 void test_string_insertion() {
     char* a_string = "Franco";
 
-    insertSkipList(skip_list, a_string);
+    insert_skiplist(skip_list, a_string);
 
 
-    TEST_ASSERT_EQUAL_STRING(a_string, searchNodeElement(skip_list, a_string));
+    TEST_ASSERT_EQUAL_STRING(a_string, search_node_element(skip_list, a_string));
 
 }
 
@@ -69,9 +69,9 @@ void test_int_insertion() {
 
     int an_int = 2;
 
-    insertSkipList(skip_list, &an_int);
+    insert_skiplist(skip_list, &an_int);
 
-    int* searched_int = searchNodeElement(skip_list, &an_int);
+    int* searched_int = search_node_element(skip_list, &an_int);
 
     TEST_ASSERT_EQUAL_INT(an_int, *searched_int );
 
@@ -94,30 +94,30 @@ void test_multiple_string_insertion() {
    char* e_crasha = "stop";
    char* why_non_crasha= "why non crasha";
 
-    insertSkipList(skip_list, a_string);
-    insertSkipList(skip_list, another_string);
-    insertSkipList(skip_list, third_string);
-    insertSkipList(skip_list, fourth_string);
-    insertSkipList(skip_list, trova);
-    insertSkipList(skip_list, un_osso);
-    insertSkipList(skip_list, fuori_posto);
-    insertSkipList(skip_list, davvero);
-    insertSkipList(skip_list, pero_boh);
-    insertSkipList(skip_list, che_storia);
-    insertSkipList(skip_list,e_crasha);
+    insert_skiplist(skip_list, a_string);
+    insert_skiplist(skip_list, another_string);
+    insert_skiplist(skip_list, third_string);
+    insert_skiplist(skip_list, fourth_string);
+    insert_skiplist(skip_list, trova);
+    insert_skiplist(skip_list, un_osso);
+    insert_skiplist(skip_list, fuori_posto);
+    insert_skiplist(skip_list, davvero);
+    insert_skiplist(skip_list, pero_boh);
+    insert_skiplist(skip_list, che_storia);
+    insert_skiplist(skip_list,e_crasha);
 
 
-    TEST_ASSERT_EQUAL_STRING(a_string, searchNodeElement(skip_list, a_string));
-    TEST_ASSERT_EQUAL_STRING(another_string, searchNodeElement(skip_list, another_string));
-    TEST_ASSERT_EQUAL_STRING(third_string, searchNodeElement(skip_list, third_string));
-    TEST_ASSERT_EQUAL_STRING(fourth_string, searchNodeElement(skip_list, fourth_string));
-    TEST_ASSERT_EQUAL_STRING(trova, searchNodeElement(skip_list, trova));
-    TEST_ASSERT_EQUAL_STRING(un_osso, searchNodeElement(skip_list, un_osso));
-    TEST_ASSERT_EQUAL_STRING(fuori_posto, searchNodeElement(skip_list, fuori_posto));
-    TEST_ASSERT_EQUAL_STRING(davvero, searchNodeElement(skip_list, davvero));
-    TEST_ASSERT_EQUAL_STRING(pero_boh, searchNodeElement(skip_list, pero_boh));
-    TEST_ASSERT_EQUAL_STRING(che_storia ,searchNodeElement(skip_list, che_storia));
-    TEST_ASSERT_EQUAL_STRING(e_crasha, searchNodeElement(skip_list, e_crasha));
+    TEST_ASSERT_EQUAL_STRING(a_string, search_node_element(skip_list, a_string));
+    TEST_ASSERT_EQUAL_STRING(another_string, search_node_element(skip_list, another_string));
+    TEST_ASSERT_EQUAL_STRING(third_string, search_node_element(skip_list, third_string));
+    TEST_ASSERT_EQUAL_STRING(fourth_string, search_node_element(skip_list, fourth_string));
+    TEST_ASSERT_EQUAL_STRING(trova, search_node_element(skip_list, trova));
+    TEST_ASSERT_EQUAL_STRING(un_osso, search_node_element(skip_list, un_osso));
+    TEST_ASSERT_EQUAL_STRING(fuori_posto, search_node_element(skip_list, fuori_posto));
+    TEST_ASSERT_EQUAL_STRING(davvero, search_node_element(skip_list, davvero));
+    TEST_ASSERT_EQUAL_STRING(pero_boh, search_node_element(skip_list, pero_boh));
+    TEST_ASSERT_EQUAL_STRING(che_storia ,search_node_element(skip_list, che_storia));
+    TEST_ASSERT_EQUAL_STRING(e_crasha, search_node_element(skip_list, e_crasha));
 
 }
 

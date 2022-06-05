@@ -20,7 +20,7 @@ typedef struct{
     int caseSensitive;
 } Option;
 
-int ar_elem = 0;
+int dictionary_size = 0;
 
 /**
  * @brief function that func records using the id field
@@ -195,7 +195,7 @@ Option parseOptions(int argc, char const*argv[]){
 }
 
 static void freeMemory(void** array){
-    for(int i = 0; i < ar_elem; i++){
+    for(int i = 0; i < dictionary_size; i++){
         Record *rec_p = (Record *) array[i];
         free(rec_p->string_field);
     }
@@ -224,7 +224,7 @@ static void **loadArray(const char* file_name){
 
     while(fgets(buffer,buf_size,fp) != NULL){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
         
-        if(ar_size <= ar_elem){ // check sulla grandezza dell'array dinamico          
+        if(ar_size <= dictionary_size){ // check sulla grandezza dell'array dinamico          
             ar_size *= 2;
             array = (void **)realloc(array, sizeof(void*) * ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
         }
@@ -253,15 +253,15 @@ static void **loadArray(const char* file_name){
         r->float_field = atof(float_field_in_read_line_p);
 
         void *record_pointer = r;
-        array[ar_elem] = record_pointer;
+        array[dictionary_size] = record_pointer;
 
-        ar_elem += 1;
+        dictionary_size += 1;
         
         free(read_line_p);  // pulisco il buffer che legge la stringa per riempirlo con la prossima riga
     }
 
-    if(ar_size > ar_elem){ // check sulla grandezza dell'array dinamico
-            array = (void **)realloc(array, sizeof(void*) * ar_elem);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+    if(ar_size > dictionary_size){ // check sulla grandezza dell'array dinamico
+            array = (void **)realloc(array, sizeof(void*) * dictionary_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
         }
 
     fclose(fp); // chiudo la lettura del file
@@ -277,12 +277,12 @@ static void testFunction(Option opt){
     Record *r;
 
     start = clock();
-    opt.algo == -1 ? quickSort(array, 0, ar_elem-1, opt.fun) : insertSort(array, ar_elem-1, opt.fun);
+    opt.algo == -1 ? quickSort(array, 0, dictionary_size-1, opt.fun) : insertSort(array, dictionary_size-1, opt.fun);
     end = clock();
 
     freeMemory(array);
     
-    fprintf(stdout,"Program succesfully ended\n array sorted in: %f\n", (float)(end - start)/CLOCKS_PER_SEC);
+    fprintf(stdout,"Program succesfully ended\narray sorted in: %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 }
 
 /**
