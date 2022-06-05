@@ -81,50 +81,20 @@ void test_int_insertion() {
 
 void test_multiple_string_insertion() {
 
-   char* a_string = "Franco";
-   char* another_string = "va";
-   char* third_string = "da Fratimo";
-   char* fourth_string = "e";
-   char* trova = "trova";
-   char* un_osso = "un osso";
-   char* fuori_posto = "fuori posto";
-   char* davvero = "davvero";
-   char* pero_boh = "pero boh";
-   char* che_storia = "che storia";
-   char* e_crasha = "stop";
-   char* why_non_crasha= "why non crasha";
+    char strings[13][50] = {  "Piante", "Pina", "Selvaggio", 
+                                "Albero", "Siamese", "a", 
+                                "f", "pippo", "formica", 
+                                "gioco", "libellula", "Barella"
+                    };
 
-    insert_skiplist(skip_list, a_string);
-    insert_skiplist(skip_list, another_string);
-    insert_skiplist(skip_list, third_string);
-    insert_skiplist(skip_list, fourth_string);
-    insert_skiplist(skip_list, trova);
-    insert_skiplist(skip_list, un_osso);
-    insert_skiplist(skip_list, fuori_posto);
-    insert_skiplist(skip_list, davvero);
-    insert_skiplist(skip_list, pero_boh);
-    insert_skiplist(skip_list, che_storia);
-    insert_skiplist(skip_list,e_crasha);
+    for(int i = 0; i < 13; i++){
+        insert_skiplist(skip_list, strings[i]);
+    }
 
-
-    TEST_ASSERT_EQUAL_STRING(a_string, search_node_element(skip_list, a_string));
-    TEST_ASSERT_EQUAL_STRING(another_string, search_node_element(skip_list, another_string));
-    TEST_ASSERT_EQUAL_STRING(third_string, search_node_element(skip_list, third_string));
-    TEST_ASSERT_EQUAL_STRING(fourth_string, search_node_element(skip_list, fourth_string));
-    TEST_ASSERT_EQUAL_STRING(trova, search_node_element(skip_list, trova));
-    TEST_ASSERT_EQUAL_STRING(un_osso, search_node_element(skip_list, un_osso));
-    TEST_ASSERT_EQUAL_STRING(fuori_posto, search_node_element(skip_list, fuori_posto));
-    TEST_ASSERT_EQUAL_STRING(davvero, search_node_element(skip_list, davvero));
-    TEST_ASSERT_EQUAL_STRING(pero_boh, search_node_element(skip_list, pero_boh));
-    TEST_ASSERT_EQUAL_STRING(che_storia ,search_node_element(skip_list, che_storia));
-    TEST_ASSERT_EQUAL_STRING(e_crasha, search_node_element(skip_list, e_crasha));
-
+    for(int i = 0; i < 13; i++){
+        TEST_ASSERT_EQUAL_STRING(strings[i], search_node_element(skip_list, strings[i]));
+    }
 }
-
-
-
-
-
 
 //executes tests
 int main() {
