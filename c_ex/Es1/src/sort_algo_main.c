@@ -48,7 +48,7 @@ static int precedesRecordIdField(void* r1_p, void* r2_p){
     return(0);
 }
 
-char *redstr(char* string){
+static char *redstr(char* string){
     char* tmp = strdup(string);
     char* ptr = tmp;
 
