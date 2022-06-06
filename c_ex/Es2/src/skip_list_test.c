@@ -5,31 +5,14 @@
 #include "../../C_resource//unity.h"
 #define UNITY_INCLUDE_DOUBLE
 
-
-int comp_int(void *a, void *b){
-    int *int_a = (int *) a;
-    int *int_b = (int *) b;
-    if(*int_a < *int_b){
-        return 2;
-    }else if(*int_a > *int_b){
-        return 1;
-    }
-    return 0;
-}
-
-int comp_float(void *a, void *b){
-    float *float_a = (float *) a;
-    float *float_b = (float *) b;
-
-    if(*float_a < *float_b){
-        return 2;
-    }else if(*float_a > *float_b){
-        return 1;
-    }
-    return 0;
-}
-
 int comp_string(void *a, void *b){
+    if(a == NULL){
+        fprintf(stderr, "comp_string: the first parameter is a null pointer");
+        exit(EXIT_FAILURE);
+    }
+    if(b == NULL){
+        fprintf(stderr, "comp_string: the second parameter is a null pointer");
+    }
     char *char_a = (char *) a;
     char *char_b = (char *) b;
     if((char_a) == NULL)
@@ -44,98 +27,69 @@ int comp_string(void *a, void *b){
     return 0;
 }
 
-SkipList *skip_list;
+SkipList *skip_list_string;
 
 void setUp(void) {
-    skip_list = SkipListInit(comp_string);
+    printf("Sto inizializzando skip_list_string\n");
+    skip_list_string = skip_list_init(comp_string);
 }
 
 void tearDown(void) {
-    FreeSkipList(skip_list);
+    free_skiplist(skip_list_string);
 }
 
 //tests for strings without differences
-void test_string_insertion() {
-    char* a_string = "Franco";
+void test_insertion() {
+    char* a_string = "Fauna";
 
-    insertSkipList(skip_list, a_string);
+    insert_skiplist(skip_list_string, a_string);
 
 
-    TEST_ASSERT_EQUAL_STRING(a_string, searchNodeElement(skip_list, a_string));
-
-}
-
-void test_int_insertion() {
-
-    int an_int = 2;
-
-    insertSkipList(skip_list, &an_int);
-
-    int* searched_int = searchNodeElement(skip_list, &an_int);
-
-    TEST_ASSERT_EQUAL_INT(an_int, *searched_int );
+    TEST_ASSERT_EQUAL_STRING(a_string, search_node_element(skip_list_string, a_string));
 
 }
 
+void test_add_get_one() {
 
+    char strings[13][50] = {  "Piante", "Pina", "Selvaggio", 
+                                "Albero", "Siamese", "a", 
+                                "f", "pippo", "formica", 
+                                "gioco", "libellula", "Barella"
+                    };
 
-void test_multiple_string_insertion() {
+    for(int i = 0; i < 13; i++){
+        insert_skiplist(skip_list_string, strings[i]);
+    }
 
-   char* a_string = "Franco";
-   char* another_string = "va";
-   char* third_string = "da Fratimo";
-   char* fourth_string = "e";
-   char* trova = "trova";
-   char* un_osso = "un osso";
-   char* fuori_posto = "fuori posto";
-   char* davvero = "davvero";
-   char* pero_boh = "pero boh";
-   char* che_storia = "che storia";
-   char* e_crasha = "stop";
-   char* why_non_crasha= "why non crasha";
-
-    insertSkipList(skip_list, a_string);
-    insertSkipList(skip_list, another_string);
-    insertSkipList(skip_list, third_string);
-    insertSkipList(skip_list, fourth_string);
-    insertSkipList(skip_list, trova);
-    insertSkipList(skip_list, un_osso);
-    insertSkipList(skip_list, fuori_posto);
-    insertSkipList(skip_list, davvero);
-    insertSkipList(skip_list, pero_boh);
-    insertSkipList(skip_list, che_storia);
-    insertSkipList(skip_list,e_crasha);
-
-
-    TEST_ASSERT_EQUAL_STRING(a_string, searchNodeElement(skip_list, a_string));
-    TEST_ASSERT_EQUAL_STRING(another_string, searchNodeElement(skip_list, another_string));
-    TEST_ASSERT_EQUAL_STRING(third_string, searchNodeElement(skip_list, third_string));
-    TEST_ASSERT_EQUAL_STRING(fourth_string, searchNodeElement(skip_list, fourth_string));
-    TEST_ASSERT_EQUAL_STRING(trova, searchNodeElement(skip_list, trova));
-    TEST_ASSERT_EQUAL_STRING(un_osso, searchNodeElement(skip_list, un_osso));
-    TEST_ASSERT_EQUAL_STRING(fuori_posto, searchNodeElement(skip_list, fuori_posto));
-    TEST_ASSERT_EQUAL_STRING(davvero, searchNodeElement(skip_list, davvero));
-    TEST_ASSERT_EQUAL_STRING(pero_boh, searchNodeElement(skip_list, pero_boh));
-    TEST_ASSERT_EQUAL_STRING(che_storia ,searchNodeElement(skip_list, che_storia));
-    TEST_ASSERT_EQUAL_STRING(e_crasha, searchNodeElement(skip_list, e_crasha));
-
+    TEST_ASSERT_EQUAL_STRING(strings[10], search_node_element(skip_list_string, "libellula"));
 }
 
+void test_add_get_all() {
 
+    char strings[13][50] = {  "Piante", "Pina", "Selvaggio", 
+                                "Albero", "Siamese", "a", 
+                                "f", "pippo", "formica", 
+                                "gioco", "libellula", "Barella"
+                    };
 
+    for(int i = 0; i < 13; i++){
+        insert_skiplist(skip_list_string, strings[i]);
+    }
 
-
+    for(int i = 0; i < 13; i++){
+        TEST_ASSERT_EQUAL_STRING(strings[i], search_node_element(skip_list_string, strings[i]));
+    }
+}
 
 //executes tests
 int main() {
     UNITY_BEGIN();
 
-    RUN_TEST(test_string_insertion);
+    RUN_TEST(test_insertion);
 
-    RUN_TEST(test_multiple_string_insertion);
+    RUN_TEST(test_add_get_one);
 
-    RUN_TEST(test_int_insertion);
-
+    RUN_TEST(test_add_get_all);
 
     return UNITY_END();
 }

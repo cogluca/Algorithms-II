@@ -2,46 +2,49 @@ typedef struct _SkipList SkipList;
 typedef struct _Node Node;
 
 /**
- * @brief Get the Node Size object
+ * @brief randomly choose the number of pointer will be in this specific node
  * 
- * @param list 
- * @return int 
+ * @return unsigned long: number of node choosen
  */
-static int getNodeSize();
+static unsigned long level_generator();
 
 /**
- * @brief 
+ * @brief initialize the SkipList
  * 
- * @param list 
- * @return SkipList* 
+ * @param compate: function that is used in the skiplist to place and search element
+ * @return SkipList*: SkipList created with all the memory that occurs allocated
  */
-SkipList *SkipListInit(int (*compare)(void *, void *));
+SkipList *skip_list_init(int (*compare)(void *, void *));
 
 /**
- * @brief 
+ * @brief Create a node object
  * 
+ * @param item: element of the node
+ * @param level: number of pointer to node present in this node
+ * @return Node*: pointer to node created
  */
-static Node *CreateNode(void *item, int level);
+static Node *create_node(void *item, int level);
 
 /**
- * @brief Construct a new insert Skip List object
+ * @brief create a new node to be inserted in the skiplist 
  * 
- * @param list 
- * @param item 
+ * @param list: a skiplist already initialized where to put a new element node
+ * @param item: element given to the new insert node
  */
-void insertSkipList(SkipList *list, void *item);
+void insert_skiplist(SkipList *list, void *item);
 
 /**
- * @brief Construct a new search Skip List object
+ * @brief  search if the element is present in the skiplist, if it isn't present it will return a NULL
  * 
- * @param list 
- * @param item 
+ * @param list: a skiplist already initialized where to put a new element node
+ * @param item: element that have to be found in the list
+ * @return void*: pointer to the node with the item searched, or NULL if the item isn't in the list
  */
-void *searchNodeElement(SkipList *list, void *item);
+void *search_node_element(SkipList *list, void *item);
 
 /**
- * @brief 
+ * @brief release memory occupied by the skiplist already initialized
  * 
- * @param list 
+ * @param list: a skiplist already initialized where to put a new element node
  */
-void FreeSkipList(SkipList *list);
+void free_skiplist(SkipList *list);

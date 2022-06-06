@@ -13,7 +13,7 @@ typedef struct{
     double float_field;
 }Record;
 
-int ar_elem = 0;        // numero attuale di elementi nell'array
+int dictionary_size = 0;        // numero attuale di elementi nell'array
 
 
 static int precedesRecordIdField(void* r1_p, void* r2_p){
@@ -130,10 +130,10 @@ static void **loadArray(const char* file_name, int k){
 
     while(fgets(buffer,buf_size,fp) != NULL && j < k){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
         
-        if(ar_size <= ar_elem){ // check sulla grandezza dell'array dinamico
+        if(ar_size <= dictionary_size){ // check sulla grandezza dell'array dinamico
             
             /*printf("\nelementi nell'array fino a questo punto\n");
-            for(char i = 0; i < ar_elem; i++){
+            for(char i = 0; i < dictionary_size; i++){
                 Record* r_p = (Record *)array[i];
                 
                 printf("\nrecord[%d]: { \
@@ -173,9 +173,9 @@ static void **loadArray(const char* file_name, int k){
         r->float_field = atof(float_field_in_read_line_p);
 
         void *record_pointer = r;
-        array[ar_elem] = record_pointer;
+        array[dictionary_size] = record_pointer;
 
-        ar_elem += 1;
+        dictionary_size += 1;
         
         free(read_line_p);  // pulisco il buffer che legge la stringa per riempirlo con la prossima riga
         j++;
@@ -220,28 +220,28 @@ int main(){
     // quickSort(array, 0, k-1, *precedesRecordStringField);
     // quickSort(array, 0, k-1, *precedesRecordIntegerField);
     quickSort(array, 0, k-1, *precedesRecordFloatField);
-    // insertSort(array, ar_elem, precedesRecordIdField);
+    // insertSort(array, dictionary_size, precedesRecordIdField);
     end = clock();
     
     printf("\nelementi ordinati per id in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 
     /*start = clock();
     quickSort(array, 0, k-1, *precedesRecordStringField);
-    insertSort(array, ar_elem, precedesRecordStringField);
+    insertSort(array, dictionary_size, precedesRecordStringField);
     end = clock();
 
     printf("\nelementi ordinati per string in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 
     start = clock();
     quickSort(array, 0, k-1, *precedesRecordIntegerField);
-    insertSort(array, ar_elem, precedesRecordIntegerField);
+    insertSort(array, dictionary_size, precedesRecordIntegerField);
     end = clock();
 
     printf("\nelementi ordinati per int in %f\n", (float)(end - start)/CLOCKS_PER_SEC);
 
     start = clock();
     quickSort(array, 0, k-1, *precedesRecordFloatField);
-    insertSort(array, ar_elem, precedesRecordFloatField);
+    insertSort(array, dictionary_size, precedesRecordFloatField);
     end = clock();
 
     printf("\nelementi ordinati per float in %f\n", (float)(end - start)/CLOCKS_PER_SEC);*/

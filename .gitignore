@@ -1,3 +1,6 @@
+
+.idea
+=======
 *.csv
 laboratorio-algoritmi-2021-2022/*.csv
 laboratorio-algoritmi-2021-2022/*.docx
@@ -16,9 +19,6 @@ c_ex/Es2/bin/yo
 c_ex/Es2/build/skip_list.o
 c_ex/Es2/build/unity.o
 c_ex/Es2/CMakeLists.txt
-c_ex/Es2/bin/skip_list_main.dSYM
-c_ex/Es2/bin/skip_list_main_usage.dSYM
-c_ex/Es2/bin/skip_list_test.dSYM
 .vscode/*
 c_ex/records.zip
 c_ex/Es1/.vscode/configurationCache.log
@@ -30,3 +30,6 @@ c_ex/.vscode/configurationCache.log
 c_ex/.vscode/dryrun.log
 c_ex/.vscode/settings.json
 c_ex/.vscode/targets.log
+
+c_ex/Es2/bin/main_ex2
+c_ex/Es2/bin/test_ex2

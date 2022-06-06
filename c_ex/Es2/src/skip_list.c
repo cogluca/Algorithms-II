@@ -3,66 +3,33 @@
 #include "skip_list.h"
 #include <time.h>
 
-#define MAX_HEIGHT 20   // numero massimo di puntatori in un nodo
+#define MAX_HEIGHT 8   // max number of pointer in a node
 
 
 struct _SkipList {
     Node *head;
-    unsigned int max_level; // massimo attuale tra i vari size
+    unsigned int max_level; // current max pointer in a node
     int (*compare)(void *, void *);
 };
 
 struct _Node {
     Node **next;
-    unsigned int size;  //numero di puntatori nel nodo
+    unsigned int size;  // number of pointer in the node
     void *item;
 };
 
-static double my_random() {
-
-    return (double)rand() / (double)RAND_MAX;
-
-}
-
-int random_level(){
-    sranddev();
-    float dummy = rand();
-    float r = 0;
-    int lvl = 0; // 1 o 0?
-    while (r < 0.5 && lvl < 20){
-        r = (float)(rand()/(float)(RAND_MAX));
-        lvl = lvl + 1;
-    }
-    printf("Level %d\n", lvl);
-    return lvl;
-}
-
-static int getNodeSize() {
-    int lvl = 0;
-
-    while (((float)(rand()/(float)(RAND_MAX))) < 0.5 && lvl < MAX_HEIGHT) {
-        lvl++;
-    }
-
-    return lvl;
-}
-
-static unsigned long random_lvl() {
+static unsigned long level_generator() {
 
     unsigned long int level = 1;
 
-
-    while((rand() %2 )< 0.5 && level < MAX_HEIGHT-1 ){
+    while((rand() %2 )< 0.5 && level < MAX_HEIGHT-1){       // max value of level is MAX_HEIGHT -1
         level++;
     }
 
     return  level;
-
-
-
 }
 
-SkipList *SkipListInit(int (*compare)(void *, void *)) {
+SkipList *skip_list_init(int (*compare)(void *, void *)) {
     if (compare == NULL) {
         fprintf(stderr, "ordered_array_create: precedes parameter cannot be NULL");
         exit(EXIT_FAILURE);
@@ -86,7 +53,7 @@ SkipList *SkipListInit(int (*compare)(void *, void *)) {
     return list;
 }
 
-static Node *CreateNode(void *item, int level) {
+static Node *create_node(void *item, int level) {
     Node *node = (Node *) malloc(sizeof(Node));
     node->item = item;
     node->size = level;
@@ -95,28 +62,22 @@ static Node *CreateNode(void *item, int level) {
     return node;
 }
 
-void insertSkipList(SkipList *list, void *item) {
-    Node *newNode = CreateNode(item, random_lvl());
+void insert_skiplist(SkipList *list, void *item) {
+    Node *newNode = create_node(item, level_generator());
     if (list->max_level < newNode->size)
         list->max_level = newNode->size;
-
-    printf("%d\n", newNode->size);
 
     Node *list_head = list->head;
 
 
     for (int k = list->max_level; k >= 0; k--) {
 
-            if (list_head->next[k] == NULL || list->compare(item, list_head->next[k]->item) ==
-                                              2) {      //se trovo posto giusto entro qua dentro per inserire il nodo
-
-                if (k <
-                    newNode->size) {                         //se entro perché head->next[k] == NULL, allora posso collegarlo
+            if (list_head->next[k] == NULL || list->compare(item, list_head->next[k]->item) == 2) {   
+                if (k < newNode->size) {                       
                     newNode->next[k] = list_head->next[k];
                     list_head->next[k] = newNode;
                 }
             } else {
-                //altrimenti scorro sempre sulla stessa coda di lista fino a trovare il NULL
                 list_head = list_head->next[k];
                 k++;
             }
@@ -124,7 +85,7 @@ void insertSkipList(SkipList *list, void *item) {
     }
 }
 
-void *searchNodeElement(SkipList *list, void *item) {
+void *search_node_element(SkipList *list, void *item) {
     Node *list_head = list->head;
 
     //searching through express ways
@@ -136,9 +97,7 @@ void *searchNodeElement(SkipList *list, void *item) {
 
     }
 
-    //why do I return the first on next ?
     list_head = list_head->next[0];
-    //printf("%s\n", (char*) list_head->item);
     if (list->head != NULL && list->compare(item, list_head->item) == 0) {
         return list_head->item;
     } else {
@@ -146,8 +105,8 @@ void *searchNodeElement(SkipList *list, void *item) {
     }
 }
 
-void FreeSkipList(SkipList *list) {
-    Node *currentNode = list->head->next[0];    // prendo il primo livello perché è quello che collega tutti i nodi della lista
+void free_skiplist(SkipList *list) {
+    Node *currentNode = list->head->next[0];    
     while (currentNode != NULL) {
         Node *nextNode = currentNode->next[0];
         free(currentNode->next);
