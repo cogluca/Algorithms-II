@@ -87,24 +87,15 @@ char *redstr(char* string){
 
 static int precedesRecordStringField(void* r1_p, void* r2_p){
     if(r1_p == NULL){
-        fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer\n");
+        fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer");
         exit(EXIT_FAILURE);
     }
     if(r2_p == NULL){
-        fprintf(stderr, "precedesRecordStringField: the second parameter is a null pointer\n");
+        fprintf(stderr, "precedesRecordStringField: the second parameter is a null pointer");
     }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
-
-    char *strlow1 = redstr(rec1_p->string_field);
-    char *strlow2 = redstr(rec2_p->string_field);
-
-    if(strcmp(strlow1, strlow2) < 0){
-        return(2);
-    }else if(strcmp(strlow1, strlow2) > 0){
-        return(1);
-    }
-    return(0);
+    return strcmp(rec1_p->string_field, rec2_p->string_field);
 }
 
 static void **loadArray(const char* file_name, int k){
@@ -195,7 +186,7 @@ int main(){
 
     int k = atoi(buf);
 
-    void** array = loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/records.csv", k); //loadArray("/Users/frankacarkan/Desktop/Algo/ex1_new/records.csv", k);
+    void** array = loadArray("/home/rjuck/Desktop/laboratorio-algoritmi-2021-2022/c_ex/Es1/records.csv", k); //loadArray("/Users/frankacarkan/Desktop/Algo/ex1_new/records.csv", k);
     Record *r;
     clock_t start, end;
 
@@ -217,9 +208,9 @@ int main(){
 
     start= clock();
     // quickSort(array, 0, k-1, *precedesRecordIdField);
-    // quickSort(array, 0, k-1, *precedesRecordStringField);
+    quickSort(array, 0, k-1, *precedesRecordStringField);
     // quickSort(array, 0, k-1, *precedesRecordIntegerField);
-    quickSort(array, 0, k-1, *precedesRecordFloatField);
+    // quickSort(array, 0, k-1, *precedesRecordFloatField);
     // insertSort(array, dictionary_size, precedesRecordIdField);
     end = clock();
     

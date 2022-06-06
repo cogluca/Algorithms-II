@@ -41,7 +41,7 @@ static int precedesRecordIdField(void* r1_p, void* r2_p){
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->id_field < rec2_p->id_field){
-        return(2);
+        return(-1);
     }else if(rec1_p->id_field > rec2_p->id_field){
         return(1);
     }
@@ -81,12 +81,7 @@ static int precedesRecordStringFieldLower(void* r1_p, void* r2_p){
     char *strlow1 = redstr(rec1_p->string_field);
     char *strlow2 = redstr(rec2_p->string_field);
 
-    if(strcmp(strlow1, strlow2) < 0){
-        return(2);
-    }else if(strcmp(strlow1, strlow2) > 0){
-        return(1);
-    }
-    return(0);
+    return strcmp(strlow1, strlow2);
 }
 
 static int precedesRecordStringField(void* r1_p, void* r2_p){
@@ -99,13 +94,7 @@ static int precedesRecordStringField(void* r1_p, void* r2_p){
     }
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
-
-    if(strcmp(rec1_p->string_field, rec2_p->string_field) < 0){
-        return(2);
-    }else if(strcmp(rec1_p->string_field, rec2_p->string_field) > 0){
-        return(1);
-    }
-    return(0);
+    return strcmp(rec1_p->string_field, rec2_p->string_field);
 }
 
 /**
@@ -127,7 +116,7 @@ static int precedesRecordIntegerField(void* r1_p, void* r2_p){
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*)r2_p;
     if(rec1_p->integer_field < rec2_p->integer_field){
-        return(2);
+        return(-1);
     }else if(rec1_p->integer_field > rec2_p->integer_field){
         return(1);
     }
@@ -153,7 +142,7 @@ static int precedesRecordFloatField(void* r1_p, void* r2_p){
     Record *rec1_p = (Record*)r1_p;
     Record *rec2_p = (Record*) r2_p;
     if(rec1_p->float_field < rec2_p->float_field){
-        return(2);
+        return(-1);
     }else if(rec1_p->float_field > rec2_p->float_field){
         return(1);
     }

@@ -24,9 +24,9 @@ static int binarySearch(void **arr, void *elem, int low, int high, func func) {
 
         if (result == 0) {
             return mid;
-        } else if (result == 1) {
+        } else if (result > 0) {
             low = mid + 1;
-        } else if (result == 2) {
+        } else if (result < 0) {
             high = mid - 1;
         }
     }
@@ -79,7 +79,7 @@ static int partition(void **array, int low, int high, func func) {
     int i = low - 1;
     int j = low;
     while (j < high) {
-        if (func(array[j], piv_p) > 1 || func(array[j], piv_p) == 0) {
+        if (func(array[j], piv_p) < 0 || func(array[j], piv_p) == 0) {
             i++;
             swap(array, i, j);
         }
