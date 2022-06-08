@@ -1,22 +1,12 @@
-all: bin/prova bin/main_ex1 bin/test_ex1
+all: bin/sort_algo_main bin/sort_algo_test
 
 LIBS = src/sort_library.h ../C_resource/unity.h
 
-INCLUDES = src/*.h
+bin/sort_algo_main: src/sort_algo_main.c src/sort_library.c $(LIBS)
+	clang -o bin/sort_algo_main src/sort_algo_main.c src/sort_library.c -I src/
 
-COMMON_DEPS = $(INCLUDES) Makefile
+bin/sort_algo_test: src/sort_algo_test.c src/sort_library.c ../C_resource/unity.c $(LIBS)
+	gcc -g -o bin/sort_algo_test src/sort_algo_test.c src/sort_library.c ../C_resource/unity.c -I ../C_resource/ -I src/
 
-build/%.o:	src/%.c	$(COMMON_DEPS)
-	gcc -c $< -o $@
 
-build/%.o:	../C_resource/%.c	$(COMMON_DEPS)
-	gcc -c $< -o $@
 
-bin/prova: src/prova.c src/sort_library.c  $(LIBS)
-	gcc -o bin/prova src/prova.c src/sort_library.c -I src/
-
-bin/main_ex1: src/sort_algo_main.c src/sort_library.c  $(LIBS)
-	gcc -o bin/main_ex1 src/sort_algo_main.c src/sort_library.c -I src/
-
-bin/test_ex1: src/sort_algo_test.c src/sort_library.c build/unity.o $(LIBS)
-	gcc -g -o bin/test_ex1 src/sort_algo_test.c src/sort_library.c ../C_resource/unity.c -I ../C_resource/ -I src/

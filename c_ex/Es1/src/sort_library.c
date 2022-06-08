@@ -63,7 +63,7 @@ void quickSort(void **array_to_order, int first, int last, func func) {
 
 static int partition(void **array, int low, int high, func func) {
 
-    int mid = (high + low) / 2;
+    int mid = low + (high - low) / 2;
     int median = (low + mid + high) / 3;
 
     swap(array, high, median);
