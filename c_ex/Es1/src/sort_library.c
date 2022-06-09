@@ -73,13 +73,11 @@ static int partition(void **array, int low, int high, func func) {
     /*int random_pivot = (rand() % (high - low + 1)) + low;
     swap(array, high, random_pivot);*/
 
-    //swap(array, low, high);
-
     void *piv_p = array[high];
     int i = low - 1;
     int j = low;
     while (j < high) {
-        if (func(array[j], piv_p) < 0 || func(array[j], piv_p) == 0) {
+        if (func(array[j], piv_p) <= 0) {
             i++;
             swap(array, i, j);
         }
