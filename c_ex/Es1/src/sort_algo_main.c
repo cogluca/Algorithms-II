@@ -23,7 +23,7 @@
         int dictionary_size = 0;
 
         /**
-         * @brief function that func records using the id field
+         * @brief function that sort records using the id field
          *
          * @param r1_p pointer to struct record 1
          * @param r2_p pointer to struct record 2
@@ -48,7 +48,7 @@
             return(0);
         }
 
-        static char *redstr(char* string){
+        /*static char *redstr(char* string){
             char* tmp = strdup(string);
             char* ptr = tmp;
 
@@ -60,13 +60,7 @@
             return tmp;
         }
 
-        /**
-         * @brief function that func records using the length of the string
-         *
-         * @param r1_p pointer to struct record 1
-         * @param r2_p pointer to struct record 2
-         * @return int that show which one are the successor between them
-         */
+        
         static int precedesRecordStringFieldLower(void* r1_p, void* r2_p){
             if(r1_p == NULL){
                 fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer");
@@ -82,7 +76,15 @@
             char *strlow2 = redstr(rec2_p->string_field);
 
             return strcmp(strlow1, strlow2);
-        }
+        }*/
+
+        /**
+         * @brief function that sort records using the length of the string
+         *
+         * @param r1_p pointer to struct record 1
+         * @param r2_p pointer to struct record 2
+         * @return int that show which one are the successor between them
+         */
 
         static int precedesRecordStringField(void* r1_p, void* r2_p){
             if(r1_p == NULL){
@@ -98,7 +100,7 @@
         }
 
         /**
-         * @brief function that func records using the integer field
+         * @brief function that sort records using the integer field
          *
          * @param r1_p pointer to struct record 1
          * @param r2_p pointer to struct record 2
@@ -124,7 +126,7 @@
         }
 
         /**
-         * @brief function that func records using the integer field
+         * @brief function that sort records using the float field
          *
          * @param r1_p pointer to struct record 1
          * @param r2_p pointer to struct record 2
@@ -149,27 +151,21 @@
             return(0);
         }
 
-        //./a.out <-1/-2/-3/-4> <path_file> <-1/-2> <y/n>
-        //./a.out <select how to order the records> <path to file that contains record> <sort algo chosen> <case sensitive>
+        //./a.out <-1/-2/-3/-4> <path_file> <-1/-2>
+        //./a.out <select how to order the records> <path to file that contains record> <sort algo chosen>
 
         Option parseOptions(int argc, char const*argv[]){
-            if(argc < 4 || argc > 5){
+            if(argc != 4){
                 printf("Usage: check the element for the execution of the program");
                 exit(EXIT_FAILURE);
             }else{
                 Option programOption;
                 programOption.path = argv[2];
 
-                programOption.caseSensitive = (argc == 5 && !strcmp(argv[4], "n"))? 0 : 1;
-
                 if(!strcmp(argv[1], "-1")){
                     programOption.fun = (func)precedesRecordIdField;
                 }else if(!strcmp(argv[1], "-2")){
-                    if(programOption.caseSensitive){
-                        programOption.fun = (func)precedesRecordStringFieldLower;
-                    }else{
-                        programOption.fun = (func)precedesRecordStringField;
-                    }
+                    programOption.fun = (func)precedesRecordStringField;
                 }else if(!strcmp(argv[1], "-3")){
                     programOption.fun = (func)precedesRecordIntegerField;
                 }else if(!strcmp(argv[1], "-4")){
@@ -193,7 +189,7 @@
 
         static void **loadArray(const char* file_name){
             int ar_size = 2;
-            void** array = (void **)malloc(sizeof(void*) * ar_size);  // alloco memoria per un array di puntatori a struct record
+            void** array = (void **)malloc(sizeof(void*) * ar_size);
 
             if(array == NULL){
                 fprintf(stderr,"main: unable to allocate memory for the read record\n");
@@ -201,21 +197,21 @@
             }
 
             char *read_line_p;
-            char buffer[1024];      // devo creare un buffer di caratteri, ogni riga di testo la carico in un buffer
-            int buf_size = 1024;    // specifico dimensione del buffer
-            FILE *fp;               // puntatore al file da leggere
+            char buffer[1024];      
+            int buf_size = 1024;
+            FILE *fp;               
             printf("\nLoading data from file...\n");
-            fp = fopen(file_name,"r");    // apro il file in lettura ("r")
-            if(fp == NULL){               // controllo se c'è stato qualche errore
+            fp = fopen(file_name,"r");    
+            if(fp == NULL){              
                 fprintf(stderr,"main: unable to open the file\n");
                 exit(EXIT_FAILURE);
             }
 
-            while(fgets(buffer,buf_size,fp) != NULL){  // fgets: legge da un file di testo una riga alla volta fino alla fine del file, una vola raggiunto restituisce null
+            while(fgets(buffer,buf_size,fp) != NULL){ 
 
-                if(ar_size <= dictionary_size){ // check sulla grandezza dell'array dinamico
+                if(ar_size <= dictionary_size){ 
                     ar_size *= 2;
-                    array = (void **)realloc(array, sizeof(void*) * ar_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+                    array = (void **)realloc(array, sizeof(void*) * ar_size); 
                 }
 
                 read_line_p = malloc((strlen(buffer)+1)*sizeof(char));
@@ -224,10 +220,10 @@
                     exit(EXIT_FAILURE);
                 }
                 strcpy(read_line_p,buffer);
-                // strtok restituisce puntatori agli elementi trovati e separati dalla ','
+               
                 char *id_field_in_read_line_p = strtok(read_line_p, ",");
-                char *string_field_in_read_line_p = strtok(NULL,",");    // string tokenizer è una funzione che individua nella stringa gli elementi separati dall'elemento separatore indicato, in questo caso la ','
-                char *integer_field_in_read_line_p = strtok(NULL,",");   // dalla seconda volta si passa null come puntatore perché sennò ricomincia da capo
+                char *string_field_in_read_line_p = strtok(NULL,",");  
+                char *integer_field_in_read_line_p = strtok(NULL,","); 
                 char *float_field_in_read_line_p = strtok(NULL, ",");
 
                 Record *r = (Record *) malloc(sizeof(Record));
@@ -246,14 +242,14 @@
 
                 dictionary_size += 1;
 
-                free(read_line_p);  // pulisco il buffer che legge la stringa per riempirlo con la prossima riga
+                free(read_line_p);  
             }
 
-            if(ar_size > dictionary_size){ // check sulla grandezza dell'array dinamico
-                    array = (void **)realloc(array, sizeof(void*) * dictionary_size);  // mi aumenta lo spazio per contenere ar_size elementi di grandezza sizeof(record)
+            if(ar_size > dictionary_size){ 
+                    array = (void **)realloc(array, sizeof(void*) * dictionary_size);
                 }
 
-            fclose(fp); // chiudo la lettura del file
+            fclose(fp); 
             printf("\nData loaded\n");
 
             return(array);
@@ -266,7 +262,7 @@
             Record *r;
 
             start = clock();
-            opt.algo == -1 ? quickSort(array, 0, dictionary_size-1, opt.fun) : insertSort(array, dictionary_size-1, opt.fun);
+            opt.algo == -1 ? quickSort(array, 0, dictionary_size-1, opt.fun) : insertSort(array, dictionary_size, opt.fun);
             end = clock();
 
             //freeMemory(array);
@@ -275,7 +271,7 @@
         }
 
         /**
-         * 4 elementi da passare: path, parametro di sort, algo di sort
+         * 3 elementi da passare: parametro di sort, path, algo di sort
          *
          * @param argc
          * @param argv

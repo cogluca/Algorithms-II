@@ -42,7 +42,7 @@
         void tearDown(void) {
         }
 
-        void test_sorted_int_array() {
+        void test_sorted_int_array_is() {
           int arr[] = {1,2,3,4,5,6,7};
           int* array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
           int* correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
@@ -51,7 +51,16 @@
           TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array,7);
         }
 
-        void test_unsorted_int_array() {
+        void test_sorted_int_array_qs() {
+          int arr[] = {1,2,3,4,5,6,7};
+          int* array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+          int* correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+
+          quickSort((void **)array, 0, 6, comp_int);
+          TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array,7);
+        }
+
+        void test_unsorted_int_array_is() {
           int arr[] = {1,2,3,4,5,6,7};
           int* array[] = {&arr[0],&arr[4],&arr[1],&arr[6],&arr[2],&arr[5],&arr[3]};
           int* correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
@@ -60,7 +69,16 @@
           TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array,(void**) array,7);
         }
 
-        void test_sorted_float_array() {
+        void test_unsorted_int_array_qs() {
+          int arr[] = {1,2,3,4,5,6,7};
+          int* array[] = {&arr[0],&arr[4],&arr[1],&arr[6],&arr[2],&arr[5],&arr[3]};
+          int* correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+
+          quickSort((void **)array, 0, 6, comp_int);
+          TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array,(void**) array,7);
+        }
+
+        void test_sorted_float_array_is() {
           float arr[] = {1.5, 2.3, 2.8, 3.15, 5.89, 5.95, 6.22};
           float* array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
           float* correct_array[] ={&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
@@ -69,7 +87,16 @@
           TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array,7);
         }
 
-        void test_unsorted_float_array() {
+        void test_sorted_float_array_qs() {
+          float arr[] = {1.5, 2.3, 2.8, 3.15, 5.89, 5.95, 6.22};
+          float* array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+          float* correct_array[] ={&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+
+          quickSort((void **)array, 0, 6, comp_float);
+          TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array,7);
+        }
+
+        void test_unsorted_float_array_is() {
           float arr[] = {1.5, 2.3, 2.8, 3.15, 5.89, 5.95, 6.22};
           float* array[] = {&arr[0],&arr[4],&arr[1],&arr[6],&arr[2],&arr[5],&arr[3]};
           float* correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
@@ -78,7 +105,16 @@
           TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array,7);
         }
 
-        void test_sorted_string_array() {
+        void test_unsorted_float_array_qs() {
+          float arr[] = {1.5, 2.3, 2.8, 3.15, 5.89, 5.95, 6.22};
+          float* array[] = {&arr[0],&arr[4],&arr[1],&arr[6],&arr[2],&arr[5],&arr[3]};
+          float* correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+
+          quickSort((void **)array, 0, 6, comp_float);
+          TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array,7);
+        }
+
+        void test_sorted_string_array_is() {
           char *arr[] = {"acqua","ciao","elefante","formica","nave","orologio","zattera"};
           char** array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
           char** correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
@@ -87,11 +123,30 @@
           TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array, 7);
         }
 
-        void test_unsorted_string_array() {
+        void test_sorted_string_array_qs() {
+          char *arr[] = {"acqua","ciao","elefante","formica","nave","orologio","zattera"};
+          char** array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+          char** correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+
+          quickSort((void **)array, 0, 6, comp_string);
+          TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array, 7);
+        }
+
+        void test_unsorted_string_array_is() {
           char *arr[] = {"acqua","ciao","elefante","formica","nave","orologio","zattera"};
           char** array[] = {&arr[0],&arr[4],&arr[1],&arr[6],&arr[2],&arr[5],&arr[3]};
           char** correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+          
           insertSort((void**)array,7,comp_string);
+          TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array, 7);
+        }
+
+        void test_unsorted_string_array_qs() {
+          char *arr[] = {"acqua","ciao","elefante","formica","nave","orologio","zattera"};
+          char** array[] = {&arr[0],&arr[4],&arr[1],&arr[6],&arr[2],&arr[5],&arr[3]};
+          char** correct_array[] = {&arr[0],&arr[1],&arr[2],&arr[3],&arr[4],&arr[5],&arr[6]};
+          
+          quickSort((void **)array, 0, 6, comp_string);
           TEST_ASSERT_EQUAL_PTR_ARRAY((void**)correct_array, (void**)array, 7);
         }
 
@@ -100,12 +155,18 @@
 
           UNITY_BEGIN();
 
-          RUN_TEST(test_sorted_int_array);
-          RUN_TEST(test_unsorted_int_array);
-          RUN_TEST(test_sorted_float_array);
-          RUN_TEST(test_unsorted_float_array);
-          RUN_TEST(test_sorted_string_array);
-          RUN_TEST(test_unsorted_string_array);
+          RUN_TEST(test_sorted_int_array_is);
+          RUN_TEST(test_sorted_int_array_qs);
+          RUN_TEST(test_unsorted_int_array_is);
+          RUN_TEST(test_unsorted_int_array_qs);
+          RUN_TEST(test_sorted_float_array_is);
+          RUN_TEST(test_sorted_float_array_qs);
+          RUN_TEST(test_unsorted_float_array_is);
+          RUN_TEST(test_unsorted_float_array_qs);
+          RUN_TEST(test_sorted_string_array_is);
+          RUN_TEST(test_sorted_string_array_qs);
+          RUN_TEST(test_unsorted_string_array_is);
+          RUN_TEST(test_unsorted_string_array_qs);
 
           return UNITY_END();
         }
