@@ -20,7 +20,7 @@
             int caseSensitive;
         } Option;
 
-        int dictionary_size = 0;
+        int ar_elem = 0;
 
         /**
          * @brief function that sort records using the id field
@@ -47,36 +47,6 @@
             }
             return(0);
         }
-
-        /*static char *redstr(char* string){
-            char* tmp = strdup(string);
-            char* ptr = tmp;
-
-            while(*ptr){
-                *ptr = tolower(*ptr);
-                ptr++;
-            }
-
-            return tmp;
-        }
-
-        
-        static int precedesRecordStringFieldLower(void* r1_p, void* r2_p){
-            if(r1_p == NULL){
-                fprintf(stderr, "precedesRecordStringField: the first parameter is a null pointer");
-                exit(EXIT_FAILURE);
-            }
-            if(r2_p == NULL){
-                fprintf(stderr, "precedesRecordStringField: the second parameter is a null pointer");
-            }
-            Record *rec1_p = (Record*)r1_p;
-            Record *rec2_p = (Record*)r2_p;
-
-            char *strlow1 = redstr(rec1_p->string_field);
-            char *strlow2 = redstr(rec2_p->string_field);
-
-            return strcmp(strlow1, strlow2);
-        }*/
 
         /**
          * @brief function that sort records using the length of the string
@@ -180,7 +150,7 @@
         }
 
         static void freeMemory(void** array){
-            for(int i = 0; i < dictionary_size; i++){
+            for(int i = 0; i < ar_elem; i++){
                 Record *rec_p = (Record *) array[i];
                 free(rec_p->string_field);
             }
@@ -209,7 +179,7 @@
 
             while(fgets(buffer,buf_size,fp) != NULL){ 
 
-                if(ar_size <= dictionary_size){ 
+                if(ar_size <= ar_elem){ 
                     ar_size *= 2;
                     array = (void **)realloc(array, sizeof(void*) * ar_size); 
                 }
@@ -238,15 +208,15 @@
                 r->float_field = atof(float_field_in_read_line_p);
 
                 void *record_pointer = r;
-                array[dictionary_size] = record_pointer;
+                array[ar_elem] = record_pointer;
 
-                dictionary_size += 1;
+                ar_elem += 1;
 
                 free(read_line_p);  
             }
 
-            if(ar_size > dictionary_size){ 
-                    array = (void **)realloc(array, sizeof(void*) * dictionary_size);
+            if(ar_size > ar_elem){ 
+                    array = (void **)realloc(array, sizeof(void*) * ar_elem);
                 }
 
             fclose(fp); 
@@ -262,10 +232,10 @@
             Record *r;
 
             start = clock();
-            opt.algo == -1 ? quickSort(array, 0, dictionary_size-1, opt.fun) : insertSort(array, dictionary_size, opt.fun);
+            opt.algo == -1 ? quickSort(array, 0, ar_elem-1, opt.fun) : insertSort(array, ar_elem, opt.fun);
             end = clock();
 
-            //freeMemory(array);
+            freeMemory(array);
 
             fprintf(stdout,"Program succesfully ended\narray sorted in: %f\n", (float)(end - start)/CLOCKS_PER_SEC);
         }

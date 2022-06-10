@@ -230,13 +230,13 @@
             srand(time(NULL));
 
             printf("Insert name of file in need of correction: \n");
-            //scanf("%s", correct_me_filename);
+            scanf("%s", correct_me_filename);
 
             printf("Insert dictionary: \n");
-            //scanf("%s", dictionary_filename);
+            scanf("%s", dictionary_filename);
 
-            sprintf(correct_me_filename, "/Users/frankacarkan/Downloads/es2_dataset/correctme.txt");
-            sprintf(dictionary_filename, "/Users/frankacarkan/Downloads/es2_dataset/dictionary.txt");
+            //sprintf(correct_me_filename, "/Users/frankacarkan/Downloads/es2_dataset/correctme.txt");
+            //sprintf(dictionary_filename, "/Users/frankacarkan/Downloads/es2_dataset/dictionary.txt");
 
             correctme = (char **) malloc(sizeof(char *) * ARRAY_SIZE);
             dictionary = (char **) malloc(sizeof(char *) * ARRAY_SIZE);

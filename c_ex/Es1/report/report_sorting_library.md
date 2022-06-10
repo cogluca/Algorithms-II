@@ -16,9 +16,10 @@
 
 ### Complessità
 
-Nei casi casi peggiori il quicksort effettua un ordinamento quadratico, questo caso si presenta con l’array ordinato costringendo la ricerca su tutti gli elementi che vengono prima del pivot, spostato in ultima posizione come da prassi nel quicksort.
+Nei casi casi peggiori il quicksort effettua un ordinamento con un tempo quadratico, questo caso si presenta con l’array ordinato costringendo la ricerca su tutti gli elementi che vengono prima del pivot, spostato in ultima posizione come da prassi nel quicksort.
 
 Un ordinamento in tempi quadratici non si dimostra adatto per dataset di grandi dimensioni ed altri metodi di sorting garantiscono un ordinamento in  O(n*log n)
+
 
 ### Scelta del pivot e variazioni del Quicksort
 
@@ -46,6 +47,7 @@ Qualunque sia la scelta del pivot l’ordinamento  di stringhe e id supera i tem
 - 2) per ordinare le stringhe occorre effettuare un controllo lettera per lettera fino a quando non trova una differenza e quindi 
         sa dove posizionare quella stringa.
 
+
 ### Tempo di computazione del Binary Insertion Sort
 |Id         |  > 10 minuti
 |String     |  > 10 minuti
@@ -54,6 +56,9 @@ Qualunque sia la scelta del pivot l’ordinamento  di stringhe e id supera i tem
 
 - Il Binary Insertion Sort non è in grado di garantire un tempo computazionale accettabile per l'ordinamento di un dataset di 
     queste dimensioni, questo è dovuto dal gran numero di confronti che deve fare per ogni elemento che ha da posizionare.
+- Questo algoritmo lavora bene in caso di un numero ristretto di elementi.
+- Per ottimizzare questo algoritmo si potrebbe associare un merge sort, in questo modo si potrebbero creare dei sub-array di 
+    dimesioni ridotte e poi ordinare ciascuno mediante Binary Insertion Sort. 
 
 
 ### Conclusione e paragone
@@ -62,4 +67,4 @@ Com’era prevedibile il QuickSort nel caso degli id, che sono già ordinati, ha
 
 Il cambio di pivot fa variare lievemente i risultati, ma non salva dai problemi generali riscontrati con id e stringhe.
 
-Ovviamente tutti i dati riportati sono machine-dependent.
+Mettendo a confronto i due algoritmi si riscontra che, nonstante il problema con le stringhe e gli elementi ordinati, il quicksort è molto più veloce rispetto al binary insertion sort.
