@@ -1,10 +1,6 @@
 import datastructure.Node;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -111,7 +107,7 @@ public class HeapTest {
         Node<Integer,Integer> node = particularHeapToTest.getVector().get(toRetrieve);
         node.setValue(3);
 
-        particularHeapToTest.substituteElement(particularHeapToTest.getVector().get(toRetrieve), node);
+        particularHeapToTest.diminishElement(particularHeapToTest.getVector().get(toRetrieve), node);
 
         Integer toRetrieve2 = particularHeapToTest.getKeyMap().get(nodeTwo);
 

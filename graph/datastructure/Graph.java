@@ -12,6 +12,8 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
 
     Node.ComparisonType comparisonType;
 
+    //Graph constructor
+
     public Graph(boolean directed, Class distanceType, Node.ComparisonType nodeComparisonType) {
 
         this.nodeMapping = new HashMap<>();
@@ -21,16 +23,27 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
 
     }
 
+    //node mapping getter
     public HashMap<T, Node<T, L>> getNodeMapping() {
         return nodeMapping;
     }
 
+    /**
+     * Adds a node given a value
+     * @param aNodeValue value of node to be constructed
+     * @throws Exception for null parameter
+     */
     public void addNode(T aNodeValue) throws Exception {
         if (aNodeValue == null)
             throw new Exception("datastructure.Node doesn't exist");
         this.nodeMapping.putIfAbsent(aNodeValue, new Node<>(aNodeValue, distanceTypeOfGraph, comparisonType));
     }
 
+    /**
+     * Adds specific already constructed node
+     * @param nodeToAdd node passed to node mapping
+     * @throws Exception for null parameter
+     */
     public void addSpecificNode(Node<T,L> nodeToAdd) throws Exception {
 
         if(nodeToAdd == null)
@@ -226,57 +239,26 @@ public class Graph<T extends Comparable<T>, L extends Comparable<L>> {
         return nodeMapping.get(nodeValueOne).getEdgeReference().get(secondNode).getLabel();
     }
 
+    /**
+     * returns specific node from graph
+     * @param value value of the node to be retrieved
+     * @return
+     */
     public Node<T, L> getSpecificNode(T value) {
-        Node<T,L> stringNode = nodeMapping.get(value);
         return nodeMapping.get(value);
 
     }
 
-
+    /**
+     * returns edge connecting those two nodes
+     * @param firstNode first node of connection
+     * @param secondNode second node of connection
+     */
     public Edge<T,L> getEdge(Node<T,L> firstNode, Node<T,L> secondNode) {
 
         return firstNode.getEdgeReference().get(secondNode);
 
     }
 
-
-
-    public Graph<T,L> pruneUnexistingConnections(Collection<Edge<T,L>> toPreserveEdges) {
-
-        for(Map.Entry<T,Node<T,L>> node: nodeMapping.entrySet()) {
-
-            for(Map.Entry<Node<T,L>,Edge<T,L>> iteratedEdge: node.getValue().getEdgeReference().entrySet()) {
-
-                for(Edge<T,L> maybeContained: toPreserveEdges) {
-                    if (!iteratedEdge.getValue().equals(maybeContained)){
-                        node.getValue().getEdgeReference().remove(iteratedEdge.getKey());
-                    }
-                }
-
-            }
-
-        }
-
-
-        return this;
-
-
-    }
-
-    public void updateDistance(Node<T,L> updateNode) throws Exception {
-
-        for(Node<T,L> node: nodeMapping.values()){
-            for(Node<T,L> referenceNode: node.getEdgeReference().keySet()){
-                if(referenceNode.equals(updateNode)){
-                    referenceNode.setDistance(updateNode.getFloatDistance());
-                }
-            }
-
-
-        }
-
-
-
-    }
 
 }

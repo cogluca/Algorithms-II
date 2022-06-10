@@ -25,7 +25,7 @@ public class DataUtils {
         Path pathToFile = Paths.get(filename);
 
 
-        // create an instance of BufferedReader
+        // creates an instance of BufferedReader
         // using try with resource, Java 7 feature to close resources
         try (BufferedReader br = Files.newBufferedReader(pathToFile,
                 StandardCharsets.UTF_8)) {

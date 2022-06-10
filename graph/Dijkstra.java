@@ -19,7 +19,7 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
      * @throws Exception
      */
 
-    public Graph<T, L> dijkstraAlgorithm(Graph<T, L> graphBeingAnalyzed, T entryCity, Class<L> distanceType) throws Exception {
+    public List<Node<T,L>> dijkstraAlgorithm(Graph<T, L> graphBeingAnalyzed, T entryCity, Class<L> distanceType) throws Exception {
 
         Graph<T, L> toReturnGraph = new Graph<>(false, distanceType, Node.ComparisonType.DISTANCE);
 
@@ -64,22 +64,16 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
             HashMap<Node<T, L>, Edge<T, L>> connectionsOfNodeExplored = toExploreNode.getEdgeReference();
             ArrayList<HashMap<Node<String, Float>, Edge<String, Float>>> listOfEdges;
-            //calculate distances PROBLEM IS HERE in this internal loop up until now it all works decently, by that I mean there are high numbers in each variable.
+
             for (Map.Entry<Node<T, L>, Edge<T, L>> singleFrontierReference : connectionsOfNodeExplored.entrySet()) {
                 Node<T, L> frontierNode = singleFrontierReference.getKey();
                 Edge<T, L> connectingEdge = singleFrontierReference.getValue();
-
-                //adjacent nodes get explored only as nodes partaining in another nodes edge reference, outside of that they're still having distance infinity, so if at a certain point I pick from
-                //heap a node that was supposed to be already explored and might be a sure path it has instead cost infinity, and this is one problem
-
-                //maybe the fact that minimum extraction is destructive creates also problems
 
                 if (frontierNode.getFloatDistance() > toExploreNode.getFloatDistance() + (Float) connectingEdge.getLabel()) {
 
                     frontierChange = frontierNode;
                     frontierNode.setDistance(toExploreNode.getFloatDistance() + (Float) connectingEdge.getLabel());
-                    //graphBeingAnalyzed.updateDistance(frontierNode); //i update all the references to that frontier node with the newfound value
-                    unexploredNodes.substituteElement(frontierChange, frontierNode);
+                    unexploredNodes.diminishElement(frontierChange, frontierNode);
 
                     updateEdgeNode = frontierNode;
                     updateEdge = connectingEdge;
@@ -95,33 +89,19 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
         }
 
-        /*
-        for(Node<String,Float> node: exploredNodes){
-            System.out.println(node.getFloatDistance());
-        }
 
-         */
-
-        int i = 0;
-        for (Node<T, L> node : exploredNodes) {
-            if (node.getFloatDistance().equals(Float.valueOf(Float.MAX_VALUE - 1)))
-                i++;
-        }
-        System.out.println("Not truly explored nodes are " + i);
-
-
-        //extract the target node distance
-        for (Node<T, L> node : exploredNodes) {
-            if (node.getValue().equals("catania"))
-                System.out.println("cost to catania is " + node.getFloatDistance());
-        }
-
-
-        System.out.println("explored nodes are " + exploredNodes.size());
-
-        return toReturnGraph;
+        return exploredNodes;
     }
 
+    /**
+     * Recontstructs a node to be fed onto the new returned tree, this avoids having a search and consequent pruning event inside of the already heavy Dijkstra algorithm
+     * @param distanceType type of distance for the node 3 main quantifiable options Integer, Float, Double
+     * @param toRebuildNode Node to be rebuilt
+     * @param frontierNode Node reached to be put in the edge reference
+     * @param connectingEdge edge connecting the two nodes
+     * @return the constructed node
+     * @throws Exception
+     */
     public Node<T, L> constructExploredNode(Class<L> distanceType, Node<T, L> toRebuildNode, Node<T, L> frontierNode, Edge<T, L> connectingEdge) throws Exception {
 
         Class<Integer> oneType = Integer.class;
@@ -141,51 +121,6 @@ public class Dijkstra<T extends Comparable<T>, L extends Comparable<L>, C extend
 
         return toReturnNode;
     }
-
-
-/*
-    public Float getQuantifiableFloatLabel(Edge<T,L> edgeToObserve){
-
-        L label = edgeToObserve.getLabel();
-        if(label.getClass() == Float.class)
-            return (Float) label;
-        return Float.valueOf(-1);
-    }
-
-    public Double getQuantifiableDoubleLabel(Edge<T,L> edgeToObserve){
-
-        L label = edgeToObserve.getLabel();
-        if(label.getClass() == Float.class)
-            return (Double) label;
-        return Double.valueOf(-1);
-    }
-
-    public Integer getQuantifiableIntegerLabel(Edge<T,L> edgeToObserve){
-
-        L label = edgeToObserve.getLabel();
-        if(label.getClass() == Float.class)
-            return (Integer) label;
-        return -1;
-    }
-
-    public Object getQuantifiableLabel(Edge<T,L> edgeToObserve){
-
-        Integer tentativeLabel = getQuantifiableIntegerLabel(edgeToObserve);
-        Double tentativeDoubleLabel = getQuantifiableDoubleLabel(edgeToObserve);
-        Float tentativeFloatLabel = getQuantifiableFloatLabel(edgeToObserve);
-
-        //what a shit, frivolous OOP
-        //got a problem, cannot return a diversified type of Numeric, can return a generic Object at best, either I remove this stuff and do a class control on Dijkstra logic and cast to type
-        //the most expansive numeric is Float, if it turns into int it truncates by itself, same goes for double
-
-        if(tentativeLabel.)
-
-
-
-    }
-
-
- */
 
 
 }
