@@ -235,9 +235,6 @@
             printf("Insert dictionary: \n");
             scanf("%s", dictionary_filename);
 
-            //sprintf(correct_me_filename, "/Users/frankacarkan/Downloads/es2_dataset/correctme.txt");
-            //sprintf(dictionary_filename, "/Users/frankacarkan/Downloads/es2_dataset/dictionary.txt");
-
             correctme = (char **) malloc(sizeof(char *) * ARRAY_SIZE);
             dictionary = (char **) malloc(sizeof(char *) * ARRAY_SIZE);
 
