@@ -3,6 +3,10 @@ import data_utils.DataUtils;
 import datastructure.Graph;
 import datastructure.Node;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,24 +23,31 @@ public class DijkstraEntrypoint {
 
         String filename;
         String beginnerCity;
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Would like to know which file you're trying to load");
-        //filename = scanner.nextLine();
+        // System.out.println("Would like to know which file you're trying to load");
+        // //filename = scanner.nextLine();
 
-        System.out.println("What city would you like to make your search start from ?");
-        //beginnerCity = scanner.nextLine();
+        // System.out.println("What city would you like to make your search start from ?");
+        // //beginnerCity = scanner.nextLine();
 
 
 
 
         Dijkstra<String,Float,?> dijkstra = new Dijkstra<>();
 
-        try {
-            dataFromFile = DataUtils.loadData("/Users/frankacarkan/Desktop/Algo/ex1_new/italian_dist_graph.csv");
+        try(BufferedReader buff = new BufferedReader(new InputStreamReader(System.in))){
+            System.out.println("Would like to know which file you're trying to load");
+            filename = buff.readLine();
+
+            
+            System.out.println("What city would you like to make your search start from ?");
+            beginnerCity = buff.readLine();
+
+
+            dataFromFile = DataUtils.loadData(filename);
             graphFromData = DataUtils.loadGraph(dataFromFile);
 
-            returnedForest = dijkstra.dijkstraAlgorithm(graphFromData,"torino", Float.class);
+            returnedForest = dijkstra.dijkstraAlgorithm(graphFromData,beginnerCity, Float.class);
 
 
 
