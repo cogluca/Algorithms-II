@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class DijkstraEntrypoint {
 
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         Collection<DataRecord> dataFromFile;
         List<Node<String,Float>> returnedTree;
@@ -19,18 +19,37 @@ public class DijkstraEntrypoint {
 
         String filename;
         String beginnerCity;
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Would like to know which file you're trying to load");
-
+        /**TODO LETTURA CON SCANNER
+        //Scanner scanner = new Scanner(System.in);
         //filename = scanner.nextLine();
-        System.out.println("What city would you like to make your search start from ?");
+        //beginner = scanner.nextLine();
+        **/
 
-        //beginnerCity = scanner.nextLine();
+        //System.out.println("Would like to know which file you're trying to load");
+
+        /**TODO CON LETTURA DA ARGS, RICORDARE GLI ARG NEL LAUNCH
+        filename = args[0];
+        //System.out.println("What city would you like to make your search start from ?");
+        beginnerCity = args[1];
+        **/
+
+        /**TODO LETTURA CON BUFFERED READER
+         * BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+         * filename = reader.readLine();
+         * beginnerCity = reader.readLine();
+         *
+         */
+
+
+
+
+
         Dijkstra<String,Float,?> dijkstra = new Dijkstra<>();
 
         try {
-            dataFromFile = DataUtils.loadData("/Users/frankacarkan/Desktop/Algo/ex1_new/italian_dist_graph.csv");
+
+            dataFromFile = DataUtils.loadData("HARDCODA");
             graphFromData = DataUtils.loadGraph(dataFromFile);
 
             returnedTree = dijkstra.dijkstraAlgorithm(graphFromData,"torino", Float.class);

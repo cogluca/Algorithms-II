@@ -20,7 +20,6 @@ public class DataUtils {
     public static Collection<DataRecord> loadData(String filename) {
 
         Collection<DataRecord> loadedData = new ArrayList<>();
-        Scanner scan = new Scanner(System.in);
 
         Path pathToFile = Paths.get(filename);
 
