@@ -1,17 +1,5 @@
 # QuickSort & Binary Insertion Sort
 
-### Introduzione
-
--L’esercizio consisteva nell’implementazione di una libreria che offrisse due algoritmi di sorting: il binary insertion sort ed il quicksort. Nella presente relazione analizziamo i nostri risultati su un dataset di 20.000.000, i risultati parziali ed in alcuni casi i fallimenti .-
-
--Il binary insertion sort consiste in una modifica dell’insertion sort, in cui la ricerca della posizione corretta in cui inserire l’elemento corrente viene fatto attraverso una ricerca binaria, trasformando questo sotto problema in uno affrontato attraverso la famiglia di metodi Divide and Conquer.-
-
--Successivamente viene poi effettuata un’iterazione per spostare gli elementi alla destra dell’elemento inserito nelle posizioni successive.-
-
--Allo stesso modo il quicksort fa uso di una tecnica di Divide And Conquer con previa scelta di un elemento particolare detto pivot, che verrà utilizzato come perno per confrontare gli elementi e dividere il problema in sotto-problemi che essenzialmente si traduce in questo caso in dividere la struttura array in sub-array.-
-
--La scelta del pivot è fondamentale per garantire tempi ottimali nella risoluzione del problema, la nostra scelta si è ridotta essenzialmente a tre casi. In una sezione sottostante è possibile vedere la relativa discussione e risultati.-
-
 **è importante far notare che le tempistiche di un algoritmo di sorting, al di là delle scelte tecniche effettuate son dipendenti dalla macchina attraverso cui vengono effettuati.**
 
 ### Complessità
