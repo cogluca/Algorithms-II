@@ -12,34 +12,33 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Scanner;
 
 public class DataUtils {
 
 
     public static Collection<DataRecord> loadData(String filename) {
 
+        
         Collection<DataRecord> loadedData = new ArrayList<>();
 
+        
         Path pathToFile = Paths.get(filename);
-
-
-        // creates an instance of BufferedReader
+        
+        
+        // create an instance of BufferedReader
         // using try with resource, Java 7 feature to close resources
-        try (BufferedReader br = Files.newBufferedReader(pathToFile,
-                StandardCharsets.UTF_8)) {
-
+        try (BufferedReader br = Files.newBufferedReader(pathToFile,StandardCharsets.UTF_8)) {
+            
             // read the first line from the text file
             String line = br.readLine();
-
+            
             // loop until all lines are read
             while (line != null) {
-
                 // use string.split to load a string array with the values from
                 // each line of
                 // the file, using a comma as the delimiter
                 String[] attributes = line.split(",");
-
+                
                 DataRecord toInsertRecord = new DataRecord(attributes[0], attributes[1], Float.parseFloat(attributes[2]));
 
                 // adding book into ArrayList

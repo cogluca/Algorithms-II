@@ -3,6 +3,10 @@ import data_utils.DataUtils;
 import datastructure.Graph;
 import datastructure.Node;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +15,7 @@ import java.util.Scanner;
 public class DijkstraEntrypoint {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Collection<DataRecord> dataFromFile;
         List<Node<String,Float>> returnedTree;
@@ -20,8 +24,15 @@ public class DijkstraEntrypoint {
         String filename;
         String beginnerCity;
 
+        // System.out.println("Would like to know which file you're trying to load");
+        // //filename = scanner.nextLine();
+
+        // System.out.println("What city would you like to make your search start from ?");
+        // //beginnerCity = scanner.nextLine();
+
 
         Dijkstra<String,Float,?> dijkstra = new Dijkstra<>();
+
 
         try {
 

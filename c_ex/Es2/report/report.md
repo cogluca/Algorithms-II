@@ -2,17 +2,13 @@
 
 ## Generalità
 La skiplist è una struttura dati probabilistica composta da una linked list in cui ogni nodo a sua volta
-ha un insieme di riferimenti a nodi successivi non per forza adiacenti, il significato semantico di queste connessioni
+contiene un vettore di riferimenti a nodi successivi non per forza adiacenti, il significato semantico di queste connessioni
 extra è la creazione di vie "express" che permettono salti in avanti nella ricerca.
 
 Ciò è possibile anche grazie all'assunzione che sia una lista di elementi ordinati.
 
 La nuova possibilità di avere salti nella struttura dati velocizza l'operazione di ricerca nella struttura dati dando 
-la possibilità di avere ricerche in O(log n) in una struttura simile alla linked list dove la ricerca richiederebbe tempo
-lineare O(n)
-
-
-## Metodo di sviluppo
+la possibilità di avere ricerche, inserimenti e cancellazioni in O(log n) in una struttura simile alla linked list dove la ricerca richiederebbe tempo lineare O(n).
 
 
 
@@ -38,11 +34,9 @@ che le parole sbagliate siano effettivamente queste:
 
 ## Effetti della variazione del MAX_HEIGHT
 
-La variazione del parametro MAX HEIGHT a livello strutturale fornisce con il suo aumentare numeri maggiori di vie espresse
-attraverso cui è possibile effettuare la ricerca. 
+La variazione del parametro MAX HEIGHT a livello strutturale ai nodi la possibilità di avere (randomicamente) un numero maggiore di vie espresse, così da velocizzare ancora di più la ricerca, con un aumento minimo del costo spaziale.
 
-Questo fattore va poi ad influire sul tempo in cui vengono fatte sia le operazioni di ricerca che di inserimento, con un valore al di sopra
-di MAX HEIGHT 15 iniziamo ad avvicinarci sempre di più al limite superiore di O(log n) sia per le operazioni di ricerca che inserimento.
+Questo fattore va poi ad influire sul tempo in cui vengono fatte sia le operazioni di ricerca che di inserimento, con un valore al di sopra di MAX HEIGHT 15 iniziamo ad avvicinarci sempre di più al limite superiore di O(log n) sia per le operazioni di ricerca che inserimento.
 
 In contrasto abbassando il valore del parametro sotto la soglia citata andiamo ad osservare un comportamento molto più simile
 alle ricerche in tempo lineare, questa fenomeno combacia con il lato strutturale della skip list, di fatti abbassando fino
