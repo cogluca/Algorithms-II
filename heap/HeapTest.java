@@ -61,26 +61,6 @@ public class HeapTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        /*
-        Heap<Node<Integer, Integer>,Integer> particularHeapToTest = new Heap<>();
-        Node<Integer, Integer> nodeOne = new Node<>(5,Integer.class);
-        Node<Integer, Integer> nodeTwo = new Node<>(7,Integer.class);
-        Node<Integer, Integer> nodeThree = new Node<>(2,Integer.class);
-        Node<Integer, Integer> nodeFour = new Node<>(3,Integer.class);
-        Node<Integer, Integer> nodeFive = new Node<>(4,Integer.class);
-
-
-
-
-        particularHeapToTest.addElement(nodeOne);
-        particularHeapToTest.addElement(nodeTwo);
-        particularHeapToTest.addElement(nodeThree);
-        particularHeapToTest.addElement(nodeFour);particularHeapToTest.addElement(nodeFive);
-
-
-
-
-         */
 
 
     }
@@ -138,15 +118,6 @@ public class HeapTest {
 
 
 
-
-        /*
-        for(int j = 0; j <= 900; j++){
-            resultHeap.addElement(j);
-        }
-
-
-         */
-
         System.out.println("Extraction starts here");
         while (particularHeap.getSize() != 0){
             Integer extracted = particularHeap.extractMin();
@@ -155,7 +126,7 @@ public class HeapTest {
 
 
 
-        //assertEquals(resultHeap, toTestHeap);
+        assertEquals(resultHeap, toTestHeap);
 
     }
 

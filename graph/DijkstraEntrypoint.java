@@ -20,36 +20,12 @@ public class DijkstraEntrypoint {
         String filename;
         String beginnerCity;
 
-        /**TODO LETTURA CON SCANNER
-        //Scanner scanner = new Scanner(System.in);
-        //filename = scanner.nextLine();
-        //beginner = scanner.nextLine();
-        **/
-
-        //System.out.println("Would like to know which file you're trying to load");
-
-        /**TODO CON LETTURA DA ARGS, RICORDARE GLI ARG NEL LAUNCH
-        filename = args[0];
-        //System.out.println("What city would you like to make your search start from ?");
-        beginnerCity = args[1];
-        **/
-
-        /**TODO LETTURA CON BUFFERED READER
-         * BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-         * filename = reader.readLine();
-         * beginnerCity = reader.readLine();
-         *
-         */
-
-
-
-
 
         Dijkstra<String,Float,?> dijkstra = new Dijkstra<>();
 
         try {
 
-            dataFromFile = DataUtils.loadData("HARDCODA");
+            dataFromFile = DataUtils.loadData("/Users/frankacarkan/Desktop/Algo/ex1_new/italian_dist_graph.csv");
             graphFromData = DataUtils.loadGraph(dataFromFile);
 
             returnedTree = dijkstra.dijkstraAlgorithm(graphFromData,"torino", Float.class);
@@ -62,8 +38,6 @@ public class DijkstraEntrypoint {
                 }
 
             }
-
-            //System.out.println(returnedForest.getSpecificNode("catania").getFloatDistance());
 
         }catch (Exception e){
             System.out.println(e.getMessage());
